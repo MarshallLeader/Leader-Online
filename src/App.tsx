@@ -766,6 +766,13 @@ const ALL_PRODUCTS = [
     ram: "16GB", 
     cpu: "Intel® Core™ i7-14700", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/SS45_2-1-qzjzu0jrrj7dyrhy0yhhvff3l4pbmwzuf39op6rc3k.png",
+    highlights: [
+      "Intel® Core™ i7-14700",
+      "Slim Desktop Form Factor",
+      "16GB DDR4 UDIMM",
+      "500GB M.2 NVMe SSD",
+      "Windows 11 Professional"
+    ],
     specs: {
       processor: "Intel® Core™ i7-14700, 33M Cache, up to 5.40 GHz, 20 Cores / 28 Threads",
       ram: "16GB DDR4 UDIMM",
@@ -788,6 +795,13 @@ const ALL_PRODUCTS = [
     ram: "4GB", 
     cpu: "Intel® Celeron® N4020", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/SC8-PRO-pk8k6uoqc908adrbccgvkfbwva85jekatb46rmeqkg.jpg",
+    highlights: [
+      "Intel® Celeron® N4020",
+      "Ultra-Compact PC Stick",
+      "128GB Onboard Storage",
+      "Wireless AC + Bluetooth 5.1",
+      "Windows 11 Professional"
+    ],
     specs: {
       processor: "Intel® Celeron® N4020",
       memory: "4GB LPDDR4",
@@ -810,6 +824,13 @@ const ALL_PRODUCTS = [
     ram: "16GB", 
     cpu: "Intel® Core™ i5-12450H", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/7-full-size-win11-home-qzk06f13xu6l5jheltha9sr1r5ko758cgh5bnmdc00.png",
+    highlights: [
+      "23.8\" FHD Slim Bezel Display",
+      "Intel® Core™ i5-12450H",
+      "1TB M.2 NVMe SSD",
+      "Fully Adjustable Stand",
+      "Windows 11 Home"
+    ],
     specs: {
       processor: "Intel® Core™ i5-12450H",
       memory: "16GB DDR4",
@@ -834,6 +855,13 @@ const ALL_PRODUCTS = [
     ram: "16GB", 
     cpu: "Intel® Core™ i5-12450H", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/7-full-size-win11-pro-qzk11tsybj6j4fuw6w9h3dekdor8f0xfrxyfzhsq2o.png",
+    highlights: [
+      "23.8\" FHD Slim Bezel Display",
+      "Intel® Core™ i5-12450H",
+      "1TB M.2 NVMe SSD",
+      "Fully Adjustable Stand",
+      "Windows 11 Professional"
+    ],
     specs: {
       processor: "Intel® Core™ i5-12450H",
       memory: "16GB DDR4",
@@ -858,6 +886,13 @@ const ALL_PRODUCTS = [
     ram: "16GB", 
     cpu: "Intel® Core™ i5-12450H", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/7-full-size-win11-home-qzk06f13xu6l5jheltha9sr1r5ko758cgh5bnmdc00.png",
+    highlights: [
+      "27\" FHD Slim Bezel Display",
+      "Intel® Core™ i5-12450H",
+      "1TB M.2 NVMe SSD",
+      "Fully Adjustable Stand",
+      "Windows 11 Home"
+    ],
     specs: {
       processor: "Intel® Core™ i5-12450H",
       memory: "16GB DDR4",
@@ -882,6 +917,13 @@ const ALL_PRODUCTS = [
     ram: "16GB", 
     cpu: "Intel® Core™ i5-12450H", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/7-full-size-win11-pro-qzk11tsybj6j4fuw6w9h3dekdor8f0xfrxyfzhsq2o.png",
+    highlights: [
+      "27\" FHD Slim Bezel Display",
+      "Intel® Core™ i5-12450H",
+      "1TB M.2 NVMe SSD",
+      "Fully Adjustable Stand",
+      "Windows 11 Professional"
+    ],
     specs: {
       processor: "Intel® Core™ i5-12450H",
       memory: "16GB DDR4",
@@ -906,6 +948,13 @@ const ALL_PRODUCTS = [
     ram: "16GB", 
     cpu: "Intel® Core™ i7-12650H", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/7-full-size-win11-home-qzk06f13xu6l5jheltha9sr1r5ko758cgh5bnmdc00.png",
+    highlights: [
+      "27\" FHD Slim Bezel Display",
+      "Intel® Core™ i7-12650H",
+      "1TB M.2 NVMe SSD",
+      "Fully Adjustable Stand",
+      "Windows 11 Home"
+    ],
     specs: {
       processor: "Intel® Core™ i7-12650H",
       memory: "16GB DDR4",
@@ -930,6 +979,13 @@ const ALL_PRODUCTS = [
     ram: "16GB", 
     cpu: "Intel® Core™ i7-12650H", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/7-full-size-win11-pro-qzk11tsybj6j4fuw6w9h3dekdor8f0xfrxyfzhsq2o.png",
+    highlights: [
+      "27\" FHD Slim Bezel Display",
+      "Intel® Core™ i7-12650H",
+      "1TB M.2 NVMe SSD",
+      "Fully Adjustable Stand",
+      "Windows 11 Professional"
+    ],
     specs: {
       processor: "Intel® Core™ i7-12650H",
       memory: "16GB DDR4",
@@ -954,6 +1010,13 @@ const ALL_PRODUCTS = [
     ram: "8GB", 
     cpu: "AMD Ryzen™ 5 3600", 
     image: "https://leader-online.com.au/wp-content/uploads/elementor/thumbs/LEADER-Visionary-6050-q9thp754z382p30m4619x8p8y9676v24c297775f0g.png",
+    highlights: [
+      "AMD Ryzen™ 5 3600",
+      "NVIDIA® GeForce® GT 1030",
+      "8GB DDR4 2666MHz Memory",
+      "500GB High Speed SSD",
+      "Windows 11 Home"
+    ],
     specs: {
       processor: "AMD Ryzen™ 5 3600",
       memory: "8GB DDR4 2666MHz",
@@ -1625,6 +1688,8 @@ function MainApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [lastInteraction, setLastInteraction] = useState(Date.now());
   const [selectedCategory, setSelectedCategory] = useState('notebooks');
   const [priceFilter, setPriceFilter] = useState(5000);
   const [ramFilter, setRamFilter] = useState('All');
@@ -1642,6 +1707,9 @@ function MainApp() {
   const [searchRadius, setSearchRadius] = useState(50);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isCustomizing, setIsCustomizing] = useState(false);
+  const [navSearchQuery, setNavSearchQuery] = useState('');
+  const [globalSearchQuery, setGlobalSearchQuery] = useState('');
+  const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
   const [selectedUpgrades, setSelectedUpgrades] = useState<Record<string, string>>({
     ram: '16gb',
     storage: '512gb',
@@ -1675,13 +1743,41 @@ function MainApp() {
   }, []);
 
   useEffect(() => {
+    if (!isAutoPlaying) return;
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % CAROUSEL_SLIDES.length);
     }, 6000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isAutoPlaying]);
 
-  const filteredProducts = ALL_PRODUCTS.filter(p => {
+  useEffect(() => {
+    if (isAutoPlaying) return;
+    const resumeTimer = setTimeout(() => {
+      setIsAutoPlaying(true);
+    }, 10000); // Resume after 10 seconds
+    return () => clearTimeout(resumeTimer);
+  }, [isAutoPlaying, lastInteraction]);
+
+  const handleManualSlide = (direction: 'next' | 'prev') => {
+    setIsAutoPlaying(false);
+    setLastInteraction(Date.now());
+    if (direction === 'next') {
+      setCurrentSlide((prev) => (prev + 1) % CAROUSEL_SLIDES.length);
+    } else {
+      setCurrentSlide((prev) => (prev - 1 + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length);
+    }
+  };
+
+  const filteredProducts = (globalSearchQuery 
+    ? [...ALL_PRODUCTS, ...COPILOT_PRODUCTS] 
+    : ALL_PRODUCTS
+  ).filter(p => {
+    if (globalSearchQuery) {
+      return p.name.toLowerCase().includes(globalSearchQuery.toLowerCase()) || 
+             p.sku.toLowerCase().includes(globalSearchQuery.toLowerCase()) ||
+             p.category.toLowerCase().includes(globalSearchQuery.toLowerCase());
+    }
+
     const matchesCategory = p.category === selectedCategory;
     const matchesPrice = p.price <= priceFilter;
     const matchesRam = ramFilter === 'All' || p.ram === ramFilter;
@@ -1718,7 +1814,8 @@ function MainApp() {
     }
   }, [location.pathname]);
 
-  const handleProductClick = (product: any) => {
+  const handleProductClick = (product: any, customizing = false) => {
+    setIsCustomizing(customizing);
     navigate(`/product/${product.sku}`);
   };
 
@@ -1788,88 +1885,183 @@ function MainApp() {
   return (
     <div className="min-h-screen bg-white selection:bg-accent/30">
       {/* Top Header */}
-      <header className={`bg-white border-b border-surface sticky top-0 z-[60] transition-shadow ${scrolled ? 'shadow-premium' : ''}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-12">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-                <span className="text-white font-black text-lg italic">L</span>
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-primary font-black text-lg tracking-tighter">LEADER</span>
-                <span className="text-[8px] font-bold text-muted tracking-widest uppercase">Computers</span>
-              </div>
-            </div>
-            <nav className="hidden lg:flex items-center gap-6">
-              {[
-                { name: 'Home', id: 'top' },
-                { name: 'Featured', id: 'featured' },
-                { name: 'Products', id: 'products' },
-                { name: 'Where to Buy', id: 'where-to-buy' }
-              ].map((item) => (
-                <button 
-                  key={item.name} 
-                  onClick={() => handleNavClick(item.id)}
-                  className="text-xs font-bold text-primary hover:text-accent transition-colors uppercase tracking-wider"
-                >
-                  {item.name}
-                </button>
-              ))}
-            </nav>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="relative hidden md:block">
-              <input 
-                type="text" 
-                placeholder="Search products..." 
-                className="bg-surface border-none focus:ring-2 focus:ring-accent/20 px-4 py-2 pl-10 rounded-full text-xs font-bold w-48 transition-all focus:w-64"
-              />
-              <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
-            </div>
-            <button 
-              onClick={() => navigate('/cart')}
-              className="flex items-center gap-2 text-xs font-bold text-primary hover:text-accent group"
-            >
-              <Monitor className="w-4 h-4" /> Cart
-            </button>
-
-            {calculateCartTotal() > 0 && (
-              <div className="flex items-center gap-3">
-                <div className="w-px h-4 bg-surface" />
-                <div className="flex flex-col items-start leading-none">
-                  <span className="text-[11px] font-black text-accent tracking-tighter">
-                    ${calculateCartTotal().toLocaleString()}
-                  </span>
-                  <span className="text-[7px] font-bold text-muted uppercase tracking-widest mt-0.5">Total</span>
+      <header className={`sticky top-0 z-[60] transition-all duration-300 ${scrolled ? 'shadow-premium' : ''}`}>
+        <div className={`bg-white transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <div className="flex items-center gap-12">
+              <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavClick('top')}>
+                <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
+                  <span className="text-white font-black text-lg italic">L</span>
+                </div>
+                <div className="flex flex-col leading-none">
+                  <span className="text-primary font-black text-lg tracking-tighter">LEADER</span>
+                  <span className="text-[8px] font-bold text-muted tracking-widest uppercase">Computers</span>
                 </div>
               </div>
-            )}
+              <nav className="hidden lg:flex items-center gap-2">
+                {[
+                  { name: 'Home', id: 'top' },
+                  { name: 'Featured', id: 'featured' },
+                  { name: 'Products', id: 'products' },
+                  { name: 'Where to Buy', id: 'where-to-buy' }
+                ].map((item) => (
+                  <button 
+                    key={item.name} 
+                    onClick={() => handleNavClick(item.id)}
+                    className="text-[10px] font-display font-black text-primary/70 hover:text-primary hover:bg-primary/5 px-4 py-2 rounded-lg transition-all uppercase tracking-widest active:scale-95"
+                  >
+                    {item.name}
+                  </button>
+                ))}
+              </nav>
+            </div>
+            <div className="flex items-center gap-6">
+              <div className="relative hidden md:block">
+                <input 
+                  type="text" 
+                  placeholder="Search products..." 
+                  value={navSearchQuery}
+                  onChange={(e) => {
+                    setNavSearchQuery(e.target.value);
+                    setShowSearchSuggestions(true);
+                  }}
+                  onFocus={() => setShowSearchSuggestions(true)}
+                  className="bg-surface border-none focus:ring-2 focus:ring-accent/20 px-4 py-2 pl-10 rounded-full text-xs font-bold w-48 transition-all focus:w-64 text-primary placeholder:text-muted"
+                />
+                <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
+
+              {/* Search Suggestions Dropdown */}
+              <AnimatePresence>
+                {showSearchSuggestions && navSearchQuery.length > 1 && (
+                  <>
+                    <div 
+                      className="fixed inset-0 z-[65]" 
+                      onClick={() => setShowSearchSuggestions(false)}
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full mt-2 left-0 right-0 bg-white rounded-2xl shadow-2xl border border-surface overflow-hidden z-[70] min-w-[300px]"
+                    >
+                      <div className="p-4 border-b border-surface bg-surface/30">
+                        <p className="text-[10px] font-black text-muted uppercase tracking-widest">Product Suggestions</p>
+                      </div>
+                      <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+                        {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
+                          .filter(p => 
+                            p.name.toLowerCase().includes(navSearchQuery.toLowerCase()) || 
+                            p.sku.toLowerCase().includes(navSearchQuery.toLowerCase()) ||
+                            p.category.toLowerCase().includes(navSearchQuery.toLowerCase())
+                          )
+                          .slice(0, 6)
+                          .map((product) => (
+                            <button
+                              key={product.sku}
+                              onClick={() => {
+                                handleProductClick(product);
+                                setNavSearchQuery('');
+                                setShowSearchSuggestions(false);
+                              }}
+                              className="w-full flex items-center gap-4 p-4 hover:bg-surface transition-colors text-left group"
+                            >
+                              <div className="w-12 h-12 bg-white rounded-lg p-1 flex-shrink-0 border border-surface group-hover:border-accent/30 transition-colors">
+                                <img src={product.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                              </div>
+                              <div className="flex-grow min-w-0">
+                                <h4 className="text-xs font-bold text-primary truncate group-hover:text-accent transition-colors">{product.name}</h4>
+                                <div className="flex items-center gap-2 mt-1">
+                                  <span className="text-[9px] font-mono font-black text-accent uppercase tracking-tighter">{product.sku}</span>
+                                  <span className="text-[9px] font-bold text-muted uppercase tracking-widest">• {product.category}</span>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-xs font-mono font-black text-primary">${product.price}</p>
+                                <ChevronRight className="w-3 h-3 text-muted ml-auto mt-1 group-hover:text-accent transition-colors" />
+                              </div>
+                            </button>
+                          ))}
+                        
+                        {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
+                          .filter(p => 
+                            p.name.toLowerCase().includes(navSearchQuery.toLowerCase()) || 
+                            p.sku.toLowerCase().includes(navSearchQuery.toLowerCase())
+                          ).length === 0 && (
+                          <div className="p-8 text-center">
+                            <p className="text-xs text-muted font-bold">No products found for "{navSearchQuery}"</p>
+                          </div>
+                        )}
+                      </div>
+                      {navSearchQuery.length > 0 && (
+                        <div className="p-3 bg-surface/50 border-t border-surface text-center">
+                          <button 
+                            onClick={() => {
+                              setGlobalSearchQuery(navSearchQuery);
+                              setShowSearchSuggestions(false);
+                              handleNavClick('products');
+                            }}
+                            className="text-[10px] font-black text-accent uppercase tracking-widest hover:underline"
+                          >
+                            View All Results
+                          </button>
+                        </div>
+                      )}
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
+            </div>
+            <div className="relative group">
+              <button 
+                onClick={() => navigate('/cart')}
+                className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors group"
+              >
+                <Monitor className="w-4 h-4" /> Cart
+              </button>
+
+              <AnimatePresence>
+                {calculateCartTotal() > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="absolute top-full right-0 mt-3 bg-accent text-white px-4 py-2 rounded-xl shadow-2xl flex flex-col items-end min-w-[100px] z-50 border border-white/10"
+                  >
+                    <div className="absolute -top-1 right-4 w-2 h-2 bg-accent rotate-45" />
+                    <span className="text-[10px] font-display font-black tracking-widest uppercase whitespace-nowrap">
+                      Cart Total: <span className="font-mono">${calculateCartTotal().toLocaleString()}</span>
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             <button 
               onClick={() => handleNavClick('contact')}
-              className="flex items-center gap-2 text-xs font-bold text-primary hover:text-accent"
+              className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors"
             >
               <Users className="w-4 h-4" /> Contact Us
             </button>
           </div>
         </div>
-      </header>
+      </div>
 
       {/* Sub Navigation */}
-      <div className="bg-primary text-white hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center gap-12 py-3">
-          {SUB_NAV.map((item) => (
-            <button 
-              key={item.name} 
-              onClick={() => handleSubNavClick(item.id)}
-              className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors"
-            >
-              <item.icon className="w-4 h-4" />
-              {item.name}
-            </button>
-          ))}
+        <div className="bg-primary text-white hidden md:block">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center gap-12 py-3">
+            {SUB_NAV.map((item) => (
+              <button 
+                key={item.name} 
+                onClick={() => handleSubNavClick(item.id)}
+                className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest hover:text-accent transition-colors"
+              >
+                <item.icon className="w-4 h-4" />
+                {item.name}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      </header>
 
       {/* Main Content Area */}
       <main>
@@ -1946,15 +2138,37 @@ function MainApp() {
           </motion.div>
         ))}
 
-        {/* Carousel Indicators */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex gap-3">
-          {CAROUSEL_SLIDES.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`h-1 rounded-full transition-all duration-300 ${currentSlide === index ? "w-12 bg-white" : "w-4 bg-white/40 hover:bg-white/60"}`}
-            />
-          ))}
+        {/* Carousel Controls & Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-8">
+          <button 
+            onClick={() => handleManualSlide('prev')}
+            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-sm transition-all active:scale-90"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+
+          <div className="flex gap-3">
+            {CAROUSEL_SLIDES.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  setIsAutoPlaying(false);
+                  setLastInteraction(Date.now());
+                  setCurrentSlide(idx);
+                }}
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  currentSlide === idx ? "w-8 bg-accent" : "w-2 bg-white/30 hover:bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+
+          <button 
+            onClick={() => handleManualSlide('next')}
+            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-sm transition-all active:scale-90"
+          >
+            <ChevronRight className="w-5 h-5" />
+          </button>
         </div>
       </section>
 
@@ -2086,118 +2300,138 @@ function MainApp() {
       <section id="products" className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-black mb-4">Engineered for Every Need</h2>
-            <p className="text-muted text-lg max-w-2xl mx-auto">Select a category to explore our range of high-performance solutions.</p>
+            <h2 className="text-4xl font-black mb-4">
+              {globalSearchQuery ? `Search Results for "${globalSearchQuery}"` : "Engineered for Every Need"}
+            </h2>
+            <p className="text-muted text-lg max-w-2xl mx-auto">
+              {globalSearchQuery 
+                ? `Showing ${filteredProducts.length} products matching your search.` 
+                : "Select a category to explore our range of high-performance solutions."}
+            </p>
+            {globalSearchQuery && (
+              <button 
+                onClick={() => {
+                  setGlobalSearchQuery('');
+                  setNavSearchQuery('');
+                }}
+                className="mt-6 text-accent font-black uppercase text-[10px] tracking-widest hover:underline flex items-center gap-2 mx-auto"
+              >
+                <X className="w-3 h-3" /> Clear Search & Show All Categories
+              </button>
+            )}
           </div>
           
-          {/* Static Category Selector */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
-            {CATEGORIES.map((cat) => (
-              <motion.button 
-                key={cat.id}
-                onClick={() => setSelectedCategory(cat.id)}
-                whileHover={{ y: -8, scale: 1.02 }}
-                whileTap={{ scale: 0.95 }}
-                className={`group flex flex-col items-center p-8 rounded-3xl border-2 transition-all duration-300 ${
-                  selectedCategory === cat.id 
-                  ? "border-accent bg-accent/5 shadow-premium scale-105" 
-                  : "border-surface bg-white hover:border-muted/30 hover:bg-surface/50 hover:shadow-premium"
-                }`}
-              >
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all ${
-                  selectedCategory === cat.id ? "bg-accent text-white shadow-lg shadow-accent/20" : "bg-surface text-muted group-hover:text-primary"
-                }`}>
-                  <cat.icon className="w-7 h-7" />
-                </div>
-                <p className={`text-center font-black uppercase tracking-widest text-[10px] ${
-                  selectedCategory === cat.id ? "text-accent" : "text-muted"
-                }`}>
-                  {cat.name}
-                </p>
-              </motion.button>
-            ))}
-          </div>
+          {!globalSearchQuery && (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-12">
+              {CATEGORIES.map((cat) => (
+                <motion.button 
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`group flex flex-col items-center p-8 rounded-3xl border-2 transition-all duration-300 ${
+                    selectedCategory === cat.id 
+                    ? "border-accent bg-accent/5 shadow-premium scale-105" 
+                    : "border-surface bg-white hover:border-muted/30 hover:bg-surface/50 hover:shadow-premium"
+                  }`}
+                >
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 transition-all ${
+                    selectedCategory === cat.id ? "bg-accent text-white shadow-lg shadow-accent/20" : "bg-surface text-muted group-hover:text-primary"
+                  }`}>
+                    <cat.icon className="w-7 h-7" />
+                  </div>
+                  <p className={`text-center font-black uppercase tracking-widest text-[10px] ${
+                    selectedCategory === cat.id ? "text-accent" : "text-muted"
+                  }`}>
+                    {cat.name}
+                  </p>
+                </motion.button>
+              ))}
+            </div>
+          )}
 
           {/* Product Grid with Filter */}
           <div className="mt-16 flex flex-col lg:flex-row gap-12">
             {/* Sidebar Filter */}
-            <aside className="lg:w-64 flex-shrink-0">
-              <div className="sticky top-32 bg-surface p-8 rounded-3xl border border-surface shadow-premium">
-                <h4 className="font-black text-primary uppercase tracking-widest text-xs mb-8">Filters</h4>
-                
-                <div className="mb-10">
-                  <div className="flex justify-between items-end mb-4">
-                    <label className="text-xs font-black text-primary uppercase tracking-widest">Max Price</label>
-                    <span className="text-lg font-black text-accent">${priceFilter}</span>
+            {!globalSearchQuery && (
+              <aside className="lg:w-64 flex-shrink-0">
+                <div className="sticky top-32 bg-surface p-8 rounded-3xl border border-surface shadow-premium">
+                  <h4 className="font-black text-primary uppercase tracking-widest text-xs mb-8">Filters</h4>
+                  
+                  <div className="mb-10">
+                    <div className="flex justify-between items-end mb-4">
+                      <label className="text-xs font-black text-primary uppercase tracking-widest">Max Price</label>
+                      <span className="text-lg font-black text-accent">${priceFilter}</span>
+                    </div>
+                    <div className="relative h-6 flex items-center">
+                      <div className="absolute w-full h-1.5 bg-white rounded-full border border-surface shadow-inner" />
+                      <div 
+                        className="absolute h-1.5 bg-accent rounded-full shadow-[0_0_10px_rgba(0,184,212,0.3)]" 
+                        style={{ width: `${((priceFilter - 500) / 4500) * 100}%` }}
+                      />
+                      <input 
+                        type="range" 
+                        min="500" 
+                        max="5000" 
+                        step="100"
+                        value={priceFilter}
+                        onChange={(e) => setPriceFilter(parseInt(e.target.value))}
+                        className="absolute w-full opacity-0 cursor-pointer z-10"
+                      />
+                      <div 
+                        className="absolute w-5 h-5 bg-white border-2 border-accent rounded-full shadow-lg pointer-events-none transition-transform group-hover:scale-110"
+                        style={{ left: `calc(${((priceFilter - 500) / 4500) * 100}% - 10px)` }}
+                      />
+                    </div>
+                    <div className="flex justify-between mt-3 text-[9px] font-black text-muted uppercase tracking-tighter">
+                      <span>$500</span>
+                      <span>$5000</span>
+                    </div>
                   </div>
-                  <div className="relative h-6 flex items-center">
-                    <div className="absolute w-full h-1.5 bg-white rounded-full border border-surface shadow-inner" />
-                    <div 
-                      className="absolute h-1.5 bg-accent rounded-full shadow-[0_0_10px_rgba(0,184,212,0.3)]" 
-                      style={{ width: `${((priceFilter - 500) / 4500) * 100}%` }}
-                    />
-                    <input 
-                      type="range" 
-                      min="500" 
-                      max="5000" 
-                      step="100"
-                      value={priceFilter}
-                      onChange={(e) => setPriceFilter(parseInt(e.target.value))}
-                      className="absolute w-full opacity-0 cursor-pointer z-10"
-                    />
-                    <div 
-                      className="absolute w-5 h-5 bg-white border-2 border-accent rounded-full shadow-lg pointer-events-none transition-transform group-hover:scale-110"
-                      style={{ left: `calc(${((priceFilter - 500) / 4500) * 100}% - 10px)` }}
-                    />
-                  </div>
-                  <div className="flex justify-between mt-3 text-[9px] font-black text-muted uppercase tracking-tighter">
-                    <span>$500</span>
-                    <span>$5000</span>
+
+                  <div className="space-y-6">
+                    <div>
+                      <p className="text-xs font-bold text-muted uppercase tracking-wider mb-3">RAM</p>
+                      <select 
+                        value={ramFilter}
+                        onChange={(e) => setRamFilter(e.target.value)}
+                        className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                      >
+                        {uniqueRams.map(ram => (
+                          <option key={ram} value={ram}>{ram}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-bold text-muted uppercase tracking-wider mb-3">CPU Series</p>
+                      <select 
+                        value={cpuFilter}
+                        onChange={(e) => setCpuFilter(e.target.value)}
+                        className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                      >
+                        {uniqueCpus.map(cpu => (
+                          <option key={cpu} value={cpu}>{cpu}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <p className="text-xs font-bold text-muted uppercase tracking-wider mb-3">Graphics</p>
+                      <select 
+                        value={gpuFilter}
+                        onChange={(e) => setGpuFilter(e.target.value)}
+                        className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                      >
+                        {uniqueGpus.map(gpu => (
+                          <option key={gpu} value={gpu}>{gpu}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
-
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-xs font-bold text-muted uppercase tracking-wider mb-3">RAM</p>
-                    <select 
-                      value={ramFilter}
-                      onChange={(e) => setRamFilter(e.target.value)}
-                      className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
-                    >
-                      {uniqueRams.map(ram => (
-                        <option key={ram} value={ram}>{ram}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold text-muted uppercase tracking-wider mb-3">CPU Series</p>
-                    <select 
-                      value={cpuFilter}
-                      onChange={(e) => setCpuFilter(e.target.value)}
-                      className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
-                    >
-                      {uniqueCpus.map(cpu => (
-                        <option key={cpu} value={cpu}>{cpu}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <p className="text-xs font-bold text-muted uppercase tracking-wider mb-3">Graphics</p>
-                    <select 
-                      value={gpuFilter}
-                      onChange={(e) => setGpuFilter(e.target.value)}
-                      className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
-                    >
-                      {uniqueGpus.map(gpu => (
-                        <option key={gpu} value={gpu}>{gpu}</option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </aside>
+              </aside>
+            )}
 
             {/* Main Product Grid */}
             <main className="flex-grow">
@@ -2226,14 +2460,27 @@ function MainApp() {
                         <div className="p-8">
                           <div className="flex justify-between items-start mb-4">
                             <div className="flex-grow pr-4">
-                              <p className="text-[10px] font-black text-accent uppercase tracking-[0.2em] mb-1">{product.sku}</p>
-                              <h4 className="text-xl font-bold text-primary leading-tight group-hover:text-accent transition-colors">{product.name}</h4>
+                              <p className="text-[10px] font-mono font-black text-accent uppercase tracking-[0.2em] mb-1">{product.sku}</p>
+                              <h4 className="text-xl font-display font-bold text-primary leading-tight group-hover:text-accent transition-colors">{product.name}</h4>
                             </div>
                             <div className="text-right">
-                              <p className="text-xl font-black text-primary">${product.price}</p>
+                              <p className="text-xl font-mono font-black text-primary">${product.price}</p>
                               <p className="text-[8px] font-bold text-muted uppercase tracking-widest">INC GST</p>
                             </div>
                           </div>
+
+                          {/* Product Highlights in Grid */}
+                          {product.highlights && (
+                            <div className="mb-6 space-y-1.5">
+                              {product.highlights.slice(0, 5).map((highlight, i) => (
+                                <div key={i} className="flex items-center gap-2 text-[10px] font-bold text-primary/70">
+                                  <div className="w-1 h-1 bg-accent rounded-full flex-shrink-0" />
+                                  <span className="truncate">{highlight}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
                           <div className="flex gap-2 mb-6">
                             <span className="text-[10px] font-bold bg-surface/50 border border-surface px-3 py-1 rounded-full text-muted flex items-center gap-1">
                               <Cpu className="w-3 h-3" /> {product.cpu}
@@ -2246,11 +2493,11 @@ function MainApp() {
                             <button 
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handleProductClick(product);
+                                handleProductClick(product, true);
                               }}
-                              className="w-full bg-accent text-white py-4 rounded-2xl font-black text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/10"
+                              className="w-full bg-white text-primary border-2 border-primary/10 py-4 rounded-2xl font-black text-sm hover:bg-surface transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
                             >
-                              <Eye className="w-4 h-4" /> View Item
+                              <Wrench className="w-4 h-4" /> Customize
                             </button>
                             <button 
                               onClick={(e) => {
@@ -2263,19 +2510,9 @@ function MainApp() {
                                 });
                                 navigate('/cart');
                               }}
-                              className="w-full bg-white text-primary border-2 border-primary/10 py-4 rounded-2xl font-black text-sm hover:bg-surface transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
+                              className="w-full bg-accent text-white py-4 rounded-2xl font-black text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/10"
                             >
-                              <Monitor className="w-4 h-4" /> Order via Reseller
-                            </button>
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setDealerLocatorProduct(product);
-                                setShowDealerLocator(true);
-                              }}
-                              className="w-full bg-primary text-white py-4 rounded-2xl font-black text-sm hover:bg-accent transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10 hover:shadow-accent/20"
-                            >
-                              <MapPin className="w-4 h-4" /> Find a Dealer
+                              <Monitor className="w-4 h-4" /> Add to Cart
                             </button>
                           </div>
                         </div>
@@ -2589,12 +2826,12 @@ function MainApp() {
                     <div className="bg-white rounded-[2.5rem] p-6 lg:p-8 border border-surface shadow-[0_15px_40px_rgba(0,0,0,0.02)] flex flex-col h-full">
                       <div className="mb-6">
                         <div className="flex items-center gap-2 mb-3">
-                          <span className="bg-accent/10 text-accent text-[9px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest">
+                          <span className="bg-accent/10 text-accent text-[9px] font-display font-black px-2.5 py-1 rounded-full uppercase tracking-widest">
                             {selectedProduct.category}
                           </span>
-                          <span className="text-muted font-black text-[9px] uppercase tracking-[0.2em]">{selectedProduct.sku}</span>
+                          <span className="text-muted font-mono font-black text-[9px] uppercase tracking-[0.2em]">{selectedProduct.sku}</span>
                         </div>
-                        <h1 className="text-2xl lg:text-3xl font-black text-primary leading-tight mb-3">
+                        <h1 className="text-2xl lg:text-3xl font-display font-black text-primary leading-tight mb-3">
                           {selectedProduct.name}
                         </h1>
                         
@@ -2608,7 +2845,7 @@ function MainApp() {
 
                         {/* Price underneath the name and brand */}
                         <div className="flex items-baseline gap-2 mb-4">
-                          <span className="text-3xl font-black text-primary tracking-tighter">${calculateTotalPrice()}</span>
+                          <span className="text-3xl font-mono font-black text-primary tracking-tighter">${calculateTotalPrice()}</span>
                           <span className="text-[10px] font-bold text-muted uppercase tracking-widest">INC GST</span>
                         </div>
 
@@ -2627,12 +2864,14 @@ function MainApp() {
 
                       <div className="space-y-3 flex-grow">
                         <button 
-                          onClick={() => setIsCustomizing(true)}
+                          onClick={() => setIsCustomizing(!isCustomizing)}
                           className={`w-full py-4 rounded-xl font-black text-sm transition-all shadow-premium flex items-center justify-center gap-2 active:scale-[0.98] ${
-                            isCustomizing ? "bg-accent text-white" : "bg-primary text-white hover:bg-primary/90"
+                            isCustomizing 
+                              ? "bg-primary text-white" 
+                              : "bg-white text-primary border-2 border-primary/10 hover:bg-surface"
                           }`}
                         >
-                          <Wrench className="w-4 h-4" /> {isCustomizing ? "Customizing..." : "Customize"}
+                          <Wrench className="w-4 h-4" /> {isCustomizing ? "Close Customization" : "Customize"}
                         </button>
                         
                         <button 
@@ -2641,16 +2880,9 @@ function MainApp() {
                             setCartUpgrades({...selectedUpgrades});
                             navigate('/cart');
                           }}
-                          className="w-full bg-white text-primary border-2 border-primary/10 py-4 rounded-xl font-black text-sm hover:bg-surface transition-all shadow-premium flex items-center justify-center gap-2 active:scale-[0.98]"
+                          className="w-full bg-accent text-white py-4 rounded-xl font-black text-sm hover:bg-accent/90 transition-all shadow-premium shadow-accent/20 flex items-center justify-center gap-2 active:scale-[0.98]"
                         >
-                          <Monitor className="w-4 h-4" /> Order via Reseller
-                        </button>
-
-                        <button 
-                          onClick={() => navigate('/resellers')}
-                          className="w-full bg-accent text-white py-4 rounded-xl font-black text-sm hover:bg-accent/90 transition-all shadow-premium shadow-accent/20 flex items-center justify-center gap-2 active:scale-[0.98] mt-4"
-                        >
-                          <MapPin className="w-4 h-4" /> Find your closest Reseller
+                          <Monitor className="w-4 h-4" /> Add to Cart
                         </button>
 
                         <div className="mt-6 bg-surface/50 p-4 rounded-xl flex items-start gap-3">
@@ -2878,38 +3110,50 @@ function MainApp() {
                   <div className="space-y-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1">{product.sku}</p>
-                        <h3 className="text-xl font-bold text-white leading-tight group-hover:text-accent transition-colors">{product.name}</h3>
+                        <p className="text-[10px] font-mono font-black text-accent uppercase tracking-widest mb-1">{product.sku}</p>
+                        <h3 className="text-xl font-display font-bold text-white leading-tight group-hover:text-accent transition-colors">{product.name}</h3>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/5">
                       <div className="flex items-center gap-2">
                         <Cpu className="w-4 h-4 text-accent" />
-                        <span className="text-xs text-white/60 font-medium">{product.cpu}</span>
+                        <span className="text-xs text-white/60 font-mono font-medium">{product.cpu}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Monitor className="w-4 h-4 text-accent" />
-                        <span className="text-xs text-white/60 font-medium">{product.ram} RAM</span>
+                        <span className="text-xs text-white/60 font-mono font-medium">{product.ram} RAM</span>
                       </div>
                     </div>
 
+                    {/* Product Highlights in Copilot Grid */}
+                    {product.highlights && (
+                      <div className="space-y-1.5 py-2">
+                        {product.highlights.slice(0, 4).map((highlight: string, i: number) => (
+                          <div key={i} className="flex items-center gap-2 text-[10px] font-bold text-white/50">
+                            <div className="w-1 h-1 bg-accent rounded-full flex-shrink-0" />
+                            <span className="truncate">{highlight}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     <div className="flex flex-col gap-3 pt-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-center">
                         <div className="flex items-baseline gap-1">
-                          <span className="text-2xl font-black text-white">${product.price}</span>
+                          <span className="text-2xl font-mono font-black text-white">${product.price}</span>
                           <span className="text-[10px] font-bold text-white/30 uppercase">INC GST</span>
                         </div>
-                        <button 
-                          onClick={() => {
-                            handleProductClick(product);
-                            setShowCopilotOverlay(false);
-                          }}
-                          className="bg-white/10 text-white px-6 py-3 rounded-full font-bold text-xs hover:bg-white hover:text-primary transition-all active:scale-95 border border-white/10"
-                        >
-                          Details
-                        </button>
                       </div>
+                      <button 
+                        onClick={() => {
+                          handleProductClick(product, true);
+                          setShowCopilotOverlay(false);
+                        }}
+                        className="w-full bg-white text-primary border-2 border-primary/10 py-3 rounded-full font-black text-xs hover:bg-surface transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
+                      >
+                        <Wrench className="w-4 h-4" /> Customize
+                      </button>
                       <button 
                         onClick={() => {
                           setCartProduct(product);
@@ -2923,7 +3167,7 @@ function MainApp() {
                         }}
                         className="w-full bg-accent text-white py-3 rounded-full font-black text-xs hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/20"
                       >
-                        <Monitor className="w-4 h-4" /> Order via Reseller
+                        <Monitor className="w-4 h-4" /> Add to Cart
                       </button>
                     </div>
                   </div>
