@@ -41,8 +41,7 @@ import {
   Linkedin,
   Youtube
 } from "lucide-react";
-import logo from './assets/LeaderComputersLogo.png';
-import { BrowserRouter, Routes, Route, useNavigate, useParams, Link, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useMap } from '@vis.gl/react-google-maps';
 
 const GOOGLE_MAPS_API_KEY = (import.meta as any).env.VITE_GOOGLE_MAPS_API_KEY || '';
@@ -1401,9 +1400,9 @@ const ProductJourney = ({ product }: { product: any }) => {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <MainApp />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
@@ -1900,14 +1899,12 @@ function MainApp() {
         <div className={`bg-white transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-12">
-              <div 
-                className="flex items-center gap-2 cursor-pointer" 
-                onClick={() => handleNavClick('top')}
-              >
+              <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavClick('top')}>
                 <img 
-                  src={logo}
-                  alt="Leader Computers"
+                  src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-Blue-1.png" 
+                  alt="Leader Computers" 
                   className="h-10 w-auto"
+                  referrerPolicy="no-referrer"
                 />
               </div>
               <nav className="hidden lg:flex items-center gap-2">
