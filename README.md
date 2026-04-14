@@ -4,7 +4,7 @@ CLICK HERE TO VIEW: https://marshallleader.github.io/Leader-Online/
 
 
 
-> A redesign concept for [leader-online.com.au](https://leader-online.com.au), built with a channel-first, reseller-only UX model.
+> A redesign concept for leader-online.com.au, built around a reseller-driven commerce model where users browse products, add to a cart for comparison and intent-building, and are then routed to authorised resellers to complete the purchase.
 
 
 ---
@@ -17,14 +17,12 @@ Leader is a **channel-exclusive B2B business**:
 
 - No direct consumer sales
 - All purchases flow through **1,000+ authorised resellers**
+- The website acts as a product discovery and purchase-intent platform
 
-This constraint shapes everything — the UX, UI, copy, and architecture:
+This redesign introduces a structured shopping experience that supports reseller conversion without violating the channel model.
+It shapes everything — the UX, UI, copy, and architecture:
 
-| What you'll **never** see | What you'll **always** see |
-|---|---|
-| "Buy Now" | "Find a Dealer →" CTA |
-| "Add to Cart" | "Available via authorised resellers" |
-| Cart or checkout flows | Reseller availability messaging |
+Cart behaviour is intent-based, not transactional.
 
 Prices are formatted as: `RRP $X,XXX`
 
@@ -58,21 +56,6 @@ External portals (support, reseller) are **linked**, not embedded.
 
 ---
 
-## Running the Project
-
-### Current — MCP Server Stub
-
-```bash
-cd mcp-server
-node server.js
-```
-
-Starts an Express server on `http://localhost:3000`.
-
-> No tests are configured yet — `npm test` intentionally fails.
-
----
-
 ### Future — Next.js App
 
 Once the frontend is scaffolded:
@@ -99,6 +82,7 @@ npx playwright test tests/e2e/dealer-locator.spec.ts
 ```
 app/
   products/{category}/{sku}/
+  cart/                     # intent-based basket (no checkout)
   where-to-buy/
   search/
   api/
@@ -107,6 +91,7 @@ components/
   ui/
   layout/
   products/
+  cart/
   dealer/
   forms/
   shared/
@@ -114,12 +99,14 @@ components/
 lib/
   products.ts
   dealers.ts
+  cart.ts
   sanity.ts
   utils.ts
 
 types/
   product.ts
   dealer.ts
+  cart.ts
   cms.ts
 ```
 
@@ -128,43 +115,56 @@ types/
 ## Key Features
 
 ### Product Pages
-- Static product pages with SKU-based routing
-- Reseller-focused messaging throughout
+- Full product browsing experience
+- SKU-based dynamic routing
+- RRP display with reseller messaging
+- “Add to Cart” builds intent bundle (not purchase)
+
+### Cart (Intent Basket)
+Multi-product comparison and selection
+Generates a reseller-ready summary
+No payments, no checkout
+CTA: “Proceed to Reseller”
+
+### Reseller Handoff Flow
+Redirect to “Find a Dealer”
+Option to select preferred authorised reseller
+Supports lead generation and conversion tracking
 
 ### Dealer Locator
-- ISR-enabled with 24h revalidation
-- Powered by Google Maps JavaScript API
+ISR-enabled with 24h revalidation
+Powered by Google Maps JavaScript API
 
 ### Search
-- Categorised results
-- Optional Algolia integration
+Categorised product search
+Optional Algolia integration
 
 ### Forms & API
-- Contact, support, and reseller inquiry forms
-- Backend routes for form submissions
+Reseller enquiry forms
+Support/contact submission endpoints
 
 ---
 
 ## Architecture Principles
-
-| Principle | Detail |
-|---|---|
-| **Static-first** | Product, About, and Warranty pages are pre-rendered |
-| **ISR** | Dealer locator updates periodically (Incremental Static Regeneration) |
-| **No eCommerce** | No cart, checkout, or direct purchasing — ever |
-| **Channel-first UX** | Users are always routed to authorised dealers |
+| Principle                  | Detail                                             |
+| -------------------------- | -------------------------------------------------- |
+| **Static-first**           | Product and informational pages are pre-rendered   |
+| **Intent-based commerce**  | Cart captures interest, not payment                |
+| **Reseller-first routing** | All conversion paths lead to authorised dealers    |
+| **No direct checkout**     | Zero payment processing in frontend                |
+| **Channel integrity**      | Maintains manufacturer → reseller → customer model |
 
 ---
 
 ## Naming Conventions
 
-| Type | Convention | Example |
-|---|---|---|
-| Components | PascalCase | `ProductCard.tsx` |
-| Hooks | camelCase prefix | `useSomething.ts` |
-| Pages | Next.js convention | `page.tsx` |
-| Unit tests | Co-located | `*.test.tsx` |
-| E2E tests | Dedicated folder | `tests/e2e/` |
+| Type       | Convention         | Example           |
+| ---------- | ------------------ | ----------------- |
+| Components | PascalCase         | `ProductCard.tsx` |
+| Hooks      | camelCase prefix   | `useCart.ts`      |
+| Pages      | Next.js App Router | `page.tsx`        |
+| Unit tests | Co-located         | `*.test.tsx`      |
+| E2E tests  | Dedicated folder   | `tests/e2e/`      |
 
 ---
 
