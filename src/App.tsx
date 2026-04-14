@@ -41,6 +41,7 @@ import {
   Linkedin,
   Youtube
 } from "lucide-react";
+import logo from '../assets/LeaderComputersLogo.png';
 import { HashRouter, Routes, Route, useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useMap } from '@vis.gl/react-google-maps';
 
@@ -1901,10 +1902,9 @@ function MainApp() {
             <div className="flex items-center gap-12">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavClick('top')}>
                   <img 
-                    src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-Blue-1.png" 
-                    alt="Leader Computers" 
+                    src={logo}
+                    alt="Leader Computers"
                     className="h-10 w-auto"
-                    referrerPolicy="no-referrer"
                   />
                 </div>
               <nav className="hidden lg:flex items-center gap-2">
