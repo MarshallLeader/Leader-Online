@@ -41,7 +41,7 @@ import {
   Linkedin,
   Youtube
 } from "lucide-react";
-import logo from '../assets/LeaderComputersLogo.png';
+import logo from './assets/LeaderComputersLogo.png';
 import { HashRouter, Routes, Route, useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useMap } from '@vis.gl/react-google-maps';
 
