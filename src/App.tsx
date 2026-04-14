@@ -1346,7 +1346,7 @@ const ProductJourney = ({ product }: { product: any }) => {
       </section>
 
       {/* Section 5: The Leader Advantage */}
-      <section className="py-24">
+      <section className="py-24 hidden md:block">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-20">
             <motion.h3 
@@ -2020,13 +2020,10 @@ function MainApp() {
                 )}
               </AnimatePresence>
             </div>
-            <div className="relative group">
-              <button 
-                onClick={() => navigate('/cart')}
-                className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors group"
-              >
-                <Monitor className="w-4 h-4" /> Cart
-              </button>
+            <div className="relative group cursor-pointer" onClick={() => navigate('/cart')}>
+                          <div className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors">
+                            <Monitor className="w-4 h-4" /> Cart
+                          </div>
 
               <AnimatePresence>
                 {calculateCartTotal() > 0 && (
@@ -2086,7 +2083,7 @@ function MainApp() {
         ) : !isProductPage ? (
           <>
             {/* Hero Section with Background Carousel */}
-            <section className="relative h-[600px] lg:h-[700px] overflow-hidden">
+            <section className="relative h-[450px] md:h-[600px] lg:h-[700px] overflow-hidden">
         {CAROUSEL_SLIDES.map((slide, index) => (
           <motion.div
             key={slide.id}
@@ -2120,10 +2117,10 @@ function MainApp() {
                 <span className="inline-block bg-accent text-white text-[11px] font-bold px-4 py-1.5 rounded-full mb-6">
                   {slide.tag}
                 </span>
-                <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight mb-6">
+                <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white leading-tight mb-6">
                   {slide.title}
                 </h1>
-                <p className="text-xl text-white/80 leading-relaxed mb-10 max-w-xl">
+                <p className="text-lg md:text-xl text-white/80 leading-relaxed mb-10 max-w-xl hidden sm:block">
                   {slide.subtitle}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -2182,9 +2179,9 @@ function MainApp() {
       </section>
 
       {/* Trust Bar */}
-      <section className="py-24 bg-surface/10 border-b border-surface overflow-hidden">
+      <section className="py-12 md:py-24 bg-surface/10 border-b border-surface overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-0">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-16 lg:gap-0">
             {TRUST_ITEMS.map((item, idx) => (
               <motion.div 
                 key={item.title}
@@ -2255,7 +2252,7 @@ function MainApp() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative grid grid-cols-1 sm:grid-cols-2 gap-4"
+              className="relative hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-4"
             >
               {[
                 {
@@ -2338,7 +2335,7 @@ function MainApp() {
                   onClick={() => setSelectedCategory(cat.id)}
                   whileHover={{ y: -8, scale: 1.02 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`group flex flex-col items-center p-8 rounded-3xl border-2 transition-all duration-300 ${
+                  className={`group flex flex-col items-center p-4 md:p-8 rounded-3xl border-2 transition-all duration-300 ${
                     selectedCategory === cat.id 
                     ? "border-accent bg-accent/5 shadow-premium scale-105" 
                     : "border-surface bg-white hover:border-muted/30 hover:bg-surface/50 hover:shadow-premium"
@@ -2363,7 +2360,7 @@ function MainApp() {
           <div className="mt-16 flex flex-col lg:flex-row gap-12">
             {/* Sidebar Filter */}
             {!globalSearchQuery && (
-              <aside className="lg:w-64 flex-shrink-0">
+              <aside className="lg:w-64 flex-shrink-0 hidden lg:block">
                 <div className="sticky top-32 bg-surface p-8 rounded-3xl border border-surface shadow-premium">
                   <h4 className="font-bold text-primary text-sm mb-8">Filters</h4>
                   
@@ -2516,8 +2513,7 @@ function MainApp() {
                                   ram: '16gb',
                                   storage: '512gb',
                                   os: 'win11p'
-                                });
-                                navigate('/cart');
+                                });                                
                               }}
                               className="w-full bg-accent text-white py-4 rounded-2xl font-bold text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/10"
                             >
@@ -2906,8 +2902,7 @@ function MainApp() {
                         <button 
                           onClick={() => {
                             setCartProduct(selectedProduct);
-                            setCartUpgrades({...selectedUpgrades});
-                            navigate('/cart');
+                            setCartUpgrades({...selectedUpgrades});                    
                           }}
                           className="w-full bg-accent text-white py-4 rounded-xl font-black text-sm hover:bg-accent/90 transition-all shadow-premium shadow-accent/20 flex items-center justify-center gap-2 active:scale-[0.98]"
                         >
@@ -3024,7 +3019,7 @@ function MainApp() {
                 </a>
               </div>
             </div>
-            <div className="col-span-1">
+            <div className="col-span-1 hidden md:block">
               <h4 className="font-bold mb-6 uppercase tracking-tight text-sm">Quick Links</h4>
               <ul className="space-y-4 text-white/50 text-sm text-left">
                 <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors">Product Range</button></li>
@@ -3033,7 +3028,7 @@ function MainApp() {
                 <li><a href="#" className="hover:text-white transition-colors">Support Portal</a></li>
               </ul>
             </div>
-            <div id="contact" className="col-span-2 bg-white/10 p-10 rounded-[3rem] border border-white/20 shadow-2xl backdrop-blur-sm">
+            <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-2xl backdrop-blur-sm">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center text-white">
                   <Phone className="w-6 h-6" />
@@ -3340,7 +3335,7 @@ function MainApp() {
             initial={{ y: 200 }}
             animate={{ y: 0 }}
             exit={{ y: 200 }}
-            className="fixed bottom-0 left-0 right-0 z-[70] bg-white border-t border-surface shadow-[0_-20px_40px_rgba(0,0,0,0.1)] pb-safe"
+            className="fixed bottom-0 left-0 right-0 z-[70] bg-white border-t border-surface shadow-[0_-20px_40px_rgba(0,0,0,0.1)] pb-safe hidden md:block"
           >
             {/* Category Selection Buttons above the bar */}
             <div className="absolute bottom-full left-0 right-0 flex justify-center gap-2 mb-4 px-4 overflow-x-auto no-scrollbar">
