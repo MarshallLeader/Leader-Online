@@ -1352,11 +1352,11 @@ const ProductJourney = ({ product }: { product: any }) => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-3xl lg:text-5xl font-black text-primary uppercase tracking-tight mb-4"
+              className="text-3xl lg:text-5xl font-bold text-primary mb-4"
             >
               The Leader Advantage
             </motion.h3>
-            <p className="text-muted font-bold">Why professionals choose Australia's largest PC manufacturer.</p>
+            <p className="text-muted font-semibold">Why professionals choose Australia's largest PC manufacturer.</p>
           </div>
           <div className="grid md:grid-cols-3 gap-12">
             {[
@@ -1899,14 +1899,14 @@ function MainApp() {
         <div className={`bg-white transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-12">
-              <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavClick('top')}>
-                <img 
-                  src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-Blue-1.png" 
-                  alt="Leader Computers" 
-                  className="h-10 w-auto"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavClick('top')}>
+                  <img 
+                    src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-Blue-1.png" 
+                    alt="Leader Computers" 
+                    className="h-10 w-auto"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
               <nav className="hidden lg:flex items-center gap-2">
                 {[
                   { name: 'Home', id: 'top' },
@@ -1917,7 +1917,7 @@ function MainApp() {
                   <button 
                     key={item.name} 
                     onClick={() => handleNavClick(item.id)}
-                    className="text-[10px] font-display font-black text-primary/70 hover:text-primary hover:bg-primary/5 px-4 py-2 rounded-lg transition-all uppercase tracking-widest active:scale-95"
+                    className="text-[12px] font-display font-bold text-primary/70 hover:text-primary hover:bg-primary/5 px-4 py-2 rounded-lg transition-all active:scale-95"
                   >
                     {item.name}
                   </button>
@@ -2117,10 +2117,10 @@ function MainApp() {
                 transition={{ delay: 0.5, duration: 0.8 }}
                 className="max-w-2xl"
               >
-                <span className="inline-block bg-accent text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-6">
+                <span className="inline-block bg-accent text-white text-[11px] font-bold px-4 py-1.5 rounded-full mb-6">
                   {slide.tag}
                 </span>
-                <h1 className="text-5xl lg:text-7xl font-black text-white leading-tight mb-6">
+                <h1 className="text-5xl lg:text-7xl font-bold text-white leading-tight mb-6">
                   {slide.title}
                 </h1>
                 <p className="text-xl text-white/80 leading-relaxed mb-10 max-w-xl">
@@ -2349,7 +2349,7 @@ function MainApp() {
                   }`}>
                     <cat.icon className="w-7 h-7" />
                   </div>
-                  <p className={`text-center font-black uppercase tracking-widest text-[10px] ${
+                  <p className={`text-center font-bold text-[11px] ${
                     selectedCategory === cat.id ? "text-accent" : "text-muted"
                   }`}>
                     {cat.name}
@@ -2365,12 +2365,12 @@ function MainApp() {
             {!globalSearchQuery && (
               <aside className="lg:w-64 flex-shrink-0">
                 <div className="sticky top-32 bg-surface p-8 rounded-3xl border border-surface shadow-premium">
-                  <h4 className="font-black text-primary uppercase tracking-widest text-xs mb-8">Filters</h4>
+                  <h4 className="font-bold text-primary text-sm mb-8">Filters</h4>
                   
                   <div className="mb-10">
                     <div className="flex justify-between items-end mb-4">
-                      <label className="text-xs font-black text-primary uppercase tracking-widest">Max Price</label>
-                      <span className="text-lg font-black text-accent">${priceFilter}</span>
+                      <label className="text-xs font-bold text-primary">Max Price</label>
+                      <span className="text-lg font-bold text-accent">${priceFilter}</span>
                     </div>
                     <div className="relative h-6 flex items-center">
                       <div className="absolute w-full h-1.5 bg-white rounded-full border border-surface shadow-inner" />
@@ -2469,12 +2469,12 @@ function MainApp() {
                         <div className="p-8">
                           <div className="flex justify-between items-start mb-4">
                             <div className="flex-grow pr-4">
-                              <p className="text-[10px] font-mono font-black text-accent uppercase tracking-[0.2em] mb-1">{product.sku}</p>
+                              <p className="text-[10px] font-mono font-bold text-accent mb-1">{product.sku}</p>
                               <h4 className="text-xl font-display font-bold text-primary leading-tight group-hover:text-accent transition-colors">{product.name}</h4>
                             </div>
                             <div className="text-right">
-                              <p className="text-xl font-mono font-black text-primary">${product.price}</p>
-                              <p className="text-[8px] font-bold text-muted uppercase tracking-widest">INC GST</p>
+                              <p className="text-xl font-mono font-bold text-primary">Starts from ${product.price}</p>
+                              <p className="text-[10px] font-semibold text-muted">RRP/MSRP INC GST</p>
                             </div>
                           </div>
 
@@ -2504,7 +2504,7 @@ function MainApp() {
                                 e.stopPropagation();
                                 handleProductClick(product, true);
                               }}
-                              className="w-full bg-white text-primary border-2 border-primary/10 py-4 rounded-2xl font-black text-sm hover:bg-surface transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
+                              className="w-full bg-white text-primary border-2 border-primary/10 py-4 rounded-2xl font-bold text-sm hover:bg-surface transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
                             >
                               <Wrench className="w-4 h-4" /> Customize
                             </button>
@@ -2519,7 +2519,7 @@ function MainApp() {
                                 });
                                 navigate('/cart');
                               }}
-                              className="w-full bg-accent text-white py-4 rounded-2xl font-black text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/10"
+                              className="w-full bg-accent text-white py-4 rounded-2xl font-bold text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/10"
                             >
                               <Monitor className="w-4 h-4" /> Add to Cart
                             </button>
@@ -2838,9 +2838,9 @@ function MainApp() {
                           <span className="bg-accent/10 text-accent text-[9px] font-display font-black px-2.5 py-1 rounded-full uppercase tracking-widest">
                             {selectedProduct.category}
                           </span>
-                          <span className="text-muted font-mono font-black text-[9px] uppercase tracking-[0.2em]">{selectedProduct.sku}</span>
+                          <span className="text-muted font-mono font-bold text-[10px]">{selectedProduct.sku}</span>
                         </div>
-                        <h1 className="text-2xl lg:text-3xl font-display font-black text-primary leading-tight mb-3">
+                        <h1 className="text-2xl lg:text-3xl font-display font-bold text-primary leading-tight mb-3">
                           {selectedProduct.name}
                         </h1>
                         
@@ -2849,13 +2849,13 @@ function MainApp() {
                           <div className="flex items-center gap-1 text-accent">
                             {[1,2,3,4,5].map(i => <Sparkles key={i} className="w-2.5 h-2.5 fill-current" />)}
                           </div>
-                          <span className="text-[9px] font-bold text-muted uppercase tracking-widest">Premium Australian Brand</span>
+                          <span className="text-[10px] font-semibold text-muted">Premium Australian Brand</span>
                         </div>
 
                         {/* Price underneath the name and brand */}
                         <div className="flex items-baseline gap-2 mb-4">
-                          <span className="text-3xl font-mono font-black text-primary tracking-tighter">${calculateTotalPrice()}</span>
-                          <span className="text-[10px] font-bold text-muted uppercase tracking-widest">INC GST</span>
+                          <span className="text-3xl font-mono font-bold text-primary tracking-tighter">Starts from ${calculateTotalPrice()}</span>
+                          <span className="text-[10px] font-semibold text-muted">RRP/MSRP INC GST</span>
                         </div>
 
                         {/* Product Highlights */}
@@ -3081,7 +3081,7 @@ function MainApp() {
               </form>
             </div>
           </div>
-          <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold text-white/30 uppercase tracking-widest">
+          <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold text-white/30">
             <p>© 2026 Leader Computers. All rights reserved.</p>
             <div className="flex gap-8">
               <a href="#" className="hover:text-white">Privacy Policy</a>
@@ -3141,7 +3141,7 @@ function MainApp() {
                   <div className="space-y-4">
                     <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-[10px] font-mono font-black text-accent uppercase tracking-widest mb-1">{product.sku}</p>
+                        <p className="text-[10px] font-mono font-bold text-accent mb-1">{product.sku}</p>
                         <h3 className="text-xl font-display font-bold text-white leading-tight group-hover:text-accent transition-colors">{product.name}</h3>
                       </div>
                     </div>
@@ -3171,9 +3171,9 @@ function MainApp() {
 
                     <div className="flex flex-col gap-3 pt-4">
                       <div className="flex items-center justify-center">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-2xl font-mono font-black text-white">${product.price}</span>
-                          <span className="text-[10px] font-bold text-white/30 uppercase">INC GST</span>
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-2xl font-mono font-bold text-white">Starts from ${product.price}</span>
+                          <span className="text-[10px] font-semibold text-white/30">RRP/MSRP INC GST</span>
                         </div>
                       </div>
                       <button 
@@ -3399,8 +3399,8 @@ function MainApp() {
                     </>
                   ) : (
                     <div className="flex flex-col items-center justify-center w-full py-2">
-                      <p className="text-[10px] font-black text-muted uppercase tracking-widest">Select a product</p>
-                      <p className="text-[8px] font-bold text-muted/60 uppercase tracking-widest mt-1">to compare</p>
+                      <p className="text-[11px] font-bold text-muted">Select a product</p>
+                      <p className="text-[10px] font-semibold text-muted/60 mt-1">to compare</p>
                     </div>
                   )}
                 </div>
@@ -3409,14 +3409,14 @@ function MainApp() {
               <div className="flex items-center gap-4">
                 <button 
                   onClick={() => setIsComparing(false)}
-                  className="text-muted hover:text-primary font-black uppercase text-[10px] tracking-widest px-4"
+                  className="text-muted hover:text-primary font-bold text-[12px] px-4"
                 >
                   Cancel
                 </button>
                 <button 
                   disabled={!compareProduct2}
                   onClick={() => setShowComparisonModal(true)}
-                  className={`px-8 py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all shadow-xl flex items-center gap-3 ${
+                  className={`px-8 py-4 rounded-xl font-bold text-sm transition-all shadow-xl flex items-center gap-3 ${
                     compareProduct2 
                       ? "bg-accent text-white hover:bg-accent/90 shadow-accent/20 active:scale-95" 
                       : "bg-surface text-muted cursor-not-allowed"
@@ -3539,16 +3539,16 @@ function MainApp() {
               <div className="flex-grow overflow-y-auto custom-scrollbar p-8 md:p-12">
                 <div className="grid grid-cols-3 gap-8 mb-12">
                   <div className="pt-40">
-                    <h4 className="text-xs font-black text-muted uppercase tracking-[0.2em] mb-8 border-b border-surface pb-4">Specifications</h4>
+                    <h4 className="text-xs font-bold text-muted mb-8 border-b border-surface pb-4">Specifications</h4>
                   </div>
                   {[compareProduct1, compareProduct2].map((product, idx) => (
                     <div key={idx} className="text-center">
                       <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group">
                         <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                       </div>
-                      <p className="text-xs font-mono font-black text-accent uppercase tracking-widest mb-2">{product.sku}</p>
-                      <h4 className="text-xl font-black text-primary leading-tight mb-4">{product.name}</h4>
-                      <p className="text-3xl font-mono font-black text-primary">${product.price}</p>
+                      <p className="text-xs font-mono font-bold text-accent mb-2">{product.sku}</p>
+                      <h4 className="text-xl font-bold text-primary leading-tight mb-4">{product.name}</h4>
+                      <p className="text-3xl font-mono font-bold text-primary">Starts from ${product.price}</p>
                     </div>
                   ))}
                 </div>
