@@ -18,6 +18,7 @@ import {
   Menu, 
   X,
   ArrowRight,
+  ArrowLeftRight,
   ExternalLink,
   Globe,
   Users,
@@ -1707,6 +1708,11 @@ function MainApp() {
   const [searchRadius, setSearchRadius] = useState(50);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isCustomizing, setIsCustomizing] = useState(false);
+  const [isComparing, setIsComparing] = useState(false);
+  const [compareProduct1, setCompareProduct1] = useState<any>(null);
+  const [compareProduct2, setCompareProduct2] = useState<any>(null);
+  const [showCompareCategoryPopup, setShowCompareCategoryPopup] = useState<string | null>(null);
+  const [showComparisonModal, setShowComparisonModal] = useState(false);
   const [navSearchQuery, setNavSearchQuery] = useState('');
   const [globalSearchQuery, setGlobalSearchQuery] = useState('');
   const [showSearchSuggestions, setShowSearchSuggestions] = useState(false);
@@ -1797,7 +1803,10 @@ function MainApp() {
       const product = ALL_PRODUCTS.find(p => p.sku === sku) || COPILOT_PRODUCTS.find(p => p.sku === sku);
       if (product) {
         setSelectedProduct(product);
-        setIsCustomizing(false);
+        setIsCustomizing((location.state as any)?.customizing || false);
+        if (isComparing) {
+          setCompareProduct1(product);
+        }
         setActiveImageIndex(0);
         setSelectedUpgrades({
           ram: '16gb',
@@ -1806,17 +1815,18 @@ function MainApp() {
         });
       } else {
         setSelectedProduct(null);
+        setIsCustomizing(false);
       }
     } else if (path === '/cart' || path === '/resellers') {
       // Persist selection for cart/reseller views
     } else {
       setSelectedProduct(null);
+      setIsCustomizing(false);
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.state]);
 
   const handleProductClick = (product: any, customizing = false) => {
-    setIsCustomizing(customizing);
-    navigate(`/product/${product.sku}`);
+    navigate(`/product/${product.sku}`, { state: { customizing } });
   };
 
   const closeProductDetail = () => {
@@ -1890,13 +1900,12 @@ function MainApp() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-12">
               <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavClick('top')}>
-                <div className="w-8 h-8 bg-primary rounded flex items-center justify-center">
-                  <span className="text-white font-black text-lg italic">L</span>
-                </div>
-                <div className="flex flex-col leading-none">
-                  <span className="text-primary font-black text-lg tracking-tighter">LEADER</span>
-                  <span className="text-[8px] font-bold text-muted tracking-widest uppercase">Computers</span>
-                </div>
+                <img 
+                  src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-Blue-1.png" 
+                  alt="Leader Computers" 
+                  className="h-10 w-auto"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <nav className="hidden lg:flex items-center gap-2">
                 {[
@@ -2863,6 +2872,26 @@ function MainApp() {
                       </div>
 
                       <div className="space-y-3 flex-grow">
+                        <div className="flex items-center gap-3 mb-4 p-4 bg-surface/50 rounded-xl border border-surface">
+                          <label className="flex items-center gap-3 cursor-pointer group w-full">
+                            <div className="relative flex items-center justify-center">
+                              <input 
+                                type="checkbox" 
+                                checked={isComparing}
+                                onChange={(e) => {
+                                  setIsComparing(e.target.checked);
+                                  if (e.target.checked) {
+                                    setCompareProduct1(selectedProduct);
+                                  }
+                                }}
+                                className="peer appearance-none w-6 h-6 border-2 border-primary/20 rounded-lg checked:bg-accent checked:border-accent transition-all cursor-pointer"
+                              />
+                              <Sparkles className="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
+                            </div>
+                            <span className="text-sm font-black text-primary uppercase tracking-tight group-hover:text-accent transition-colors">Compare this product</span>
+                          </label>
+                        </div>
+
                         <button 
                           onClick={() => setIsCustomizing(!isCustomizing)}
                           className={`w-full py-4 rounded-xl font-black text-sm transition-all shadow-premium flex items-center justify-center gap-2 active:scale-[0.98] ${
@@ -2942,10 +2971,12 @@ function MainApp() {
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1">
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-                  <span className="text-primary font-black text-lg italic">L</span>
-                </div>
-                <span className="text-white font-black text-xl tracking-tighter">LEADER</span>
+                <img 
+                  src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-White-1.png" 
+                  alt="Leader Computers" 
+                  className="h-10 w-auto"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <p className="text-white/50 text-sm mb-8">
                 Australia's largest PC manufacturer, dedicated to the IT channel. 
@@ -3303,6 +3334,268 @@ function MainApp() {
           </div>
         </motion.div>
       )}
+      {/* Comparison Bar */}
+      <AnimatePresence>
+        {isComparing && (
+          <motion.div
+            initial={{ y: 200 }}
+            animate={{ y: 0 }}
+            exit={{ y: 200 }}
+            className="fixed bottom-0 left-0 right-0 z-[70] bg-white border-t border-surface shadow-[0_-20px_40px_rgba(0,0,0,0.1)] pb-safe"
+          >
+            {/* Category Selection Buttons above the bar */}
+            <div className="absolute bottom-full left-0 right-0 flex justify-center gap-2 mb-4 px-4 overflow-x-auto no-scrollbar">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setShowCompareCategoryPopup(cat.id)}
+                  className="bg-white/90 backdrop-blur-md border border-surface px-4 py-2 rounded-full shadow-lg flex items-center gap-2 hover:bg-accent hover:text-white transition-all group whitespace-nowrap"
+                >
+                  <cat.icon className="w-3.5 h-3.5" />
+                  <span className="text-[10px] font-black uppercase tracking-widest">{cat.name}</span>
+                </button>
+              ))}
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between gap-8">
+              <div className="flex items-center gap-8 flex-grow">
+                {/* Product 1 */}
+                <div className="flex items-center gap-4 bg-surface p-3 rounded-2xl border border-surface min-w-[240px]">
+                  <div className="w-16 h-16 bg-white rounded-xl p-2 border border-surface flex-shrink-0">
+                    <img src={compareProduct1?.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct1?.sku}</p>
+                    <h4 className="text-xs font-black text-primary truncate">{compareProduct1?.name}</h4>
+                    <p className="text-xs font-mono font-black text-primary mt-1">${compareProduct1?.price}</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-center justify-center text-muted">
+                  <ArrowLeftRight className="w-6 h-6" />
+                  <span className="text-[8px] font-black uppercase tracking-widest mt-1">VS</span>
+                </div>
+
+                {/* Product 2 Slot */}
+                <div className={`flex items-center gap-4 p-3 rounded-2xl border-2 border-dashed min-w-[240px] transition-all ${
+                  compareProduct2 ? "bg-surface border-surface" : "border-muted/20 bg-surface/30"
+                }`}>
+                  {compareProduct2 ? (
+                    <>
+                      <div className="w-16 h-16 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
+                        <img src={compareProduct2.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                        <button 
+                          onClick={() => setCompareProduct2(null)}
+                          className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                      <div className="min-w-0 flex-grow">
+                        <p className="text-[9px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct2.sku}</p>
+                        <h4 className="text-xs font-black text-primary truncate">{compareProduct2.name}</h4>
+                        <p className="text-xs font-mono font-black text-primary mt-1">${compareProduct2.price}</p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-col items-center justify-center w-full py-2">
+                      <p className="text-[10px] font-black text-muted uppercase tracking-widest">Select a product</p>
+                      <p className="text-[8px] font-bold text-muted/60 uppercase tracking-widest mt-1">to compare</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <button 
+                  onClick={() => setIsComparing(false)}
+                  className="text-muted hover:text-primary font-black uppercase text-[10px] tracking-widest px-4"
+                >
+                  Cancel
+                </button>
+                <button 
+                  disabled={!compareProduct2}
+                  onClick={() => setShowComparisonModal(true)}
+                  className={`px-8 py-4 rounded-xl font-black text-sm uppercase tracking-widest transition-all shadow-xl flex items-center gap-3 ${
+                    compareProduct2 
+                      ? "bg-accent text-white hover:bg-accent/90 shadow-accent/20 active:scale-95" 
+                      : "bg-surface text-muted cursor-not-allowed"
+                  }`}
+                >
+                  <Sparkles className="w-4 h-4" /> Compare Now
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Category Product Selection Popup */}
+      <AnimatePresence>
+        {showCompareCategoryPopup && (
+          <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowCompareCategoryPopup(null)}
+              className="absolute inset-0 bg-primary/40 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-4xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+            >
+              <div className="p-8 border-b border-surface flex items-center justify-between bg-surface/30">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center text-white shadow-lg shadow-accent/20">
+                    {(() => {
+                      const Icon = CATEGORIES.find(c => c.id === showCompareCategoryPopup)?.icon || Laptop;
+                      return <Icon className="w-6 h-6" />;
+                    })()}
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-black text-primary uppercase tracking-tight">
+                      Select {CATEGORIES.find(c => c.id === showCompareCategoryPopup)?.name}
+                    </h3>
+                    <p className="text-xs text-muted font-bold uppercase tracking-widest">Choose a product to compare against</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowCompareCategoryPopup(null)}
+                  className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-muted hover:text-accent transition-colors shadow-sm"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <div className="p-8 overflow-y-auto custom-scrollbar grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
+                  .filter(p => p.category === showCompareCategoryPopup || (showCompareCategoryPopup === 'notebooks' && p.category === 'Copilot+ PCs'))
+                  .map((product) => (
+                    <button
+                      key={product.sku}
+                      onClick={() => {
+                        setCompareProduct2(product);
+                        setShowCompareCategoryPopup(null);
+                      }}
+                      className="group bg-surface hover:bg-white p-6 rounded-3xl border border-surface hover:border-accent/30 transition-all text-left flex flex-col h-full hover:shadow-xl"
+                    >
+                      <div className="aspect-square bg-white rounded-2xl p-4 mb-6 border border-surface group-hover:border-accent/10 transition-colors">
+                        <img src={product.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                      </div>
+                      <p className="text-[9px] font-mono font-black text-accent uppercase tracking-tighter mb-1">{product.sku}</p>
+                      <h4 className="text-sm font-black text-primary leading-tight mb-4 flex-grow">{product.name}</h4>
+                      <div className="flex items-center justify-between mt-auto pt-4 border-t border-surface/50">
+                        <span className="text-sm font-mono font-black text-primary">${product.price}</span>
+                        <span className="text-[8px] font-black text-accent uppercase tracking-widest group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                          Select <ArrowRight className="w-3 h-3" />
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Comparison Modal */}
+      <AnimatePresence>
+        {showComparisonModal && compareProduct1 && compareProduct2 && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowComparisonModal(false)}
+              className="absolute inset-0 bg-primary/60 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 40 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 40 }}
+              className="relative w-full max-w-6xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              <div className="p-8 md:p-12 border-b border-surface flex items-center justify-between bg-surface/30">
+                <div className="flex items-center gap-6">
+                  <div className="w-16 h-16 bg-primary rounded-3xl flex items-center justify-center text-white shadow-xl shadow-primary/20">
+                    <ArrowLeftRight className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h3 className="text-3xl font-black text-primary uppercase tracking-tight">Product Comparison</h3>
+                    <p className="text-sm text-muted font-bold uppercase tracking-widest">Detailed side-by-side specification analysis</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowComparisonModal(false)}
+                  className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-muted hover:text-accent transition-colors shadow-lg"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              <div className="flex-grow overflow-y-auto custom-scrollbar p-8 md:p-12">
+                <div className="grid grid-cols-3 gap-8 mb-12">
+                  <div className="pt-40">
+                    <h4 className="text-xs font-black text-muted uppercase tracking-[0.2em] mb-8 border-b border-surface pb-4">Specifications</h4>
+                  </div>
+                  {[compareProduct1, compareProduct2].map((product, idx) => (
+                    <div key={idx} className="text-center">
+                      <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group">
+                        <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                      </div>
+                      <p className="text-xs font-mono font-black text-accent uppercase tracking-widest mb-2">{product.sku}</p>
+                      <h4 className="text-xl font-black text-primary leading-tight mb-4">{product.name}</h4>
+                      <p className="text-3xl font-mono font-black text-primary">${product.price}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="space-y-1">
+                  {/* Map through all unique spec keys from both products */}
+                  {Array.from(new Set([
+                    ...Object.keys(compareProduct1.specs || {}),
+                    ...Object.keys(compareProduct2.specs || {})
+                  ])).map((specKey) => (
+                    <div key={specKey} className="grid grid-cols-3 gap-8 py-6 border-b border-surface hover:bg-surface/30 transition-colors rounded-xl px-4">
+                      <div className="flex items-center">
+                        <span className="text-[10px] font-black text-muted uppercase tracking-widest">{specKey.replace(/_/g, ' ')}</span>
+                      </div>
+                      <div className="text-sm font-bold text-primary">
+                        {compareProduct1.specs?.[specKey] || "—"}
+                      </div>
+                      <div className="text-sm font-bold text-primary">
+                        {compareProduct2.specs?.[specKey] || "—"}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-8 bg-surface/30 border-t border-surface flex justify-center gap-4">
+                <button 
+                  onClick={() => setShowComparisonModal(false)}
+                  className="bg-white text-primary px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-lg hover:bg-surface transition-all"
+                >
+                  Close Comparison
+                </button>
+                <button 
+                  onClick={() => {
+                    setShowComparisonModal(false);
+                    setIsComparing(false);
+                    setCompareProduct2(null);
+                  }}
+                  className="bg-primary text-white px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-primary/20 hover:bg-primary/90 transition-all"
+                >
+                  Finish Comparing
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
