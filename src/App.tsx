@@ -2972,11 +2972,10 @@ function MainApp() {
             <div className="col-span-1">
               <div className="flex items-center gap-2 mb-6">
                 <img 
-                  src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-White-1.png" 
-                  alt="Leader Computers" 
-                  className="h-10 w-auto"
-                  referrerPolicy="no-referrer"
-                />
+                    src={logo}
+                    alt="Leader Computers"
+                    className="h-10 w-auto"
+                  />
               </div>
               <p className="text-white/50 text-sm mb-8">
                 Australia's largest PC manufacturer, dedicated to the IT channel. 
