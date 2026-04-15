@@ -37,6 +37,8 @@ import {
   Search,
   Eye,
   Trash2,
+  Plus,
+  Minus,
   Facebook,
   Twitter,
   Instagram,
@@ -388,7 +390,7 @@ const UPGRADE_OPTIONS = {
   ],
   os: [
     { id: 'win11h', label: "Windows 11 Home", price: 0 },
-    { id: 'win11p', label: "Windows 11 Professional", price: 150 },
+    { id: 'win11p', label: "Windows 11 Professional", price: 0 },
   ]
 };
 
@@ -1409,10 +1411,21 @@ export default function App() {
   );
 }
 
-const CartView = ({ product, upgrades, totalPrice, onRemove }: { product: any, upgrades: any, totalPrice: number, onRemove: () => void }) => {
+const CartView = ({ items, onUpdateQuantity, onRemove }: { items: any[], onUpdateQuantity: (id: string, delta: number) => void, onRemove: (id: string) => void }) => {
   const navigate = useNavigate();
 
-  if (!product) {
+  const calculateTotal = () => {
+    return items.reduce((acc, item) => {
+      let itemPrice = item.product.price;
+      Object.entries(item.upgrades).forEach(([category, optionId]) => {
+        const option = (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === optionId);
+        if (option) itemPrice += option.price;
+      });
+      return acc + (itemPrice * item.quantity);
+    }, 0);
+  };
+
+  if (items.length === 0) {
     return (
       <div className="min-h-screen bg-white pt-24 pb-24">
         <div className="max-w-4xl mx-auto px-4 text-center">
@@ -1434,6 +1447,15 @@ const CartView = ({ product, upgrades, totalPrice, onRemove }: { product: any, u
 
   const getUpgradeLabel = (category: string, id: string) => {
     return (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === id)?.label || id;
+  };
+  
+  const getItemPrice = (item: any) => {
+    let price = item.product.price;
+    Object.entries(item.upgrades).forEach(([category, optionId]) => {
+      const option = (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === optionId);
+      if (option) price += option.price;
+    });
+    return price;
   };
 
   return (
@@ -1473,33 +1495,58 @@ const CartView = ({ product, upgrades, totalPrice, onRemove }: { product: any, u
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row gap-10 items-center bg-surface/30 p-8 rounded-[2rem] border border-surface">
-                <div className="w-40 h-40 bg-white rounded-2xl p-6 shadow-sm flex items-center justify-center flex-shrink-0">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                </div>
-                <div className="flex-grow text-center md:text-left">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-2xl font-black text-primary uppercase tracking-tight">{product.name}</h3>
-                      <p className="text-sm text-muted font-bold">SKU: {product.sku}</p>
+              <div className="space-y-6">
+                {items.map((item) => (
+                  <div key={item.id} className="flex flex-col md:flex-row gap-8 items-center bg-surface/30 p-6 rounded-[2rem] border border-surface">
+                    <div className="w-32 h-32 bg-white rounded-2xl p-4 shadow-sm flex items-center justify-center flex-shrink-0">
+                      <img src={item.product.image} alt={item.product.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                     </div>
-                    <button 
-                      onClick={onRemove}
-                      className="flex items-center gap-2 text-[11px] font-black text-red-500 hover:text-red-600 uppercase tracking-widest transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" /> Remove
-                    </button>
-                  </div>
-                  <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-6">
-                    {Object.entries(upgrades).map(([cat, id]) => (
-                      <span key={cat} className="text-[10px] font-black bg-white px-4 py-1.5 rounded-full border border-surface uppercase tracking-widest">
-                        {getUpgradeLabel(cat, id as string)}
+                    <div className="flex-grow text-center md:text-left">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="text-xl font-black text-primary uppercase tracking-tight">{item.product.name}</h3>
+                          <p className="text-[10px] text-muted font-bold uppercase tracking-widest">SKU: {item.product.sku}</p>
+                        </div>
+                        <button 
+                          onClick={() => onRemove(item.id)}
+                          className="text-red-500 hover:text-red-600 transition-colors"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                      <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-4">
+                        {Object.entries(item.upgrades).map(([cat, id]) => (
+                          <span key={cat} className="text-[9px] font-black bg-white px-3 py-1 rounded-full border border-surface uppercase tracking-widest">
+                            {getUpgradeLabel(cat, id as string)}
                       </span>
                     ))}
                   </div>
+                  <div className="mt-6 flex items-center justify-center md:justify-start gap-6">
+                    <div className="flex items-center bg-white border border-surface rounded-xl overflow-hidden">
+                      <button 
+                        onClick={() => onUpdateQuantity(item.id, -1)}
+                        className="p-2 hover:bg-surface transition-colors text-primary"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="w-10 text-center font-mono font-bold text-sm">{item.quantity}</span>
+                      <button 
+                        onClick={() => onUpdateQuantity(item.id, 1)}
+                        className="p-2 hover:bg-surface transition-colors text-primary"
+                      >
+                        <Plus className="w-3 h-3" />
+                      </button>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-black text-primary">${(getItemPrice(item) * item.quantity).toLocaleString()}</p>
+                      <p className="text-[9px] font-bold text-muted uppercase tracking-widest">${getItemPrice(item).toLocaleString()} ea</p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
 
             {/* Right: Summary & Actions (Compact Layout) */}
             <div className="p-10 lg:p-16 bg-surface/10 flex flex-col justify-between">
@@ -1507,7 +1554,7 @@ const CartView = ({ product, upgrades, totalPrice, onRemove }: { product: any, u
                 <h4 className="text-[11px] font-black text-muted uppercase tracking-[0.2em] mb-8">Estimated Total</h4>
                 <div className="mb-10">
                   <div className="flex items-baseline gap-3">
-                    <span className="text-6xl font-black text-accent tracking-tighter">${totalPrice.toLocaleString()}</span>
+                   <span className="text-6xl font-black text-accent tracking-tighter">${calculateTotal().toLocaleString()}</span>
                     <span className="text-sm font-bold text-muted uppercase tracking-widest">INC GST</span>
                   </div>
                   <p className="text-xs text-muted mt-6 leading-relaxed font-medium">
@@ -1522,7 +1569,7 @@ const CartView = ({ product, upgrades, totalPrice, onRemove }: { product: any, u
                   onClick={() => navigate('/resellers')}
                   className="w-full bg-primary text-white py-5 rounded-2xl font-black text-sm hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3"
                 >
-                  <MapPin className="w-6 h-6" /> Find Reseller to Order
+                  <MapPin className="w-6 h-6" /> Order via Reseller
                 </button>
               </div>
             </div>
@@ -1532,6 +1579,223 @@ const CartView = ({ product, upgrades, totalPrice, onRemove }: { product: any, u
     </div>
   );
 };
+
+const ResellerOrderView = ({ items, totalPrice }: { items: any[], totalPrice: number }) => {
+  const navigate = useNavigate();
+  const [isOrdered, setIsOrdered] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    address: '',
+    postcode: '',
+    company: ''
+  });
+
+  const getUpgradeLabel = (category: string, id: string) => {
+    return (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === id)?.label || id;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsOrdered(true);
+    // In a real app, this would send data to a server
+  };
+
+  if (isOrdered) {
+    return (
+      <div className="min-h-screen bg-white pt-24 pb-24">
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8"
+          >
+            <ShieldCheck className="w-12 h-12" />
+          </motion.div>
+          <h1 className="text-4xl font-black text-primary uppercase tracking-tight mb-4">Order Request Sent!</h1>
+          <p className="text-muted text-lg mb-10">
+            Your order details have been sent to your nearest authorised Leader reseller. 
+            They will contact you shortly to confirm pricing, availability, and delivery.
+          </p>
+          <button 
+            onClick={() => navigate('/')}
+            className="bg-primary text-white px-10 py-4 rounded-xl font-black text-sm hover:bg-primary/90 transition-all active:scale-95"
+          >
+            Return to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-white pb-24 pt-12">
+      <div className="max-w-7xl mx-auto px-4">
+        <button 
+          onClick={() => navigate('/cart')}
+          className="flex items-center gap-2 text-muted hover:text-accent font-bold text-sm mb-8 group"
+        >
+          <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
+          Back to Cart
+        </button>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Left: Order Details */}
+          <div className="space-y-8">
+            <div className="bg-surface/30 p-8 rounded-[2.5rem] border border-surface">
+              <h2 className="text-2xl font-black text-primary uppercase tracking-tight mb-8">Your Selection</h2>
+              <div className="space-y-6">
+                {items.map((item) => (
+                  <div key={item.id} className="flex gap-6 items-start">
+                    <div className="w-20 h-20 bg-white rounded-xl p-3 shadow-sm flex items-center justify-center flex-shrink-0">
+                      <img src={item.product.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                    </div>
+                    <div className="flex-grow">
+                      <div className="flex justify-between">
+                        <h4 className="font-black text-primary uppercase text-sm">{item.product.name}</h4>
+                        <span className="font-mono font-bold text-accent">x{item.quantity}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {Object.entries(item.upgrades).map(([cat, id]) => (
+                          <span key={cat} className="text-[8px] font-black bg-white px-2 py-0.5 rounded-full border border-surface uppercase tracking-widest text-muted">
+                            {getUpgradeLabel(cat, id as string)}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-8 pt-8 border-t border-surface flex justify-between items-baseline">
+                <span className="text-sm font-bold text-muted uppercase tracking-widest">Total Estimated</span>
+                <span className="text-3xl font-black text-accent">${totalPrice.toLocaleString()}</span>
+              </div>
+            </div>
+
+            <div className="bg-accent/5 p-8 rounded-[2.5rem] border border-accent/10">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-10 h-10 bg-accent text-white rounded-xl flex items-center justify-center">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <h3 className="text-lg font-black text-primary uppercase tracking-tight">Local Service</h3>
+              </div>
+              <p className="text-sm text-muted font-medium leading-relaxed">
+                Leader is Australia's largest locally owned PC manufacturer. By ordering via a reseller, 
+                you get local support, expert advice, and professional setup from a business in your community.
+              </p>
+            </div>
+          </div>
+
+          {/* Right: Contact Form */}
+          <div className="bg-white p-10 lg:p-16 rounded-[2.5rem] border border-surface shadow-premium">
+            <h2 className="text-3xl font-black text-primary uppercase tracking-tight mb-2">Order Details</h2>
+            <p className="text-muted text-sm font-bold mb-10 uppercase tracking-widest">Fill in your information</p>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">First Name</label>
+                  <input 
+                    required
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-6 py-4 font-bold text-primary outline-none transition-all"
+                    placeholder="John"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Last Name</label>
+                  <input 
+                    required
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-6 py-4 font-bold text-primary outline-none transition-all"
+                    placeholder="Doe"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Email Address</label>
+                <input 
+                  required
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-6 py-4 font-bold text-primary outline-none transition-all"
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Phone Number</label>
+                  <input 
+                    required
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-6 py-4 font-bold text-primary outline-none transition-all"
+                    placeholder="0400 000 000"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Postcode</label>
+                  <input 
+                    required
+                    name="postcode"
+                    value={formData.postcode}
+                    onChange={handleInputChange}
+                    className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-6 py-4 font-bold text-primary outline-none transition-all"
+                    placeholder="5000"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-[10px] font-black text-muted uppercase tracking-widest ml-1">Delivery Address</label>
+                <input 
+                  required
+                  name="address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-6 py-4 font-bold text-primary outline-none transition-all"
+                  placeholder="123 Leader St, Adelaide SA"
+                />
+              </div>
+
+              <div className="pt-6">
+                <div className="bg-surface p-4 rounded-xl flex items-start gap-3 mb-6">
+                  <ShieldCheck className="w-5 h-5 text-accent mt-0.5" />
+                  <p className="text-[11px] text-muted font-bold leading-relaxed">
+                    Your order will be sent to your nearest local Leader reseller. They will contact you to finalize the purchase.
+                  </p>
+                </div>
+                <button 
+                  type="submit"
+                  className="w-full bg-accent text-white py-5 rounded-2xl font-black text-sm hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 active:scale-95 flex items-center justify-center gap-3"
+                >
+                  <Rocket className="w-6 h-6" /> Place Order via Reseller
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 
 function MainApp() {
   const navigate = useNavigate();
@@ -1547,8 +1811,7 @@ function MainApp() {
   const [cpuFilter, setCpuFilter] = useState('All');
   const [gpuFilter, setGpuFilter] = useState('All');
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
-  const [cartProduct, setCartProduct] = useState<any>(null);
-  const [cartUpgrades, setCartUpgrades] = useState<Record<string, string>>({});
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const [showCopilotOverlay, setShowCopilotOverlay] = useState(false);
   const [showLearnMoreOverlay, setShowLearnMoreOverlay] = useState(false);
   const [selectedReseller, setSelectedReseller] = useState<any>(null);
@@ -1654,13 +1917,51 @@ const displayProduct = React.useMemo(() => {
   }, [selectedProduct, selectedUpgrades]);
 
   const calculateCartTotal = () => {
-    if (!cartProduct) return 0;
-    let total = cartProduct.price;
-    Object.entries(cartUpgrades).forEach(([category, optionId]) => {
+    return cartItems.reduce((acc, item) => {
+      let itemPrice = item.product.price;
+      Object.entries(item.upgrades).forEach(([category, optionId]) => {
       const option = (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === optionId);
-      if (option) total += option.price;
+       if (option) itemPrice += option.price;
+      });
+      return acc + (itemPrice * item.quantity);
+    }, 0);
+  };
+
+  const addToCart = (product: any, upgrades: Record<string, string>) => {
+    setCartItems(prev => {
+      const existingItemIndex = prev.findIndex(item => 
+        item.product.id === product.id && 
+        JSON.stringify(item.upgrades) === JSON.stringify(upgrades)
+      );
+
+      if (existingItemIndex !== -1) {
+        const newItems = [...prev];
+        newItems[existingItemIndex].quantity += 1;
+        return newItems;
+      }
+
+      return [...prev, { 
+        id: Math.random().toString(36).substr(2, 9),
+        product, 
+        upgrades, 
+        quantity: 1 
+      }];
     });
-    return total;
+    navigate('/cart');
+  };
+
+  const updateCartQuantity = (id: string, delta: number) => {
+    setCartItems(prev => prev.map(item => {
+      if (item.id === id) {
+        const newQty = Math.max(1, item.quantity + delta);
+        return { ...item, quantity: newQty };
+      }
+      return item;
+    }));
+  };
+
+  const removeFromCart = (id: string) => {
+    setCartItems(prev => prev.filter(item => item.id !== id));
   };
 
   useEffect(() => {
@@ -1771,7 +2072,8 @@ const displayProduct = React.useMemo(() => {
 
   const isProductPage = location.pathname.startsWith('/product/');
   const isCartPage = location.pathname === '/cart';
-  const isSpecialPage = isProductPage || isCartPage;
+  const isResellerPage = location.pathname === '/resellers';
+  const isSpecialPage = isProductPage || isCartPage || isResellerPage;
 
   const uniqueRams = ['All', ...new Set(ALL_PRODUCTS.filter(p => p.category === selectedCategory).map(p => p.ram))].filter(Boolean);
   const uniqueCpus = ['All', 'Core i3', 'Core i5', 'Core i7', 'Core Ultra', 'Celeron'];
@@ -2003,10 +2305,14 @@ const displayProduct = React.useMemo(() => {
       <main>
         {isCartPage ? (
           <CartView 
-            product={cartProduct} 
-            upgrades={cartUpgrades} 
+            items={cartItems}
+            onUpdateQuantity={updateCartQuantity}
+            onRemove={removeFromCart}
+          />
+        ) : isResellerPage ? (
+          <ResellerOrderView 
+            items={cartItems}
             totalPrice={calculateCartTotal()} 
-            onRemove={() => setCartProduct(null)}
           />
         ) : !isProductPage ? (
           <>
@@ -2446,8 +2752,7 @@ const displayProduct = React.useMemo(() => {
                             <button 
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setCartProduct(product);
-                                setCartUpgrades({
+                                addToCart(product, {
                                   ram: '16gb',
                                   storage: '512gb',
                                   os: 'win11p'
@@ -2713,8 +3018,7 @@ const displayProduct = React.useMemo(() => {
                         
                         <button 
                           onClick={() => {
-                            setCartProduct(selectedProduct);
-                            setCartUpgrades({...selectedUpgrades});                    
+                            addToCart(selectedProduct, {...selectedUpgrades});                    
                           }}
                           className="w-full bg-accent text-white py-4 rounded-xl font-black text-sm hover:bg-accent/90 transition-all shadow-premium shadow-accent/20 flex items-center justify-center gap-2 active:scale-[0.98]"
                         >
@@ -3004,8 +3308,7 @@ const displayProduct = React.useMemo(() => {
                       </button>
                       <button 
                         onClick={() => {
-                          setCartProduct(product);
-                          setCartUpgrades({
+                          addToCart(product, {
                             ram: '16gb',
                             storage: '512gb',
                             os: 'win11p'
@@ -3155,349 +3458,421 @@ const displayProduct = React.useMemo(() => {
         {isComparing && (
           <motion.div
             initial={{ y: "100%" }}
-                        animate={{ 
-                          y: 0,
-                          height: isComparisonExpanded ? '100vh' : '128px',
-                          top: isComparisonExpanded ? 0 : 'auto'
-                        }}
-                        exit={{ y: "100%" }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shadow-[0_-20px_40px_rgba(0,0,0,0.1)] pb-safe hidden md:flex flex-col overflow-hidden ${isComparisonExpanded ? 'z-[55]' : 'z-[70]'}`}
-                      >
-                        <AnimatePresence>
-                          {!isComparisonExpanded ? (
-                            <motion.div 
-                              key="collapsed-bar"
-                              initial={{ opacity: 0, y: 20 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ y: -100, opacity: 0 }}
-                              transition={{ duration: 0.4, ease: "easeOut" }}
-                              className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between gap-8 w-full"
-                            >
-                            <div className="flex items-center gap-6 flex-grow">
-                              {/* Product 1 Slot */}
-                              <div className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
-                                compareProduct1 ? "bg-surface border-surface" : "border-muted/20 bg-surface/30 border-dashed"
-                              }`}>
-                                {compareProduct1 ? (
-                                  <>
-                                    <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
-                                      <img src={compareProduct1.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                                      <button 
-                                        onClick={() => {
-                                          setCompareProduct1(null);
-                                          if (!compareProduct2 && !compareProduct3) {
-                                            setIsComparing(false);
-                                            setIsComparisonExpanded(false);
-                                          }
-                                        }}
-                                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
-                                      >
-                                        <X className="w-3 h-3" />
-                                      </button>
-                                    </div>
-                                    <div className="min-w-0 flex-grow">
-                                      <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct1.sku}</p>
-                                      <h4 className="text-[10px] font-black text-primary truncate">{compareProduct1.name}</h4>
-                                      <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct1.price}</p>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="flex flex-col items-center justify-center w-full py-2">
-                                    <p className="text-[10px] font-bold text-muted">Slot 1</p>
-                                  </div>
-                                )}
-                              </div>
-            
-                              <div className="flex flex-col items-center justify-center text-muted flex-shrink-0">
-                                <ArrowLeftRight className="w-4 h-4" />
-                                <span className="text-[7px] font-black uppercase tracking-widest mt-0.5">VS</span>
-                              </div>
-            
-                              {/* Product 2 Slot */}
-                              <div className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
-                                compareProduct2 ? "bg-surface border-surface" : "border-muted/20 bg-surface/30 border-dashed"
-                              }`}>
-                                {compareProduct2 ? (
-                                  <>
-                                    <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
-                                      <img src={compareProduct2.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                                      <button 
-                                        onClick={() => {
-                                          setCompareProduct2(null);
-                                          if (!compareProduct1 && !compareProduct3) {
-                                            setIsComparing(false);
-                                            setIsComparisonExpanded(false);
-                                          }
-                                        }}
-                                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
-                                      >
-                                        <X className="w-3 h-3" />
-                                      </button>
-                                    </div>
-                                    <div className="min-w-0 flex-grow">
-                                      <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct2.sku}</p>
-                                      <h4 className="text-[10px] font-black text-primary truncate">{compareProduct2.name}</h4>
-                                      <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct2.price}</p>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="flex flex-col items-center justify-center w-full py-2">
-                                    <p className="text-[10px] font-bold text-muted">Slot 2</p>
-                                  </div>
-                                )}
-                              </div>
-            
-                              <div className="flex flex-col items-center justify-center text-muted flex-shrink-0">
-                                <ArrowLeftRight className="w-4 h-4" />
-                                <span className="text-[7px] font-black uppercase tracking-widest mt-0.5">VS</span>
-                              </div>
-            
-                              {/* Product 3 Slot */}
-                              <div className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
-                                compareProduct3 ? "bg-surface border-surface" : "border-muted/20 bg-surface/30 border-dashed"
-                              }`}>
-                                {compareProduct3 ? (
-                                  <>
-                                    <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
-                                      <img src={compareProduct3.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                                      <button 
-                                        onClick={() => {
-                                          setCompareProduct3(null);
-                                          if (!compareProduct1 && !compareProduct2) {
-                                            setIsComparing(false);
-                                            setIsComparisonExpanded(false);
-                                          }
-                                        }}
-                                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
-                                      >
-                                        <X className="w-3 h-3" />
-                                      </button>
-                                    </div>
-                                    <div className="min-w-0 flex-grow">
-                                      <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct3.sku}</p>
-                                      <h4 className="text-[10px] font-black text-primary truncate">{compareProduct3.name}</h4>
-                                      <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct3.price}</p>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="flex flex-col items-center justify-center w-full py-2">
-                                    <p className="text-[10px] font-bold text-muted">Slot 3</p>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-            
-                            <div className="flex items-center gap-4">
-                              <button 
-                                onClick={() => {
+animate={{ 
+y: 0,
+height: isComparisonExpanded ? '100vh' : '128px',
+top: isComparisonExpanded ? 0 : 'auto'
+}}
+exit={{ y: "100%" }}
+transition={{ type: "spring", stiffness: 150, damping: 25, mass: 0.8 }}
+className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shadow-[0_-20px_40px_rgba(0,0,0,0.1)] pb-safe hidden md:flex flex-col overflow-hidden ${isComparisonExpanded ? 'z-[55]' : 'z-[70]'}`}
+>
+<AnimatePresence>
+{!isComparisonExpanded ? (
+<motion.div 
+  key="collapsed-bar"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  exit={{ y: -100, opacity: 0 }}
+  transition={{ duration: 0.4, ease: "easeOut" }}
+  className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between gap-8 w-full"
+>
+  <div className="flex items-center gap-6 flex-grow">
+                  {/* Product 1 Slot */}
+                  <motion.div 
+                    layout
+                    whileHover={compareProduct1 ? { scale: 1.02, y: -2 } : {}}
+                    className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
+                      compareProduct1 ? "bg-surface border-surface shadow-sm" : "border-muted/20 bg-surface/30 border-dashed"
+                    }`}
+                  >
+                    <AnimatePresence mode="wait">
+                      {compareProduct1 ? (
+                        <motion.div 
+                          key={`slot1-${compareProduct1.id}`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          className="flex items-center gap-4 w-full"
+                        >
+                          <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
+                            <img src={compareProduct1.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                            <button 
+                              onClick={() => {
+                                setCompareProduct1(null);
+                                if (!compareProduct2 && !compareProduct3) {
                                   setIsComparing(false);
                                   setIsComparisonExpanded(false);
-                                  setCompareProduct1(null);
-                                  setCompareProduct2(null);
-                                  setCompareProduct3(null);
-                                }}
-                                className="text-muted hover:text-primary font-bold text-[12px] px-4"
-                              >
-                                Clear All
-                              </button>
-                              <button 
-                                disabled={[compareProduct1, compareProduct2, compareProduct3].filter(Boolean).length < 2}
-                                onClick={() => setIsComparisonExpanded(!isComparisonExpanded)}
-                                className={`px-8 py-4 rounded-xl font-bold text-sm transition-all shadow-xl flex items-center gap-3 ${
-                                  [compareProduct1, compareProduct2, compareProduct3].filter(Boolean).length >= 2
-                                    ? "bg-accent text-white hover:bg-accent/90 shadow-accent/20 active:scale-95" 
-                                    : "bg-surface text-muted cursor-not-allowed"
-                                }`}
-                              >
-                                {isComparisonExpanded ? <ChevronDown className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
-                                {isComparisonExpanded ? "Minimize" : "Compare Now"}
-                              </button>
-                            </div>
-                            </motion.div>
-                          ) : (
-                            <motion.div 
-                              key="expanded-comparison"
-                              initial={{ y: "100%", opacity: 0 }}
-                              animate={{ y: 0, opacity: 1 }}
-                              exit={{ y: "100%", opacity: 0 }}
-                              transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                              onScroll={(e) => setCompareScrollTop(e.currentTarget.scrollTop)}
-                              className={`flex-grow overflow-y-auto custom-scrollbar px-8 md:px-12 pb-8 md:pb-12 bg-white relative ${scrolled ? 'pt-[96px]' : 'pt-[112px]'}`}
+                                }
+                              }}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
                             >
-                            {/* Close Button for Expanded View */}
-                            <button 
-                              onClick={() => setIsComparisonExpanded(false)}
-                              className="absolute top-32 right-8 w-12 h-12 rounded-full bg-surface flex items-center justify-center text-muted hover:text-accent transition-colors shadow-lg z-20"
-                            >
-                              <X className="w-6 h-6" />
+                              <X className="w-3 h-3" />
                             </button>
-            
-                            <div className="max-w-7xl mx-auto">
-                              {/* Sticky Header for Comparison */}
-                              <AnimatePresence>
-                                {compareScrollTop > 500 && (
-                                  <motion.div 
-                                    initial={{ y: -60, opacity: 0 }}
-                                    animate={{ y: 0, opacity: 1 }}
-                                    exit={{ y: -60, opacity: 0 }}
-                                    style={{ top: 0 }}
-                                    className="sticky z-30 bg-white/95 backdrop-blur-md border-b-[6px] border-accent -mx-8 md:-mx-12 px-8 md:px-12 py-6 hidden md:block"
-                                  >
-                                    <div className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 items-center">
-                                      <div />
-                                      {[compareProduct1, compareProduct2, compareProduct3].map((product, idx) => (
-                                        <div key={idx} className="flex flex-col items-center text-center gap-1">
-                                          {product ? (
-                                            <>
-                                              <p className="text-sm font-black text-primary truncate w-full">{product.name}</p>
-                                              <p className="text-sm font-mono font-black text-accent">${product.price}</p>
-                                              <button 
-                                                onClick={() => {
-                                                  setCartProduct(product);
-                                                  setCartUpgrades({
-                                                    ram: '16gb',
-                                                    storage: '512gb',
-                                                    os: 'win11p'
-                                                  });
-                                                }}
-                                                className="w-8 h-8 bg-accent text-white rounded-lg flex items-center justify-center hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 active:scale-95 mt-1"
-                                              >
-                                                <ShoppingCart className="w-4 h-4" />
-                                              </button>
-                                            </>
-                                          ) : null}
-                                        </div>
-                                      ))}
-                                    </div>
-                                  </motion.div>
-                                )}
-                              </AnimatePresence>
-            
-                              <div className="pt-8 md:pt-12">
-                                <div className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 mb-12">
-                                <div className="pt-40">
-                                </div>
-                                {[compareProduct1, compareProduct2, compareProduct3].map((product, idx) => (
-                                  <div key={idx} className="text-center flex flex-col items-center">
-                                    {product ? (
-                                      <>
-                                        <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group w-full max-w-[280px]">
-                                          <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
-                                          <button 
-                                            onClick={() => {
-                                              if (idx === 0) setCompareProduct1(null);
-                                              if (idx === 1) setCompareProduct2(null);
-                                              if (idx === 2) setCompareProduct3(null);
-                                              if (![compareProduct1, compareProduct2, compareProduct3].filter((p, i) => i !== idx && p).length) {
-                                                setIsComparing(false);
-                                                setIsComparisonExpanded(false);
-                                              }
-                                            }}
-                                            className="absolute -top-3 -right-3 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center shadow-xl opacity-100 transition-opacity z-10"
-                                          >
-                                            <X className="w-4 h-4" />
-                                          </button>
-                                        </div>
-                                        <p className="text-xs font-mono font-bold text-accent mb-2 uppercase tracking-widest">{product.sku}</p>
-                                        <div className="relative w-full max-w-[240px] mb-4">
-                                          <select 
-                                            value={product.sku}
-                                            onChange={(e) => {
-                                              const newProduct = [...ALL_PRODUCTS, ...COPILOT_PRODUCTS].find(p => p.sku === e.target.value);
-                                              if (idx === 0) setCompareProduct1(newProduct);
-                                              if (idx === 1) setCompareProduct2(newProduct);
-                                              if (idx === 2) setCompareProduct3(newProduct);
-                                            }}
-                                            className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-4 py-3 text-sm font-bold text-primary appearance-none cursor-pointer hover:bg-surface/80 transition-all text-center pr-8"
-                                          >
-                                            {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
-                                              .filter(p => p.category === (compareProduct1?.category || compareProduct2?.category || compareProduct3?.category))
-                                              .map(p => (
-                                                <option key={p.sku} value={p.sku}>{p.name}</option>
-                                              ))}
-                                          </select>
-                                          <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted pointer-events-none" />
-                                        </div>
-                                        <p className="text-2xl font-mono font-bold text-primary tracking-tighter">Starts from ${product.price}</p>
-                                        <button 
-                                          onClick={() => {
-                                            setCartProduct(product);
-                                            setCartUpgrades({
-                                              ram: '16gb',
-                                              storage: '512gb',
-                                              os: 'win11p'
-                                            });
-                                          }}
-                                          className="w-12 h-12 bg-accent text-white rounded-2xl flex items-center justify-center hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 active:scale-95 mt-6"
-                                        >
-                                          <ShoppingCart className="w-6 h-6" />
-                                        </button>
-                                      </>
-                                    ) : (
-                                      <div className="w-full max-w-[280px] aspect-square bg-surface/30 rounded-[2.5rem] border-2 border-dashed border-muted/20 flex flex-col items-center justify-center p-8">
-                                        <div className="w-12 h-12 rounded-2xl bg-surface flex items-center justify-center text-muted mb-4">
-                                          <ArrowLeftRight className="w-6 h-6" />
-                                        </div>
-                                        <p className="text-xs font-bold text-muted uppercase tracking-widest mb-4">Empty Slot {idx + 1}</p>
-                                        <div className="relative w-full">
-                                          <select 
-                                            value=""
-                                            onChange={(e) => {
-                                              const newProduct = [...ALL_PRODUCTS, ...COPILOT_PRODUCTS].find(p => p.sku === e.target.value);
-                                              if (idx === 0) setCompareProduct1(newProduct);
-                                              if (idx === 1) setCompareProduct2(newProduct);
-                                              if (idx === 2) setCompareProduct3(newProduct);
-                                            }}
-                                            className="w-full bg-white border-2 border-surface focus:border-accent rounded-xl px-4 py-2 text-[10px] font-bold text-primary appearance-none cursor-pointer hover:bg-surface transition-all text-center pr-6"
-                                          >
-                                            <option value="" disabled>Select a product...</option>
-                                            {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
-                                              .filter(p => p.category === (compareProduct1?.category || compareProduct2?.category || compareProduct3?.category))
-                                              .map(p => (
-                                                <option key={p.sku} value={p.sku}>{p.name}</option>
-                                              ))}
-                                          </select>
-                                          <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-muted pointer-events-none" />
-                                        </div>
-                                      </div>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-            
-                              <div className="space-y-1">
-                                {Array.from(new Set([
-                                  ...(compareProduct1?.specs ? Object.keys(compareProduct1.specs) : []),
-                                  ...(compareProduct2?.specs ? Object.keys(compareProduct2.specs) : []),
-                                  ...(compareProduct3?.specs ? Object.keys(compareProduct3.specs) : [])
-                                ])).map((specKey) => (
-                                  <div key={specKey} className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 py-6 border-b border-muted/40 hover:bg-surface/30 transition-colors rounded-xl px-4">
-                                    <div className="flex items-center">
-                                      <span className="text-[10px] font-black text-muted uppercase tracking-widest">{specKey.replace(/_/g, ' ')}</span>
-                                    </div>
-                                    <div className="text-sm font-bold text-primary text-center">
-                                      {compareProduct1?.specs?.[specKey] || "—"}
-                                    </div>
-                                    <div className="text-sm font-bold text-primary text-center">
-                                      {compareProduct2?.specs?.[specKey] || "—"}
-                                    </div>
-                                    <div className="text-sm font-bold text-primary text-center">
-                                      {compareProduct3?.specs?.[specKey] || "—"}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
                           </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                          <div className="min-w-0 flex-grow">
+                            <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct1.sku}</p>
+                            <h4 className="text-[10px] font-black text-primary truncate">{compareProduct1.name}</h4>
+                            <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct1.price}</p>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div 
+                          key="slot1-empty"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex flex-col items-center justify-center w-full py-2"
+                        >
+                          <p className="text-[10px] font-bold text-muted">Slot 1</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+
+                  <div className="flex flex-col items-center justify-center text-muted flex-shrink-0">
+                    <ArrowLeftRight className="w-4 h-4" />
+                    <span className="text-[7px] font-black uppercase tracking-widest mt-0.5">VS</span>
+                  </div>
+
+                  {/* Product 2 Slot */}
+                  <motion.div 
+                    layout
+                    whileHover={compareProduct2 ? { scale: 1.02, y: -2 } : {}}
+                    className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
+                      compareProduct2 ? "bg-surface border-surface shadow-sm" : "border-muted/20 bg-surface/30 border-dashed"
+                    }`}
+                  >
+                    <AnimatePresence mode="wait">
+                      {compareProduct2 ? (
+                        <motion.div 
+                          key={`slot2-${compareProduct2.id}`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          className="flex items-center gap-4 w-full"
+                        >
+                          <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
+                            <img src={compareProduct2.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                            <button 
+                              onClick={() => {
+                                setCompareProduct2(null);
+                                if (!compareProduct1 && !compareProduct3) {
+                                  setIsComparing(false);
+                                  setIsComparisonExpanded(false);
+                                }
+                              }}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                          <div className="min-w-0 flex-grow">
+                            <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct2.sku}</p>
+                            <h4 className="text-[10px] font-black text-primary truncate">{compareProduct2.name}</h4>
+                            <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct2.price}</p>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div 
+                          key="slot2-empty"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex flex-col items-center justify-center w-full py-2"
+                        >
+                          <p className="text-[10px] font-bold text-muted">Slot 2</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+
+                  <div className="flex flex-col items-center justify-center text-muted flex-shrink-0">
+                    <ArrowLeftRight className="w-4 h-4" />
+                    <span className="text-[7px] font-black uppercase tracking-widest mt-0.5">VS</span>
+                  </div>
+
+                  {/* Product 3 Slot */}
+                  <motion.div 
+                    layout
+                    whileHover={compareProduct3 ? { scale: 1.02, y: -2 } : {}}
+                    className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
+                      compareProduct3 ? "bg-surface border-surface shadow-sm" : "border-muted/20 bg-surface/30 border-dashed"
+                    }`}
+                  >
+                    <AnimatePresence mode="wait">
+                      {compareProduct3 ? (
+                        <motion.div 
+                          key={`slot3-${compareProduct3.id}`}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 20 }}
+                          className="flex items-center gap-4 w-full"
+                        >
+                          <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
+                            <img src={compareProduct3.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                            <button 
+                              onClick={() => {
+                                setCompareProduct3(null);
+                                if (!compareProduct1 && !compareProduct2) {
+                                  setIsComparing(false);
+                                  setIsComparisonExpanded(false);
+                                }
+                              }}
+                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
+                          <div className="min-w-0 flex-grow">
+                            <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct3.sku}</p>
+                            <h4 className="text-[10px] font-black text-primary truncate">{compareProduct3.name}</h4>
+                            <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct3.price}</p>
+                          </div>
+                        </motion.div>
+                      ) : (
+                        <motion.div 
+                          key="slot3-empty"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="flex flex-col items-center justify-center w-full py-2"
+                        >
+                          <p className="text-[10px] font-bold text-muted">Slot 3</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <button 
+                    onClick={() => {
+                      setIsComparing(false);
+                      setIsComparisonExpanded(false);
+                      setCompareProduct1(null);
+                      setCompareProduct2(null);
+                      setCompareProduct3(null);
+                    }}
+                    className="text-muted hover:text-primary font-bold text-[12px] px-4"
+                  >
+                    Clear All
+                  </button>
+                  <button 
+                    disabled={[compareProduct1, compareProduct2, compareProduct3].filter(Boolean).length < 2}
+                    onClick={() => setIsComparisonExpanded(!isComparisonExpanded)}
+                    className={`px-8 py-4 rounded-xl font-bold text-sm transition-all shadow-xl flex items-center gap-3 relative overflow-hidden group/btn ${
+                      [compareProduct1, compareProduct2, compareProduct3].filter(Boolean).length >= 2
+                        ? "bg-accent text-white hover:bg-accent/90 shadow-accent/20 active:scale-95" 
+                        : "bg-surface text-muted cursor-not-allowed"
+                    }`}
+                  >
+                    <motion.div
+                      key={isComparisonExpanded ? "minimize" : "compare"}
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      exit={{ y: -20, opacity: 0 }}
+                      className="flex items-center gap-3"
+                    >
+                      {isComparisonExpanded ? <ChevronDown className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
+                      {isComparisonExpanded ? "Minimize" : "Compare Now"}
+                    </motion.div>
+                  </button>
+                </div>
+                </motion.div>
+              ) : (
+                <motion.div 
+                  key="expanded-comparison"
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: "100%", opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                  onScroll={(e) => setCompareScrollTop(e.currentTarget.scrollTop)}
+                  className={`flex-grow overflow-y-auto custom-scrollbar px-8 md:px-12 pb-8 md:pb-12 bg-white relative ${scrolled ? 'pt-[96px]' : 'pt-[112px]'}`}
+                >
+                {/* Close Button for Expanded View */}
+                <button 
+                  onClick={() => setIsComparisonExpanded(false)}
+                  className="absolute top-32 right-8 w-12 h-12 rounded-full bg-surface flex items-center justify-center text-muted hover:text-accent transition-colors shadow-lg z-20"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+
+                <div className="max-w-7xl mx-auto">
+                  {/* Sticky Header for Comparison */}
+                  <AnimatePresence>
+                    {compareScrollTop > 500 && (
+                      <motion.div 
+                        initial={{ y: -60, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -60, opacity: 0 }}
+                        style={{ top: 0 }}
+                        className="sticky z-30 bg-white/95 backdrop-blur-md border-b-[6px] border-accent -mx-8 md:-mx-12 px-8 md:px-12 py-6 hidden md:block"
+                      >
+                        <div className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 items-center">
+                          <div />
+                          {[compareProduct1, compareProduct2, compareProduct3].map((product, idx) => (
+                            <div key={idx} className="flex flex-col items-center text-center gap-1">
+                              {product ? (
+                                <>
+                                  <p className="text-sm font-black text-primary truncate w-full">{product.name}</p>
+                                  <p className="text-sm font-mono font-black text-accent">${product.price}</p>
+                                  <button 
+                                    onClick={() => {
+                                      addToCart(product, {
+                                        ram: '16gb',
+                                        storage: '512gb',
+                                        os: 'win11p'
+                                      });
+                                      setIsComparisonExpanded(false);
+                                      setIsComparing(false);
+                                    }}
+                                    className="w-8 h-8 bg-accent text-white rounded-lg flex items-center justify-center hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 active:scale-95 mt-1"
+                                  >
+                                    <ShoppingCart className="w-4 h-4" />
+                                  </button>
+                                </>
+                              ) : null}
+                            </div>
+                          ))}
+                        </div>
                       </motion.div>
                     )}
                   </AnimatePresence>
-            
+
+                  <div className="pt-8 md:pt-12">
+                    <div className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 mb-12">
+                    <div className="pt-40">
+                    </div>
+                    {[compareProduct1, compareProduct2, compareProduct3].map((product, idx) => (
+                      <motion.div 
+                        key={idx}
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 * idx }}
+                        className="text-center flex flex-col items-center"
+                      >
+                        {product ? (
+                          <motion.div layout key={product.id} className="w-full flex flex-col items-center">
+                            <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group w-full max-w-[280px]">
+                              <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
+                              <button 
+                                onClick={() => {
+                                  if (idx === 0) setCompareProduct1(null);
+                                  if (idx === 1) setCompareProduct2(null);
+                                  if (idx === 2) setCompareProduct3(null);
+                                  if (![compareProduct1, compareProduct2, compareProduct3].filter((p, i) => i !== idx && p).length) {
+                                    setIsComparing(false);
+                                    setIsComparisonExpanded(false);
+                                  }
+                                }}
+                                className="absolute -top-3 -right-3 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center shadow-xl opacity-100 transition-opacity z-10"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                            <p className="text-xs font-mono font-bold text-accent mb-2 uppercase tracking-widest">{product.sku}</p>
+                            <div className="relative w-full max-w-[240px] mb-4">
+                              <select 
+                                value={product.sku}
+                                onChange={(e) => {
+                                  const newProduct = [...ALL_PRODUCTS, ...COPILOT_PRODUCTS].find(p => p.sku === e.target.value);
+                                  if (idx === 0) setCompareProduct1(newProduct);
+                                  if (idx === 1) setCompareProduct2(newProduct);
+                                  if (idx === 2) setCompareProduct3(newProduct);
+                                }}
+                                className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-4 py-3 text-sm font-bold text-primary appearance-none cursor-pointer hover:bg-surface/80 transition-all text-center pr-8"
+                              >
+                                {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
+                                  .filter(p => p.category === (compareProduct1?.category || compareProduct2?.category || compareProduct3?.category))
+                                  .map(p => (
+                                    <option key={p.sku} value={p.sku}>{p.name}</option>
+                                  ))}
+                              </select>
+                              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted pointer-events-none" />
+                            </div>
+                            <p className="text-2xl font-mono font-bold text-primary tracking-tighter">Starts from ${product.price}</p>
+                            <button 
+                              onClick={() => {
+                                addToCart(product, {
+                                  ram: '16gb',
+                                  storage: '512gb',
+                                  os: 'win11p'
+                                });
+                                setIsComparisonExpanded(false);
+                                setIsComparing(false);
+                              }}
+                              className="w-12 h-12 bg-accent text-white rounded-2xl flex items-center justify-center hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 active:scale-95 mt-6"
+                            >
+                              <ShoppingCart className="w-6 h-6" />
+                            </button>
+                          </motion.div>
+                        ) : (
+                          <div className="w-full max-w-[280px] aspect-square bg-surface/30 rounded-[2.5rem] border-2 border-dashed border-muted/20 flex flex-col items-center justify-center p-8">
+                            <div className="w-12 h-12 rounded-2xl bg-surface flex items-center justify-center text-muted mb-4">
+                              <ArrowLeftRight className="w-6 h-6" />
+                            </div>
+                            <p className="text-xs font-bold text-muted uppercase tracking-widest mb-4">Empty Slot {idx + 1}</p>
+                            <div className="relative w-full">
+                              <select 
+                                value=""
+                                onChange={(e) => {
+                                  const newProduct = [...ALL_PRODUCTS, ...COPILOT_PRODUCTS].find(p => p.sku === e.target.value);
+                                  if (idx === 0) setCompareProduct1(newProduct);
+                                  if (idx === 1) setCompareProduct2(newProduct);
+                                  if (idx === 2) setCompareProduct3(newProduct);
+                                }}
+                                className="w-full bg-white border-2 border-surface focus:border-accent rounded-xl px-4 py-2 text-[10px] font-bold text-primary appearance-none cursor-pointer hover:bg-surface transition-all text-center pr-6"
+                              >
+                                <option value="" disabled>Select a product...</option>
+                                {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
+                                  .filter(p => p.category === (compareProduct1?.category || compareProduct2?.category || compareProduct3?.category))
+                                  .map(p => (
+                                    <option key={p.sku} value={p.sku}>{p.name}</option>
+                                  ))}
+                              </select>
+                              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-muted pointer-events-none" />
+                            </div>
+                          </div>
+                        )}
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <div className="space-y-1">
+                    {Array.from(new Set([
+                      ...(compareProduct1?.specs ? Object.keys(compareProduct1.specs) : []),
+                      ...(compareProduct2?.specs ? Object.keys(compareProduct2.specs) : []),
+                      ...(compareProduct3?.specs ? Object.keys(compareProduct3.specs) : [])
+                    ])).map((specKey, index) => (
+                      <motion.div 
+                        key={specKey}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 + (index * 0.05) }}
+                        className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 py-6 border-b border-muted/40 hover:bg-surface/30 transition-colors rounded-xl px-4"
+                      >
+                        <div className="flex items-center">
+                          <span className="text-[10px] font-black text-muted uppercase tracking-widest">{specKey.replace(/_/g, ' ')}</span>
+                        </div>
+                        <div className="text-sm font-bold text-primary text-center">
+                          {compareProduct1?.specs?.[specKey] || "—"}
+                        </div>
+                        <div className="text-sm font-bold text-primary text-center">
+                          {compareProduct2?.specs?.[specKey] || "—"}
+                        </div>
+                        <div className="text-sm font-bold text-primary text-center">
+                          {compareProduct3?.specs?.[specKey] || "—"}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
-              );
-            }
-            
+              </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+    </div>
+  );
+}

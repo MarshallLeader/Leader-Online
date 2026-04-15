@@ -51,9 +51,7 @@ External portals (support, reseller) are **linked**, not embedded.
 | Components | shadcn/ui + custom components |
 | Database | Postgres |
 | ORM | Prisma |
-| CMS (Traditional) | WordPress (marketing only)
-| OR
-| CMS (Headless) | Sanity (recommended)
+| CMS (Headless) | Sanity
 | Maps | Google Maps JavaScript API |
 | Forms | React Hook Form + Zod |
 | Search | Algolia |
