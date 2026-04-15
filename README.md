@@ -44,14 +44,19 @@ External portals (support, reseller) are **linked**, not embedded.
 
 | Layer | Technology |
 |---|---|
+| Backend/API | Next.js API Routes (App Router) | 
 | Framework | Next.js (v14+, App Router) |
 | Language | TypeScript (strict mode) |
 | Styling | Tailwind CSS v3 |
 | Components | shadcn/ui + custom components |
-| CMS | Sanity or Contentful |
+| Database | Postgres |
+| ORM | Prisma |
+| CMS (Traditional) | WordPress (marketing only)
+| OR
+| CMS (Headless) | Sanity (recommended)
 | Maps | Google Maps JavaScript API |
 | Forms | React Hook Form + Zod |
-| Search | Algolia or Fuse.js |
+| Search | Algolia |
 | Hosting | Vercel |
 
 ---
@@ -63,7 +68,7 @@ Once the frontend is scaffolded:
 ```bash
 npm install
 npm run dev        # Start development server
-npm run build      # Production build
+npm run build      # Producmsction build
 npm run lint       # Run ESLint
 npm run test       # Run unit + component tests (Vitest)
 ```
