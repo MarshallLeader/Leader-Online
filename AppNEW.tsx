@@ -6,7 +6,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
-
   ShoppingCart,
   Monitor, 
   Laptop, 
@@ -47,7 +46,6 @@ import {
   Linkedin,
   Youtube
 } from "lucide-react";
-import logo from './assets/LeaderComputersLogo.png';
 import { HashRouter, Routes, Route, useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useMap } from '@vis.gl/react-google-maps';
 
@@ -1496,7 +1494,7 @@ const SupportView = () => {
           <p className="text-xl text-muted max-w-3xl mx-auto font-medium leading-relaxed">
             "Leader is dedicated to providing you with the highest quality of customer care and after sale service."
           </p>
-      </div>
+        </div>
 
         {/* Contact Form Section - LARGER */}
         <div className="mb-32">
@@ -1504,12 +1502,12 @@ const SupportView = () => {
             <div className="flex items-center gap-6 mb-12">
               <div className="w-16 h-16 bg-accent rounded-[1.5rem] flex items-center justify-center text-white shadow-xl shadow-accent/20">
                 <Users className="w-8 h-8" />
-                </div>
-                <div>
+              </div>
+              <div>
                 <h3 className="text-4xl font-black text-primary uppercase tracking-tight">Contact Support</h3>
                 <p className="text-muted text-sm font-bold uppercase tracking-widest mt-1">Direct assistance from our experts</p>
-                </div>
               </div>
+            </div>
 
             {isSubmitted ? (
               <motion.div 
@@ -1519,7 +1517,7 @@ const SupportView = () => {
               >
                 <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <ShieldCheck className="w-12 h-12" />
-                    </div>
+                </div>
                 <h4 className="text-3xl font-black text-green-800 uppercase mb-4">Message Sent!</h4>
                 <p className="text-green-700 text-lg font-medium">Thank you for contacting us. Our team will get back to you shortly.</p>
               </motion.div>
@@ -1533,11 +1531,11 @@ const SupportView = () => {
                       <option value="sales">Sales</option>
                       <option value="service">Service Support</option>
                     </select>
-                        </div>
+                  </div>
                   <div className="space-y-2">
                     <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Full Name</label>
                     <input required type="text" placeholder="e.g. John Doe" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
-                      </div>
+                  </div>
                   <div className="space-y-2">
                     <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Email Address</label>
                     <input required type="email" placeholder="e.g. john@company.com.au" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
@@ -1557,18 +1555,18 @@ const SupportView = () => {
                   <div className="space-y-2">
                     <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Post Code</label>
                     <input required type="text" placeholder="e.g. 5000" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
-              </div>
+                  </div>
                   <div className="space-y-2">
                     <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Your Message</label>
                     <textarea required rows={6} placeholder="How can we assist you today?" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all resize-none h-[184px] shadow-sm"></textarea>
-          </div>
+                  </div>
                   <button type="submit" className="w-full bg-accent text-white py-5 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-[0.98] shadow-xl shadow-accent/20">
                     Send Inquiry
                   </button>
-        </div>
+                </div>
               </form>
             )}
-          </div>                  
+          </div>
         </div>
 
         {/* Device Drivers Section */}
@@ -1576,7 +1574,7 @@ const SupportView = () => {
           <div className="text-center mb-12">
             <h2 className="text-4xl font-black text-primary uppercase tracking-tight">Device Drivers</h2>
             <div className="w-24 h-1.5 bg-accent mx-auto mt-4 rounded-full" />
-              </div>
+          </div>
 
           <div className="grid lg:grid-cols-12 gap-12">
             {/* Category Thumbnails - Vertical Line */}
@@ -1585,7 +1583,7 @@ const SupportView = () => {
                 <h3 className="text-xl font-black text-primary uppercase tracking-tight mb-6 text-center">Product Categories</h3>
                 <div className="space-y-3">
                   {driverCategories.map(cat => (
-                <button 
+                    <button 
                       key={cat.id} 
                       onClick={() => setSelectedCategory(cat.id)}
                       className={`w-full flex items-center gap-4 p-3 rounded-2xl font-bold text-sm transition-all border-2 group ${
@@ -1599,11 +1597,11 @@ const SupportView = () => {
                       </div>
                       <span className="flex-grow text-left">{cat.name}</span>
                       <ChevronRight className={`w-4 h-4 transition-transform ${selectedCategory === cat.id ? 'rotate-90' : ''}`} />
-                </button>
+                    </button>
                   ))}
+                </div>
               </div>
             </div>
-          </div>
 
             {/* Drivers List */}
             <div className="lg:col-span-8 bg-white p-10 rounded-[3rem] border border-surface shadow-premium min-h-[500px] flex flex-col">
@@ -1614,7 +1612,7 @@ const SupportView = () => {
                     <span className="text-[10px] font-black text-accent bg-accent/10 px-3 py-1 rounded-full uppercase tracking-widest">
                       {drivers.length} Files
                     </span>
-        </div>
+                  </div>
                   
                   {isLoading ? (
                     <div className="flex-grow flex items-center justify-center">
@@ -2000,7 +1998,7 @@ function MainApp() {
   const [compareProduct1, setCompareProduct1] = useState<any>(null);
   const [compareProduct2, setCompareProduct2] = useState<any>(null);
   const [compareProduct3, setCompareProduct3] = useState<any>(null);
-  
+
   const handleAddToCompare = (product: any) => {
     setIsComparing(true);
     if (compareProduct1?.id === product.id || compareProduct2?.id === product.id || compareProduct3?.id === product.id) {
@@ -2032,7 +2030,7 @@ function MainApp() {
     return total;
   };
 
-const displayProduct = React.useMemo(() => {
+  const displayProduct = React.useMemo(() => {
     if (!selectedProduct) return null;
     
     const updatedSpecs = { ...selectedProduct.specs };
@@ -2097,8 +2095,8 @@ const displayProduct = React.useMemo(() => {
     return cartItems.reduce((acc, item) => {
       let itemPrice = item.product.price;
       Object.entries(item.upgrades).forEach(([category, optionId]) => {
-      const option = (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === optionId);
-       if (option) itemPrice += option.price;
+        const option = (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === optionId);
+        if (option) itemPrice += option.price;
       });
       return acc + (itemPrice * item.quantity);
     }, 0);
@@ -2163,15 +2161,15 @@ const displayProduct = React.useMemo(() => {
   }, [isAutoPlaying, lastInteraction]);
 
   useEffect(() => {
-      if (isComparisonExpanded) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'unset';
-      }
-      return () => {
-        document.body.style.overflow = 'unset';
-      };
-    }, [isComparisonExpanded]);
+    if (isComparisonExpanded) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isComparisonExpanded]);
 
   const handleManualSlide = (direction: 'next' | 'prev') => {
     setIsAutoPlaying(false);
@@ -2310,13 +2308,14 @@ const displayProduct = React.useMemo(() => {
             <div className="flex items-center gap-12">
                 <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleNavClick('top')}>
                   <img 
-                    src={logo}
-                    alt="Leader Computers"
+                    src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-Blue-1.png" 
+                    alt="Leader Computers" 
                     className="h-10 w-auto"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
               <nav className="hidden lg:flex items-center gap-2">
-                {[                  
+                {[
                   { name: 'Featured', id: 'featured' },
                   { name: 'Products', id: 'products' },
                   { name: 'Become a reseller', id: 'become-a-reseller' },
@@ -2448,7 +2447,7 @@ const displayProduct = React.useMemo(() => {
                   )}
                 </div>
                 Cart
-                          </div>
+              </div>
 
               {/* Cart Dropdown */}
               <div className="absolute top-full right-0 mt-1 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[70]">
@@ -2571,7 +2570,7 @@ const displayProduct = React.useMemo(() => {
         ) : isResellerPage ? (
           <ResellerOrderView 
             items={cartItems}
-            totalPrice={calculateCartTotal()} 
+            totalPrice={calculateCartTotal()}
             onUpdateQuantity={updateCartQuantity}
             onRemoveItem={removeFromCart}
           />
@@ -2687,21 +2686,21 @@ const displayProduct = React.useMemo(() => {
                 className="flex flex-col items-center justify-center text-center px-10 group relative"
               >
                 <p className="text-sm sm:text-base font-black text-primary uppercase leading-tight tracking-[0.2em] max-w-[260px] group-hover:text-accent transition-colors duration-300">
-                                  {item.title.includes("100%") ? (
-                                    <>
-                                      <span className="text-2xl text-accent block mb-1">100%</span>
-                                      {item.title.replace("100%", "")}
-                                    </>
-                                  ) : item.title.includes("1,000+") ? (
-                                    <>
-                                      <span className="text-2xl text-accent block mb-1">1,000+</span>
-                                      {item.title.replace("1,000+", "")}
-                                    </>
-                                  ) : (
-                                    item.title
-                                  )}
-                                </p>
-                              </motion.div>
+                  {item.title.includes("100%") ? (
+                    <>
+                      <span className="text-2xl text-accent block mb-1">100%</span>
+                      {item.title.replace("100%", "")}
+                    </>
+                  ) : item.title.includes("1,000+") ? (
+                    <>
+                      <span className="text-2xl text-accent block mb-1">1,000+</span>
+                      {item.title.replace("1,000+", "")}
+                    </>
+                  ) : (
+                    item.title
+                  )}
+                </p>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -3004,7 +3003,7 @@ const displayProduct = React.useMemo(() => {
                             )}
                           </div>
                           <div className="flex flex-col gap-3 mt-8">
-                            <button  
+                            <button 
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleProductClick(product, true);
@@ -3020,7 +3019,7 @@ const displayProduct = React.useMemo(() => {
                                   ram: '16gb',
                                   storage: '512gb',
                                   os: 'win11p'
-                                });                                
+                                });
                               }}
                               className="w-full bg-accent text-white py-4 rounded-2xl font-bold text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/10"
                             >
@@ -3069,7 +3068,7 @@ const displayProduct = React.useMemo(() => {
                   Become a Leader Authorised Reseller and grow your business with Australia's largest PC manufacturer. 
                   Access exclusive pricing, local support, and our extensive product range.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">              
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a 
                     href="https://web.leadersystems.com.au/become-a-reseller/"
                     target="_blank"
@@ -3285,7 +3284,7 @@ const displayProduct = React.useMemo(() => {
                         
                         <button 
                           onClick={() => {
-                            addToCart(selectedProduct, {...selectedUpgrades});                    
+                            addToCart(selectedProduct, {...selectedUpgrades});
                           }}
                           className="w-full bg-accent text-white py-4 rounded-xl font-black text-sm hover:bg-accent/90 transition-all shadow-premium shadow-accent/20 flex items-center justify-center gap-2 active:scale-[0.98]"
                         >
@@ -3350,10 +3349,11 @@ const displayProduct = React.useMemo(() => {
             <div className="col-span-1">
               <div className="flex items-center gap-2 mb-6">
                 <img 
-                    src={logo}
-                    alt="Leader Computers"
-                    className="h-10 w-auto"
-                  />
+                  src="https://leader-online.com.au/wp-content/uploads/2021/04/Leader-Logo-White-1.png" 
+                  alt="Leader Computers" 
+                  className="h-10 w-auto"
+                  referrerPolicy="no-referrer"
+                />
               </div>
               <p className="text-white/50 text-sm mb-8">
                 Australia's largest PC manufacturer, dedicated to the IT channel. 
@@ -3411,52 +3411,52 @@ const displayProduct = React.useMemo(() => {
               </ul>
             </div>
             {!isSupportPage && (
-            <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-2xl backdrop-blur-sm">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center text-white">
-                  <Phone className="w-6 h-6" />
+              <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-2xl backdrop-blur-sm">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center text-white">
+                    <Phone className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h4 className="font-black text-xl uppercase tracking-tight">Contact Our Experts</h4>
+                    <p className="text-white/50 text-xs font-bold uppercase tracking-widest">We're here to help you grow</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-black text-xl uppercase tracking-tight">Contact Our Experts</h4>
-                  <p className="text-white/50 text-xs font-bold uppercase tracking-widest">We're here to help you grow</p>
-                </div>
+                <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => e.preventDefault()}>
+                  <div className="space-y-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Department</label>
+                      <select required defaultValue="" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent appearance-none cursor-pointer transition-colors">
+                        <option value="" disabled className="bg-primary">Select Department</option>
+                        <option value="sales" className="bg-primary">Sales</option>
+                        <option value="service" className="bg-primary">Service Support</option>
+                      </select>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Full Name</label>
+                      <input type="text" placeholder="e.g. John Doe" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent transition-colors" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Email Address</label>
+                      <input type="email" placeholder="e.g. john@company.com.au" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent transition-colors" />
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="space-y-1.5">
+                      <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Your Message</label>
+                      <textarea placeholder="How can we assist you today?" required rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent resize-none h-[125px] transition-colors"></textarea>
+                    </div>
+                    
+                    <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                      <input type="checkbox" id="captcha" required className="w-5 h-5 accent-accent cursor-pointer rounded-md" />
+                      <label htmlFor="captcha" className="text-[10px] font-black text-white/50 uppercase tracking-widest cursor-pointer select-none">I'm not a robot</label>
+                    </div>
+                    
+                    <button type="submit" className="w-full bg-accent text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-[0.98] shadow-lg shadow-accent/20">
+                      Send Inquiry
+                    </button>
+                  </div>
+                </form>
               </div>
-              <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Department</label>
-                    <select required defaultValue="" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent appearance-none cursor-pointer transition-colors">
-                      <option value="" disabled className="bg-primary">Select Department</option>
-                      <option value="sales" className="bg-primary">Sales</option>
-                      <option value="service" className="bg-primary">Service Support</option>
-                    </select>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Full Name</label>
-                    <input type="text" placeholder="e.g. John Doe" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent transition-colors" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Email Address</label>
-                    <input type="email" placeholder="e.g. john@company.com.au" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent transition-colors" />
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Your Message</label>
-                    <textarea placeholder="How can we assist you today?" required rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent resize-none h-[125px] transition-colors"></textarea>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
-                    <input type="checkbox" id="captcha" required className="w-5 h-5 accent-accent cursor-pointer rounded-md" />
-                    <label htmlFor="captcha" className="text-[10px] font-black text-white/50 uppercase tracking-widest cursor-pointer select-none">I'm not a robot</label>
-                  </div>
-                  
-                  <button type="submit" className="w-full bg-accent text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-[0.98] shadow-lg shadow-accent/20">
-                    Send Inquiry
-                  </button>
-                </div>
-              </form>
-            </div>
             )}
           </div>
           <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold text-white/30">
@@ -3727,26 +3727,26 @@ const displayProduct = React.useMemo(() => {
         {isComparing && (
           <motion.div
             initial={{ y: "100%" }}
-animate={{ 
-y: 0,
-height: isComparisonExpanded ? '100vh' : '128px',
-top: isComparisonExpanded ? 0 : 'auto'
-}}
-exit={{ y: "100%" }}
-transition={{ type: "spring", stiffness: 150, damping: 25, mass: 0.8 }}
-className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shadow-[0_-20px_40px_rgba(0,0,0,0.1)] pb-safe hidden md:flex flex-col overflow-hidden ${isComparisonExpanded ? 'z-[55]' : 'z-[70]'}`}
->
-<AnimatePresence>
-{!isComparisonExpanded ? (
-<motion.div 
-  key="collapsed-bar"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  exit={{ y: -100, opacity: 0 }}
-  transition={{ duration: 0.4, ease: "easeOut" }}
-  className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between gap-8 w-full"
->
-  <div className="flex items-center gap-6 flex-grow">
+            animate={{ 
+              y: 0,
+              height: isComparisonExpanded ? '100vh' : '128px',
+              top: isComparisonExpanded ? 0 : 'auto'
+            }}
+            exit={{ y: "100%" }}
+            transition={{ type: "spring", stiffness: 150, damping: 25, mass: 0.8 }}
+            className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shadow-[0_-20px_40px_rgba(0,0,0,0.1)] pb-safe hidden md:flex flex-col overflow-hidden ${isComparisonExpanded ? 'z-[55]' : 'z-[70]'}`}
+          >
+            <AnimatePresence>
+              {!isComparisonExpanded ? (
+                <motion.div 
+                  key="collapsed-bar"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ y: -100, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="max-w-7xl mx-auto px-4 py-6 flex items-center justify-between gap-8 w-full"
+                >
+                <div className="flex items-center gap-6 flex-grow">
                   {/* Product 1 Slot */}
                   <motion.div 
                     layout
@@ -3994,7 +3994,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                                         ram: '16gb',
                                         storage: '512gb',
                                         os: 'win11p'
-                                      });                                      
+                                      });
                                     }}
                                     className="w-8 h-8 bg-accent text-white rounded-lg flex items-center justify-center hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 active:scale-95"
                                   >
@@ -4023,7 +4023,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                       >
                         {/* Image Area */}
                         <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group w-full max-w-[280px] flex items-center justify-center">
-                        {product ? (
+                          {product ? (
                             <>
                               <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                               <button 
@@ -4061,7 +4061,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                             if (idx === 0) setCompareProduct1(p);
                             if (idx === 1) setCompareProduct2(p);
                             if (idx === 2) setCompareProduct3(p);
-                                }}
+                          }}
                           category={compareProduct1?.category || compareProduct2?.category || compareProduct3?.category || 'notebooks'}
                         />
 
@@ -4088,7 +4088,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                               Add to cart
                             </button>
                           )}
-                            </div>                 
+                        </div>
                       </motion.div>
                     ))}
                   </div>

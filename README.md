@@ -86,7 +86,6 @@ npx playwright test tests/e2e/dealer-locator.spec.ts
 app/
   products/{category}/{sku}/
   cart/                     # intent-based basket (no checkout)
-  where-to-buy/
   search/
   api/
 
@@ -130,8 +129,7 @@ No payments, no checkout
 CTA: “Proceed to Reseller”
 
 ### Reseller Handoff Flow
-Redirect to “Find a Dealer”
-Option to select preferred authorised reseller
+Redirect to nearest reseller based off customer location
 Supports lead generation and conversion tracking
 
 ### Dealer Locator
@@ -143,7 +141,6 @@ Categorised product search
 Optional Algolia integration
 
 ### Forms & API
-Reseller enquiry forms
 Support/contact submission endpoints
 
 ---
