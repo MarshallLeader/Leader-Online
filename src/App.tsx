@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
 
@@ -39,6 +39,8 @@ import {
   Trash2,
   Plus,
   Minus,
+  Ticket,
+  Download,
   Facebook,
   Twitter,
   Instagram,
@@ -1411,167 +1413,259 @@ export default function App() {
   );
 }
 
-const CartView = ({ items, onUpdateQuantity, onRemove }: { items: any[], onUpdateQuantity: (id: string, delta: number) => void, onRemove: (id: string) => void }) => {
-  const navigate = useNavigate();
+const DRIVERS_DATA: Record<string, { name: string, version: string, size: string }[]> = {
+  "All In One": [
+    { name: "AIO 24\" Series Driver Pack", version: "v2.1.0", size: "450MB" },
+    { name: "AIO 27\" Series Driver Pack", version: "v2.1.0", size: "480MB" },
+    { name: "Integrated Webcam Driver", version: "v1.0.5", size: "12MB" }
+  ],
+  "Corporate PC / NUC": [
+    { name: "NUC 11 Pro Drivers", version: "v3.4.2", size: "320MB" },
+    { name: "NUC 12 Extreme Drivers", version: "v1.2.0", size: "510MB" },
+    { name: "Intel Chipset Utility", version: "v10.1.18", size: "5MB" }
+  ],
+  "Desktops": [
+    { name: "Motherboard Driver Suite", version: "v5.0.1", size: "890MB" },
+    { name: "High Definition Audio Driver", version: "v6.0.9", size: "150MB" },
+    { name: "Realtek LAN Driver", version: "v10.0.50", size: "10MB" }
+  ],
+  "Notebooks": [
+    { name: "Precision Touchpad Driver", version: "v19.5.3", size: "25MB" },
+    { name: "Wi-Fi & Bluetooth Driver", version: "v22.150.0", size: "45MB" },
+    { name: "Leader Hotkey Utility", version: "v3.0.12", size: "18MB" }
+  ],
+  "Tablets": [
+    { name: "Multi-Touch Panel Driver", version: "v4.2.1", size: "8MB" },
+    { name: "G-Sensor Calibration Tool", version: "v1.0.2", size: "3MB" },
+    { name: "Battery Management Software", version: "v2.1.5", size: "12MB" }
+  ],
+  "PC on Stick": [
+    { name: "Stick PC V2 Drivers", version: "v1.1.0", size: "210MB" },
+    { name: "Intel HD Graphics Driver", version: "v31.0.101", size: "350MB" }
+  ],
+  "Small Form Factor": [
+    { name: "SFF Series Drivers", version: "v2.5.0", size: "420MB" },
+    { name: "Power Management Utility", version: "v1.4.2", size: "7MB" }
+  ],
+  "Resistance Gaming": [
+    { name: "Resistance RGB Controller", version: "v1.8.5", size: "65MB" },
+    { name: "Macro Key Utility", version: "v2.0.1", size: "32MB" },
+    { name: "High-Performance Power Plan", version: "v1.0.0", size: "1MB" }
+  ]
+};
 
-  const calculateTotal = () => {
-    return items.reduce((acc, item) => {
-      let itemPrice = item.product.price;
-      Object.entries(item.upgrades).forEach(([category, optionId]) => {
-        const option = (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === optionId);
-        if (option) itemPrice += option.price;
-      });
-      return acc + (itemPrice * item.quantity);
-    }, 0);
-  };
+const SupportView = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [drivers, setDrivers] = useState<{ name: string, version: string, size: string }[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  if (items.length === 0) {
-    return (
-      <div className="min-h-screen bg-white pt-24 pb-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div className="w-24 h-24 bg-surface rounded-full flex items-center justify-center mx-auto mb-8 text-muted/30">
-            <Monitor className="w-12 h-12" />
-          </div>
-          <h1 className="text-3xl font-black text-primary uppercase tracking-tight mb-4">Your Cart is Empty</h1>
-          <p className="text-muted mb-8">Start by exploring our high-performance range of PCs and notebooks.</p>
-          <button 
-            onClick={() => navigate('/', { state: { scrollTo: 'products' } })}
-            className="bg-primary text-white px-10 py-4 rounded-xl font-black text-sm hover:bg-primary/90 transition-all active:scale-95"
-          >
-            Browse Products
-          </button>
-        </div>
-      </div>
-    );
-  }
+  const driverCategories = [
+    { name: "All In One", id: "All In One", image: "https://leader-online.com.au/wp-content/uploads/2021/04/AIO-Category.png" },
+    { name: "Corporate PC / NUC", id: "Corporate PC / NUC", image: "https://leader-online.com.au/wp-content/uploads/2021/04/NUC-Category.png" },
+    { name: "Desktops", id: "Desktops", image: "https://leader-online.com.au/wp-content/uploads/2021/04/Desktop-Category.png" },
+    { name: "Notebooks", id: "Notebooks", image: "https://leader-online.com.au/wp-content/uploads/2021/04/Notebook-Category.png" },
+    { name: "Tablets", id: "Tablets", image: "https://leader-online.com.au/wp-content/uploads/2021/04/Tablet-Category.png" },
+    { name: "PC on Stick", id: "PC on Stick", image: "https://leader-online.com.au/wp-content/uploads/2021/04/Stick-Category.png" },
+    { name: "Small Form Factor", id: "Small Form Factor", image: "https://leader-online.com.au/wp-content/uploads/2021/04/SFF-Category.png" },
+    { name: "Resistance Gaming", id: "Resistance Gaming", image: "https://leader-online.com.au/wp-content/uploads/2021/04/Gaming-Category.png" }
+  ];
 
-  const getUpgradeLabel = (category: string, id: string) => {
-    return (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === id)?.label || id;
-  };
-  
-  const getItemPrice = (item: any) => {
-    let price = item.product.price;
-    Object.entries(item.upgrades).forEach(([category, optionId]) => {
-      const option = (UPGRADE_OPTIONS as any)[category]?.find((o: any) => o.id === optionId);
-      if (option) price += option.price;
-    });
-    return price;
+  // Simulate database fetch
+  useEffect(() => {
+    if (selectedCategory) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setDrivers(DRIVERS_DATA[selectedCategory] || []);
+        setIsLoading(false);
+      }, 600);
+    }
+  }, [selectedCategory]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitted(true);
+    setTimeout(() => setIsSubmitted(false), 5000);
   };
 
   return (
-    <div className="min-h-screen bg-white pb-24">
-      {/* Banner Section - Placed just under navbar */}
-      <div className="w-full bg-surface border-b border-surface overflow-hidden">
-        <div className="max-w-7xl mx-auto">
-          <img 
-            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=2070" 
-            alt="Leader Logistics Banner" 
-            className="w-full h-auto max-h-[180px] object-cover"
-            referrerPolicy="no-referrer"
-          />
-        </div>
+    <div className="min-h-screen bg-white pb-24 pt-12">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="mb-16 text-center">
+          <h1 className="text-5xl font-black text-primary uppercase tracking-tight mb-6">Support</h1>
+          <p className="text-xl text-muted max-w-3xl mx-auto font-medium leading-relaxed">
+            "Leader is dedicated to providing you with the highest quality of customer care and after sale service."
+          </p>
       </div>
 
-      <div className="max-w-[1400px] mx-auto px-4 mt-8">
-        <button 
-          onClick={() => navigate('/', { state: { scrollTo: 'products' } })}
-          className="flex items-center gap-2 text-muted hover:text-accent font-bold text-sm mb-6 group"
-        >
-          <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
-          Continue Shopping
-        </button>
-        
-        <div className="bg-white rounded-[2.5rem] border border-surface shadow-premium overflow-hidden">
-          <div className="grid lg:grid-cols-3">
-            {/* Left: Product Info (Horizontal Layout) */}
-            <div className="lg:col-span-2 p-10 lg:p-16 border-b lg:border-b-0 lg:border-r border-surface">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-14 h-14 bg-primary rounded-2xl flex items-center justify-center text-white">
-                  <Monitor className="w-7 h-7" />
+        {/* Contact Form Section - LARGER */}
+        <div className="mb-32">
+          <div className="bg-surface/30 p-10 md:p-16 rounded-[4rem] border border-surface shadow-premium max-w-5xl mx-auto">
+            <div className="flex items-center gap-6 mb-12">
+              <div className="w-16 h-16 bg-accent rounded-[1.5rem] flex items-center justify-center text-white shadow-xl shadow-accent/20">
+                <Users className="w-8 h-8" />
                 </div>
                 <div>
-                  <h1 className="text-3xl font-black text-primary uppercase tracking-tight">Order Summary</h1>
-                  <p className="text-muted text-sm font-bold">Review your configuration</p>
+                <h3 className="text-4xl font-black text-primary uppercase tracking-tight">Contact Support</h3>
+                <p className="text-muted text-sm font-bold uppercase tracking-widest mt-1">Direct assistance from our experts</p>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                {items.map((item) => (
-                  <div key={item.id} className="flex flex-col md:flex-row gap-8 items-center bg-surface/30 p-6 rounded-[2rem] border border-surface">
-                    <div className="w-32 h-32 bg-white rounded-2xl p-4 shadow-sm flex items-center justify-center flex-shrink-0">
-                      <img src={item.product.image} alt={item.product.name} className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+            {isSubmitted ? (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-green-50 border border-green-100 p-16 rounded-[3rem] text-center"
+              >
+                <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <ShieldCheck className="w-12 h-12" />
                     </div>
-                    <div className="flex-grow text-center md:text-left">
-                      <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <h3 className="text-xl font-black text-primary uppercase tracking-tight">{item.product.name}</h3>
-                          <p className="text-[10px] text-muted font-bold uppercase tracking-widest">SKU: {item.product.sku}</p>
+                <h4 className="text-3xl font-black text-green-800 uppercase mb-4">Message Sent!</h4>
+                <p className="text-green-700 text-lg font-medium">Thank you for contacting us. Our team will get back to you shortly.</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-12">
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Department</label>
+                    <select required className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all appearance-none cursor-pointer shadow-sm">
+                      <option value="" disabled selected>Select Department</option>
+                      <option value="sales">Sales</option>
+                      <option value="service">Service Support</option>
+                    </select>
                         </div>
-                        <button 
-                          onClick={() => onRemove(item.id)}
-                          className="text-red-500 hover:text-red-600 transition-colors"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Full Name</label>
+                    <input required type="text" placeholder="e.g. John Doe" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
                       </div>
-                      <div className="flex flex-wrap justify-center md:justify-start gap-2 mt-4">
-                        {Object.entries(item.upgrades).map(([cat, id]) => (
-                          <span key={cat} className="text-[9px] font-black bg-white px-3 py-1 rounded-full border border-surface uppercase tracking-widest">
-                            {getUpgradeLabel(cat, id as string)}
-                      </span>
-                    ))}
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Email Address</label>
+                    <input required type="email" placeholder="e.g. john@company.com.au" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
                   </div>
-                  <div className="mt-6 flex items-center justify-center md:justify-start gap-6">
-                    <div className="flex items-center bg-white border border-surface rounded-xl overflow-hidden">
-                      <button 
-                        onClick={() => onUpdateQuantity(item.id, -1)}
-                        className="p-2 hover:bg-surface transition-colors text-primary"
-                      >
-                        <Minus className="w-3 h-3" />
-                      </button>
-                      <span className="w-10 text-center font-mono font-bold text-sm">{item.quantity}</span>
-                      <button 
-                        onClick={() => onUpdateQuantity(item.id, 1)}
-                        className="p-2 hover:bg-surface transition-colors text-primary"
-                      >
-                        <Plus className="w-3 h-3" />
-                      </button>
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Device Model</label>
+                      <input type="text" placeholder="e.g. AIO-24" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
                     </div>
-                    <div className="text-right">
-                      <p className="text-lg font-black text-primary">${(getItemPrice(item) * item.quantity).toLocaleString()}</p>
-                      <p className="text-[9px] font-bold text-muted uppercase tracking-widest">${getItemPrice(item).toLocaleString()} ea</p>
+                    <div className="space-y-2">
+                      <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Serial Number</label>
+                      <input type="text" placeholder="e.g. LDR-12345" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
                     </div>
                   </div>
                 </div>
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Post Code</label>
+                    <input required type="text" placeholder="e.g. 5000" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
               </div>
-            ))}
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Your Message</label>
+                    <textarea required rows={6} placeholder="How can we assist you today?" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all resize-none h-[184px] shadow-sm"></textarea>
           </div>
+                  <button type="submit" className="w-full bg-accent text-white py-5 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-[0.98] shadow-xl shadow-accent/20">
+                    Send Inquiry
+                  </button>
         </div>
-
-            {/* Right: Summary & Actions (Compact Layout) */}
-            <div className="p-10 lg:p-16 bg-surface/10 flex flex-col justify-between">
-              <div>
-                <h4 className="text-[11px] font-black text-muted uppercase tracking-[0.2em] mb-8">Estimated Total</h4>
-                <div className="mb-10">
-                  <div className="flex items-baseline gap-3">
-                   <span className="text-6xl font-black text-accent tracking-tighter">${calculateTotal().toLocaleString()}</span>
-                    <span className="text-sm font-bold text-muted uppercase tracking-widest">INC GST</span>
+              </form>
+            )}
                   </div>
                   <p className="text-xs text-muted mt-6 leading-relaxed font-medium">
                     Leader products are exclusively available through our authorised reseller network. 
                     Final pricing and availability will be confirmed by your chosen partner.
                   </p>
                 </div>
+
+        {/* Device Drivers Section */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-black text-primary uppercase tracking-tight">Device Drivers</h2>
+            <div className="w-24 h-1.5 bg-accent mx-auto mt-4 rounded-full" />
               </div>
 
-              <div className="space-y-4">
+          <div className="grid lg:grid-cols-12 gap-12">
+            {/* Category Thumbnails - Vertical Line */}
+            <div className="lg:col-span-4 space-y-4">
+              <div className="bg-surface/30 p-8 rounded-[3rem] border border-surface">
+                <h3 className="text-xl font-black text-primary uppercase tracking-tight mb-6 text-center">Product Categories</h3>
+                <div className="space-y-3">
+                  {driverCategories.map(cat => (
                 <button 
-                  onClick={() => navigate('/resellers')}
-                  className="w-full bg-primary text-white py-5 rounded-2xl font-black text-sm hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 active:scale-95 flex items-center justify-center gap-3"
-                >
-                  <MapPin className="w-6 h-6" /> Order via Reseller
+                      key={cat.id} 
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`w-full flex items-center gap-4 p-3 rounded-2xl font-bold text-sm transition-all border-2 group ${
+                        selectedCategory === cat.id 
+                          ? 'bg-accent border-accent text-white shadow-lg shadow-accent/30 scale-[1.02]' 
+                          : 'bg-white border-surface text-primary hover:border-accent/30'
+                      }`}
+                    >
+                      <div className="w-12 h-12 bg-white rounded-xl p-1 flex-shrink-0 border border-surface group-hover:border-accent/20 transition-colors overflow-hidden">
+                        <img src={cat.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                      </div>
+                      <span className="flex-grow text-left">{cat.name}</span>
+                      <ChevronRight className={`w-4 h-4 transition-transform ${selectedCategory === cat.id ? 'rotate-90' : ''}`} />
                 </button>
+                  ))}
               </div>
+            </div>
+          </div>
+
+            {/* Drivers List */}
+            <div className="lg:col-span-8 bg-white p-10 rounded-[3rem] border border-surface shadow-premium min-h-[500px] flex flex-col">
+              {selectedCategory ? (
+                <>
+                  <div className="flex items-center justify-between mb-8">
+                    <h3 className="text-2xl font-black text-primary uppercase tracking-tight">{selectedCategory} Drivers</h3>
+                    <span className="text-[10px] font-black text-accent bg-accent/10 px-3 py-1 rounded-full uppercase tracking-widest">
+                      {drivers.length} Files
+                    </span>
+        </div>
+                  
+                  {isLoading ? (
+                    <div className="flex-grow flex items-center justify-center">
+                      <div className="w-10 h-10 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  ) : (
+                    <div className="space-y-4 flex-grow">
+                      {drivers.length > 0 ? (
+                        drivers.map((driver, idx) => (
+                          <motion.div 
+                            key={idx}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="p-6 bg-surface/30 rounded-2xl border border-surface flex items-center justify-between group hover:border-accent/30 transition-all"
+                          >
+                            <div>
+                              <p className="text-sm font-black text-primary uppercase mb-1">{driver.name}</p>
+                              <div className="flex items-center gap-3">
+                                <span className="text-[10px] font-bold text-muted uppercase tracking-widest">Version: {driver.version}</span>
+                                <span className="text-[10px] font-bold text-muted uppercase tracking-widest">• {driver.size}</span>
+                              </div>
+                            </div>
+                            <button className="w-12 h-12 bg-white text-primary rounded-xl flex items-center justify-center border border-surface hover:bg-accent hover:text-white hover:border-accent transition-all shadow-sm">
+                              <Download className="w-5 h-5" />
+                            </button>
+                          </motion.div>
+                        ))
+                      ) : (
+                        <div className="flex-grow flex flex-col items-center justify-center text-center p-8">
+                          <p className="text-muted font-bold">No drivers found for this category.</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex-grow flex flex-col items-center justify-center text-center p-8">
+                  <div className="w-24 h-24 bg-surface rounded-[2rem] flex items-center justify-center mb-6 text-muted/20">
+                    <Download className="w-12 h-12" />
+                  </div>
+                  <h3 className="text-2xl font-black text-primary uppercase mb-3">Select a Category</h3>
+                  <p className="text-sm text-muted max-w-xs">
+                    Please select a product category from the left to view available drivers and software downloads.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1580,7 +1674,7 @@ const CartView = ({ items, onUpdateQuantity, onRemove }: { items: any[], onUpdat
   );
 };
 
-const ResellerOrderView = ({ items, totalPrice }: { items: any[], totalPrice: number }) => {
+const ResellerOrderView = ({ items, totalPrice, onUpdateQuantity, onRemoveItem }: { items: any[], totalPrice: number, onUpdateQuantity: (id: string, delta: number) => void, onRemoveItem: (id: string) => void }) => {
   const navigate = useNavigate();
   const [isOrdered, setIsOrdered] = useState(false);
   const [formData, setFormData] = useState({
@@ -1639,11 +1733,11 @@ const ResellerOrderView = ({ items, totalPrice }: { items: any[], totalPrice: nu
     <div className="min-h-screen bg-white pb-24 pt-12">
       <div className="max-w-7xl mx-auto px-4">
         <button 
-          onClick={() => navigate('/cart')}
+          onClick={() => navigate('/')}
           className="flex items-center gap-2 text-muted hover:text-accent font-bold text-sm mb-8 group"
         >
           <ArrowRight className="w-4 h-4 rotate-180 group-hover:-translate-x-1 transition-transform" />
-          Back to Cart
+          Back to Selection
         </button>
 
         <div className="grid lg:grid-cols-2 gap-12">
@@ -1658,9 +1752,31 @@ const ResellerOrderView = ({ items, totalPrice }: { items: any[], totalPrice: nu
                       <img src={item.product.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
                     </div>
                     <div className="flex-grow">
-                      <div className="flex justify-between">
+                      <div className="flex justify-between items-start">
                         <h4 className="font-black text-primary uppercase text-sm">{item.product.name}</h4>
-                        <span className="font-mono font-bold text-accent">x{item.quantity}</span>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center bg-white rounded-lg border border-surface overflow-hidden">
+                            <button 
+                              onClick={() => onUpdateQuantity(item.id, -1)}
+                              className="p-1.5 hover:bg-surface text-muted transition-colors"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="w-8 text-center text-[10px] font-mono font-bold text-primary">{item.quantity}</span>
+                            <button 
+                              onClick={() => onUpdateQuantity(item.id, 1)}
+                              className="p-1.5 hover:bg-surface text-muted transition-colors"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+                          <button 
+                            onClick={() => onRemoveItem(item.id)}
+                            className="p-2 text-muted hover:text-red-500 hover:bg-red-50 transition-all rounded-lg"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {Object.entries(item.upgrades).map(([cat, id]) => (
@@ -1675,7 +1791,7 @@ const ResellerOrderView = ({ items, totalPrice }: { items: any[], totalPrice: nu
               </div>
               <div className="mt-8 pt-8 border-t border-surface flex justify-between items-baseline">
                 <span className="text-sm font-bold text-muted uppercase tracking-widest">Total Estimated</span>
-                <span className="text-3xl font-black text-accent">${totalPrice.toLocaleString()}</span>
+                <span className="text-3xl font-black text-accent">RRP ${totalPrice.toLocaleString()}</span>
               </div>
             </div>
 
@@ -1796,6 +1912,71 @@ const ResellerOrderView = ({ items, totalPrice }: { items: any[], totalPrice: nu
   );
 };
 
+
+const CompareProductDropdown = ({ 
+  currentProduct, 
+  onSelect, 
+  category 
+}: { 
+  currentProduct: any, 
+  onSelect: (p: any) => void,
+  category: string
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const availableProducts = [...ALL_PRODUCTS, ...COPILOT_PRODUCTS].filter(p => p.category === category);
+
+  return (
+    <div className="relative w-full max-w-[240px] mb-4" ref={dropdownRef}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-4 py-3 text-sm font-bold text-primary flex items-center justify-between hover:bg-surface/80 transition-all"
+      >
+        <span className="truncate">{currentProduct?.name || "Select a product..."}</span>
+        <ChevronDown className={`w-4 h-4 text-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+      </button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="absolute z-50 bottom-full left-0 w-full mb-2 bg-white border border-surface rounded-2xl shadow-2xl max-h-[300px] overflow-y-auto"
+          >
+            {availableProducts.map(p => (
+              <button
+                key={p.sku}
+                onClick={() => {
+                  onSelect(p);
+                  setIsOpen(false);
+                }}
+                className="w-full px-4 py-3 flex items-center gap-3 hover:bg-surface transition-colors border-b border-surface last:border-0"
+              >
+                <img src={p.image} alt="" className="w-8 h-8 object-contain" referrerPolicy="no-referrer" />
+                <div className="text-left">
+                  <p className="text-xs font-black text-primary truncate">{p.name}</p>
+                  <p className="text-[10px] font-mono font-bold text-accent">${p.price}</p>
+                </div>
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 function MainApp() {
   const navigate = useNavigate();
@@ -1947,7 +2128,6 @@ const displayProduct = React.useMemo(() => {
         quantity: 1 
       }];
     });
-    navigate('/cart');
   };
 
   const updateCartQuantity = (id: string, delta: number) => {
@@ -2071,9 +2251,9 @@ const displayProduct = React.useMemo(() => {
   }, [location.pathname]);
 
   const isProductPage = location.pathname.startsWith('/product/');
-  const isCartPage = location.pathname === '/cart';
   const isResellerPage = location.pathname === '/resellers';
-  const isSpecialPage = isProductPage || isCartPage || isResellerPage;
+  const isSupportPage = location.pathname === '/support';
+  const isSpecialPage = isProductPage || isResellerPage || isSupportPage;
 
   const uniqueRams = ['All', ...new Set(ALL_PRODUCTS.filter(p => p.category === selectedCategory).map(p => p.ram))].filter(Boolean);
   const uniqueCpus = ['All', 'Core i3', 'Core i5', 'Core i7', 'Core Ultra', 'Celeron'];
@@ -2140,15 +2320,23 @@ const displayProduct = React.useMemo(() => {
                   />
                 </div>
               <nav className="hidden lg:flex items-center gap-2">
-                {[
-                  { name: 'Home', id: 'top' },
+                {[                  
                   { name: 'Featured', id: 'featured' },
                   { name: 'Products', id: 'products' },
-                  { name: 'Where to Buy', id: 'where-to-buy' }
+                  { name: 'Become a reseller', id: 'become-a-reseller' },
+                  { name: 'Support', id: 'support' }
                 ].map((item) => (
                   <button 
                     key={item.name} 
-                    onClick={() => handleNavClick(item.id)}
+                    onClick={() => {
+                      if (item.id === 'support') {
+                        navigate('/support');
+                      } else if (item.id === 'become-a-reseller') {
+                        window.open('https://web.leadersystems.com.au/become-a-reseller/', '_blank');
+                      } else {
+                        handleNavClick(item.id);
+                      }
+                    }}
                     className="text-[12px] font-display font-bold text-primary/70 hover:text-primary hover:bg-primary/5 px-4 py-2 rounded-lg transition-all active:scale-95"
                   >
                     {item.name}
@@ -2217,7 +2405,7 @@ const displayProduct = React.useMemo(() => {
                                 </div>
                               </div>
                               <div className="text-right">
-                                <p className="text-xs font-mono font-black text-primary">${product.price}</p>
+                                <p className="text-xs font-display font-black text-primary">RRP ${product.price}</p>
                                 <ChevronRight className="w-3 h-3 text-muted ml-auto mt-1 group-hover:text-accent transition-colors" />
                               </div>
                             </button>
@@ -2252,26 +2440,105 @@ const displayProduct = React.useMemo(() => {
                 )}
               </AnimatePresence>
             </div>
-            <div className="relative group cursor-pointer" onClick={() => navigate('/cart')}>
-                          <div className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors">
-                            <Monitor className="w-4 h-4" /> Cart
+            <div className="relative group">
+              <div 
+                className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors cursor-pointer relative py-2"
+                onClick={() => navigate('/resellers')}
+              >
+                <div className="relative">
+                  <Monitor className="w-4 h-4" />
+                  {cartItems.length > 0 && (
+                    <span className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-accent rounded-full border-2 border-white shadow-sm" />
+                  )}
+                </div>
+                Cart
                           </div>
 
-              <AnimatePresence>
-                {calculateCartTotal() > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute top-full right-0 mt-3 bg-accent text-white px-4 py-2 rounded-xl shadow-2xl flex flex-col items-end min-w-[100px] z-50 border border-white/10"
-                  >
-                    <div className="absolute -top-1 right-4 w-2 h-2 bg-accent rotate-45" />
-                    <span className="text-[10px] font-display font-black tracking-widest uppercase whitespace-nowrap">
-                      Cart Total: <span className="font-mono">${calculateCartTotal().toLocaleString()}</span>
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Cart Dropdown */}
+              <div className="absolute top-full right-0 mt-1 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[70]">
+                <div className="bg-white rounded-2xl shadow-2xl border border-surface w-80 overflow-hidden">
+                  <div className="p-4 border-b border-surface bg-surface/30">
+                    <p className="text-[10px] font-black text-muted uppercase tracking-widest">Your Cart ({cartItems.length})</p>
+                  </div>
+                  
+                  <div className="max-h-[320px] overflow-y-auto custom-scrollbar">
+                    {cartItems.length > 0 ? (
+                      <div className="divide-y divide-surface">
+                        {cartItems.map((item) => (
+                          <div key={item.id} className="p-4 flex gap-4 hover:bg-surface/50 transition-colors">
+                            <div className="w-12 h-12 bg-white rounded-lg p-1 border border-surface flex-shrink-0">
+                              <img src={item.product.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                            </div>
+                            <div className="flex-grow min-w-0">
+                              <div className="flex justify-between items-start gap-2">
+                                <p className="text-[11px] font-black text-primary truncate uppercase">{item.product.name}</p>
+                                <button 
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    removeFromCart(item.id);
+                                  }}
+                                  className="text-muted hover:text-red-500 transition-colors"
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </button>
+                              </div>
+                              <div className="flex items-center justify-between mt-1">
+                                <p className="text-[10px] font-bold text-muted">
+                                  RRP ${(item.product.price + Object.entries(item.upgrades).reduce((acc, [cat, id]) => {
+                                    const opt = (UPGRADE_OPTIONS as any)[cat]?.find((o: any) => o.id === id);
+                                    return acc + (opt?.price || 0);
+                                  }, 0)).toLocaleString()}
+                                </p>
+                                <div className="flex items-center bg-surface rounded-md overflow-hidden border border-surface">
+                                  <button 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      updateCartQuantity(item.id, -1);
+                                    }}
+                                    className="p-1 hover:bg-white text-muted transition-colors"
+                                  >
+                                    <Minus className="w-2.5 h-2.5" />
+                                  </button>
+                                  <span className="w-6 text-center text-[9px] font-mono font-black text-primary">{item.quantity}</span>
+                                  <button 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      updateCartQuantity(item.id, 1);
+                                    }}
+                                    className="p-1 hover:bg-white text-muted transition-colors"
+                                  >
+                                    <Plus className="w-2.5 h-2.5" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="p-8 text-center">
+                        <Monitor className="w-8 h-8 text-muted/20 mx-auto mb-3" />
+                        <p className="text-xs font-bold text-muted">Your cart is empty</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {cartItems.length > 0 && (
+                    <div className="p-4 bg-surface/30 border-t border-surface">
+                      <div className="flex justify-between items-center mb-4">
+                        <span className="text-[10px] font-black text-muted uppercase tracking-widest">Total Estimated</span>
+                        <span className="text-sm font-black text-primary">RRP ${calculateCartTotal().toLocaleString()}</span>
+                      </div>
+                      <button 
+                        onClick={() => navigate('/resellers')}
+                        className="w-full bg-accent text-white py-3 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 active:scale-95"
+                      >
+                        Checkout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <button 
@@ -2303,16 +2570,14 @@ const displayProduct = React.useMemo(() => {
 
       {/* Main Content Area */}
       <main>
-        {isCartPage ? (
-          <CartView 
-            items={cartItems}
-            onUpdateQuantity={updateCartQuantity}
-            onRemove={removeFromCart}
-          />
+        {isSupportPage ? (
+          <SupportView />
         ) : isResellerPage ? (
           <ResellerOrderView 
             items={cartItems}
             totalPrice={calculateCartTotal()} 
+            onUpdateQuantity={updateCartQuantity}
+            onRemoveItem={removeFromCart}
           />
         ) : !isProductPage ? (
           <>
@@ -2701,10 +2966,16 @@ const displayProduct = React.useMemo(() => {
                               e.stopPropagation();
                               handleAddToCompare(product);
                             }}
-                            className="absolute bottom-4 left-4 z-20 bg-white/90 backdrop-blur-sm border border-surface px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2 hover:bg-accent hover:text-white transition-all group/compare active:scale-95"
+                            className={`absolute bottom-4 left-4 z-20 backdrop-blur-sm border px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2 transition-all group/compare active:scale-95 ${
+                              [compareProduct1?.id, compareProduct2?.id, compareProduct3?.id].includes(product.id)
+                                ? "bg-accent text-white border-accent"
+                                : "bg-white/90 border-surface hover:bg-accent hover:text-white"
+                            }`}
                           >
                             <ArrowLeftRight className="w-3.5 h-3.5" />
-                            <span className="text-[10px] font-black uppercase tracking-widest">Compare</span>
+                            <span className="text-[10px] font-black uppercase tracking-widest">
+                              {[compareProduct1?.id, compareProduct2?.id, compareProduct3?.id].includes(product.id) ? "Added" : "Compare"}
+                            </span>
                           </button>
                         </div>
                         <div className="p-8">
@@ -2714,8 +2985,9 @@ const displayProduct = React.useMemo(() => {
                               <h4 className="text-xl font-display font-bold text-primary leading-tight group-hover:text-accent transition-colors">{product.name}</h4>
                             </div>
                             <div className="text-right">
-                              <p className="text-xl font-mono font-bold text-primary">Starts from ${product.price}</p>
-                              <p className="text-[10px] font-semibold text-muted">RRP/MSRP INC GST</p>
+                              <p className="text-xl font-display font-bold text-primary">RRP ${product.price}</p>
+                              <p className="text-[10px] font-semibold text-muted">INC GST</p>
+                              <p className="text-[9px] font-bold text-accent mt-1 uppercase tracking-widest">Available via authorised resellers</p>
                             </div>
                           </div>
 
@@ -2800,10 +3072,10 @@ const displayProduct = React.useMemo(() => {
                 <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
               </div>
               <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-                <h2 className="text-4xl lg:text-6xl font-black text-white mb-8">Ready to upgrade?</h2>
+                <h2 className="text-4xl lg:text-6xl font-black text-white mb-8">Join Our National Reseller Network</h2>
                 <p className="text-white/80 text-xl mb-12">
-                  Connect with a local Leader Authorised Reseller today for expert advice, 
-                  custom configurations, and professional installation.
+                  Become a Leader Authorised Reseller and grow your business with Australia's largest PC manufacturer. 
+                  Access exclusive pricing, local support, and our extensive product range.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">              
                   <a 
@@ -2967,9 +3239,12 @@ const displayProduct = React.useMemo(() => {
                         </div>
 
                         {/* Price underneath the name and brand */}
-                        <div className="flex items-baseline gap-2 mb-4">
-                          <span className="text-3xl font-mono font-bold text-primary tracking-tighter">Starts from ${calculateTotalPrice()}</span>
-                          <span className="text-[10px] font-semibold text-muted">RRP/MSRP INC GST</span>
+                        <div className="flex flex-col mb-4">
+                          <div className="flex items-baseline gap-2">
+                            <span className="text-3xl font-display font-bold text-primary tracking-tighter">RRP ${calculateTotalPrice()}</span>
+                            <span className="text-[10px] font-semibold text-muted">INC GST</span>
+                          </div>
+                          <p className="text-[10px] font-bold text-accent mt-1 uppercase tracking-widest">Available via authorised resellers</p>
                         </div>
 
                         {/* Product Highlights */}
@@ -3143,6 +3418,7 @@ const displayProduct = React.useMemo(() => {
                 <li><a href="#" className="hover:text-white transition-colors">Support Portal</a></li>
               </ul>
             </div>
+            {!isSupportPage && (
             <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-2xl backdrop-blur-sm">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center text-white">
@@ -3189,6 +3465,7 @@ const displayProduct = React.useMemo(() => {
                 </div>
               </form>
             </div>
+            )}
           </div>
           <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold text-white/30">
             <p>© 2026 Leader Computers. All rights reserved.</p>
@@ -3513,7 +3790,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct1.sku}</p>
                             <h4 className="text-[10px] font-black text-primary truncate">{compareProduct1.name}</h4>
-                            <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct1.price}</p>
+                            <p className="text-[10px] font-display font-black text-primary mt-0.5">RRP ${compareProduct1.price}</p>
                           </div>
                         </motion.div>
                       ) : (
@@ -3569,7 +3846,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct2.sku}</p>
                             <h4 className="text-[10px] font-black text-primary truncate">{compareProduct2.name}</h4>
-                            <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct2.price}</p>
+                            <p className="text-[10px] font-display font-black text-primary mt-0.5">RRP ${compareProduct2.price}</p>
                           </div>
                         </motion.div>
                       ) : (
@@ -3625,7 +3902,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct3.sku}</p>
                             <h4 className="text-[10px] font-black text-primary truncate">{compareProduct3.name}</h4>
-                            <p className="text-[10px] font-mono font-black text-primary mt-0.5">${compareProduct3.price}</p>
+                            <p className="text-[10px] font-display font-black text-primary mt-0.5">RRP ${compareProduct3.price}</p>
                           </div>
                         </motion.div>
                       ) : (
@@ -3690,9 +3967,9 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                 {/* Close Button for Expanded View */}
                 <button 
                   onClick={() => setIsComparisonExpanded(false)}
-                  className="absolute top-32 right-8 w-12 h-12 rounded-full bg-surface flex items-center justify-center text-muted hover:text-accent transition-colors shadow-lg z-20"
+                  className="absolute top-32 right-8 w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center hover:bg-accent transition-all shadow-2xl z-20 group/close active:scale-90 border-4 border-white"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-7 h-7 group-hover:rotate-90 transition-transform duration-300" />
                 </button>
 
                 <div className="max-w-7xl mx-auto">
@@ -3709,11 +3986,16 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         <div className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 items-center">
                           <div />
                           {[compareProduct1, compareProduct2, compareProduct3].map((product, idx) => (
-                            <div key={idx} className="flex flex-col items-center text-center gap-1">
+                            <div key={idx} className="flex items-center gap-4">
                               {product ? (
                                 <>
-                                  <p className="text-sm font-black text-primary truncate w-full">{product.name}</p>
-                                  <p className="text-sm font-mono font-black text-accent">${product.price}</p>
+                                  <div className="w-12 h-12 bg-white rounded-lg p-1 border border-surface flex-shrink-0">
+                                    <img src={product.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
+                                  </div>
+                                  <div className="flex-grow min-w-0 text-left">
+                                    <p className="text-[11px] font-black text-primary truncate uppercase">{product.name}</p>
+                                    <p className="text-[11px] font-display font-bold text-accent">RRP ${product.price}</p>
+                                  </div>
                                   <button 
                                     onClick={() => {
                                       addToCart(product, {
@@ -3724,7 +4006,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                                       setIsComparisonExpanded(false);
                                       setIsComparing(false);
                                     }}
-                                    className="w-8 h-8 bg-accent text-white rounded-lg flex items-center justify-center hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 active:scale-95 mt-1"
+                                    className="w-8 h-8 bg-accent text-white rounded-lg flex items-center justify-center hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 active:scale-95"
                                   >
                                     <ShoppingCart className="w-4 h-4" />
                                   </button>
@@ -3747,11 +4029,12 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 * idx }}
-                        className="text-center flex flex-col items-center"
+                        className="text-center flex flex-col items-center w-full"
                       >
+                        {/* Image Area */}
+                        <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group w-full max-w-[280px] flex items-center justify-center">
                         {product ? (
-                          <motion.div layout key={product.id} className="w-full flex flex-col items-center">
-                            <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group w-full max-w-[280px]">
+                            <>
                               <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                               <button 
                                 onClick={() => {
@@ -3767,28 +4050,39 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                               >
                                 <X className="w-4 h-4" />
                               </button>
+                            </>
+                          ) : (
+                            <div className="flex flex-col items-center text-muted/30">
+                              <ArrowLeftRight className="w-12 h-12 mb-2" />
+                              <span className="text-[10px] font-black uppercase tracking-widest">Empty Slot</span>
                             </div>
-                            <p className="text-xs font-mono font-bold text-accent mb-2 uppercase tracking-widest">{product.sku}</p>
-                            <div className="relative w-full max-w-[240px] mb-4">
-                              <select 
-                                value={product.sku}
-                                onChange={(e) => {
-                                  const newProduct = [...ALL_PRODUCTS, ...COPILOT_PRODUCTS].find(p => p.sku === e.target.value);
-                                  if (idx === 0) setCompareProduct1(newProduct);
-                                  if (idx === 1) setCompareProduct2(newProduct);
-                                  if (idx === 2) setCompareProduct3(newProduct);
+                          )}
+                        </div>
+
+                        {/* SKU */}
+                        <p className="text-xs font-bold text-primary mb-2 uppercase tracking-widest h-4">
+                          {product?.sku || ""}
+                        </p>
+
+                        {/* Dropdown */}
+                        <CompareProductDropdown 
+                          currentProduct={product}
+                          onSelect={(p) => {
+                            if (idx === 0) setCompareProduct1(p);
+                            if (idx === 1) setCompareProduct2(p);
+                            if (idx === 2) setCompareProduct3(p);
                                 }}
-                                className="w-full bg-surface border-2 border-surface focus:border-accent rounded-xl px-4 py-3 text-sm font-bold text-primary appearance-none cursor-pointer hover:bg-surface/80 transition-all text-center pr-8"
-                              >
-                                {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
-                                  .filter(p => p.category === (compareProduct1?.category || compareProduct2?.category || compareProduct3?.category))
-                                  .map(p => (
-                                    <option key={p.sku} value={p.sku}>{p.name}</option>
-                                  ))}
-                              </select>
-                              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted pointer-events-none" />
-                            </div>
-                            <p className="text-2xl font-mono font-bold text-primary tracking-tighter">Starts from ${product.price}</p>
+                          category={compareProduct1?.category || compareProduct2?.category || compareProduct3?.category || 'notebooks'}
+                        />
+
+                        {/* Price */}
+                        <p className="text-2xl font-display font-bold text-primary tracking-tighter h-8">
+                          {product ? `RRP $${product.price}` : ""}
+                        </p>
+
+                        {/* Add to Cart Button */}
+                        <div className="h-12 mt-6 w-full flex justify-center">
+                          {product && (
                             <button 
                               onClick={() => {
                                 addToCart(product, {
@@ -3799,39 +4093,12 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                                 setIsComparisonExpanded(false);
                                 setIsComparing(false);
                               }}
-                              className="w-12 h-12 bg-accent text-white rounded-2xl flex items-center justify-center hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 active:scale-95 mt-6"
+                              className="w-full max-w-[180px] bg-accent text-white py-3 rounded-xl font-bold text-sm hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 active:scale-95 flex items-center justify-center"
                             >
-                              <ShoppingCart className="w-6 h-6" />
+                              Add to cart
                             </button>
-                          </motion.div>
-                        ) : (
-                          <div className="w-full max-w-[280px] aspect-square bg-surface/30 rounded-[2.5rem] border-2 border-dashed border-muted/20 flex flex-col items-center justify-center p-8">
-                            <div className="w-12 h-12 rounded-2xl bg-surface flex items-center justify-center text-muted mb-4">
-                              <ArrowLeftRight className="w-6 h-6" />
-                            </div>
-                            <p className="text-xs font-bold text-muted uppercase tracking-widest mb-4">Empty Slot {idx + 1}</p>
-                            <div className="relative w-full">
-                              <select 
-                                value=""
-                                onChange={(e) => {
-                                  const newProduct = [...ALL_PRODUCTS, ...COPILOT_PRODUCTS].find(p => p.sku === e.target.value);
-                                  if (idx === 0) setCompareProduct1(newProduct);
-                                  if (idx === 1) setCompareProduct2(newProduct);
-                                  if (idx === 2) setCompareProduct3(newProduct);
-                                }}
-                                className="w-full bg-white border-2 border-surface focus:border-accent rounded-xl px-4 py-2 text-[10px] font-bold text-primary appearance-none cursor-pointer hover:bg-surface transition-all text-center pr-6"
-                              >
-                                <option value="" disabled>Select a product...</option>
-                                {[...ALL_PRODUCTS, ...COPILOT_PRODUCTS]
-                                  .filter(p => p.category === (compareProduct1?.category || compareProduct2?.category || compareProduct3?.category))
-                                  .map(p => (
-                                    <option key={p.sku} value={p.sku}>{p.name}</option>
-                                  ))}
-                              </select>
-                              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-muted pointer-events-none" />
-                            </div>
-                          </div>
-                        )}
+                          )}
+                            </div>                 
                       </motion.div>
                     ))}
                   </div>
@@ -3847,7 +4114,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 + (index * 0.05) }}
-                        className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 py-6 border-b border-muted/40 hover:bg-surface/30 transition-colors rounded-xl px-4"
+                        className="grid grid-cols-[200px_1fr_1fr_1fr] gap-8 py-6 border-b border-muted/20 hover:bg-surface/10 transition-colors"
                       >
                         <div className="flex items-center">
                           <span className="text-[10px] font-black text-muted uppercase tracking-widest">{specKey.replace(/_/g, ' ')}</span>
