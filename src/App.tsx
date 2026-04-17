@@ -1997,6 +1997,7 @@ function MainApp() {
   const [searchRadius, setSearchRadius] = useState(50);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isCustomizing, setIsCustomizing] = useState(false);
+  const [productTab, setProductTab] = useState('details');
   const [isComparing, setIsComparing] = useState(false);
   const [compareProduct1, setCompareProduct1] = useState<any>(null);
   const [compareProduct2, setCompareProduct2] = useState<any>(null);
@@ -2213,6 +2214,7 @@ const displayProduct = React.useMemo(() => {
       const product = ALL_PRODUCTS.find(p => p.sku === sku) || COPILOT_PRODUCTS.find(p => p.sku === sku);
       if (product) {
         setSelectedProduct(product);
+        setProductTab('details');
         setIsCustomizing((location.state as any)?.customizing || false);
         if (isComparing) {
           setCompareProduct1(product);
@@ -2231,6 +2233,7 @@ const displayProduct = React.useMemo(() => {
       // Persist selection for cart/reseller views
     } else {
       setSelectedProduct(null);
+      setProductTab('details');
       setIsCustomizing(false);
     }
   }, [location.pathname, location.state]);
@@ -2680,7 +2683,7 @@ const displayProduct = React.useMemo(() => {
                   {TRUST_ITEMS.map((item, idx) => (
                     <div 
                       key={item.title}
-                      className="group relative flex flex-col items-center min-h-[220px] lg:min-h-[300px] border-x border-surface/50 first:border-l-0 last:border-r-0 pt-4 lg:pt-6"
+                className="group relative flex flex-col items-center justify-between min-h-[220px] lg:min-h-[300px] border-x border-surface/50 first:border-l-0 last:border-r-0 pt-4 lg:pt-6"
                     >
                       {/* Large Connecting Icon */}
                 <div className="relative z-10 mb-4 lg:mb-6 transform group-hover:scale-110 transition-transform duration-500">
@@ -2697,19 +2700,19 @@ const displayProduct = React.useMemo(() => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-20px" }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="pb-6 lg:pb-10 text-center px-6 max-w-[200px] mx-auto"
+                  className="pb-4 lg:pb-6 text-center px-6 max-w-[200px] mx-auto"
                       >
                         <div className="flex flex-col items-center">
                           {item.title.includes("100%") ? (
                             <div className="space-y-0.5">
-                              <span className="text-3xl lg:text-4xl font-display font-bold text-primary block">100%</span>
+                        <span className="text-3xl lg:text-4xl font-display font-normal text-primary block">100%</span>
                               <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight">
                                 Australian Owned Manufacturer
                               </p>
                             </div>
                           ) : item.title.includes("1,000+") ? (
                             <div className="space-y-0.5">
-                              <span className="text-3xl lg:text-4xl font-display font-bold text-primary block">1,000+</span>
+                        <span className="text-3xl lg:text-4xl font-display font-normal text-primary block">1,000+</span>
                               <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight">
                                 Available From Authorised Resellers
                               </p>
@@ -2728,7 +2731,7 @@ const displayProduct = React.useMemo(() => {
             </section>
 
       {/* Featured Copilot+ PCs Section */}
-      <section id="featured" className="py-24 bg-primary text-white overflow-hidden">
+      <section id="featured" className="pt-4 lg:pt-6 pb-24 bg-primary text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div 
@@ -3244,37 +3247,77 @@ const displayProduct = React.useMemo(() => {
                   </motion.div>
                 </div>
 
-                {/* Comprehensive Specifications Section */}
-                <div className="bg-surface/30 rounded-[3rem] p-8 lg:p-16 border border-surface">
-                  <div className="flex items-center gap-4 mb-12">
-                    <div className="w-12 h-12 bg-primary rounded-2xl flex items-center justify-center text-white">
-                      <Cpu className="w-6 h-6" />
+                {/* Centered Tab Buttons */}
+                <div className="flex justify-center mb-16">
+                  <div className="inline-flex bg-surface p-1.5 rounded-2xl shadow-inner border border-surface/50">
+                    <button
+                      onClick={() => setProductTab('details')}
+                      className={`px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-300 relative ${
+                        productTab === 'details'
+                          ? "bg-white text-primary shadow-xl scale-[1.02]"
+                          : "text-muted hover:text-primary"
+                      }`}
+                    >
+                      Product details
+                    </button>
+                    <button
+                      onClick={() => setProductTab('specs')}
+                      className={`px-10 py-4 rounded-xl font-black text-xs uppercase tracking-widest transition-all duration-300 relative ${
+                        productTab === 'specs'
+                          ? "bg-white text-primary shadow-xl scale-[1.02]"
+                          : "text-muted hover:text-primary"
+                      }`}
+                    >
+                      Technical specification
+                    </button>
                     </div>
-                    <div>
-                      <h3 className="text-2xl font-black text-primary uppercase tracking-tight">Comprehensive Specifications</h3>
-                      <p className="text-muted text-sm font-bold">Detailed technical breakdown of the {selectedProduct.name}</p>
+                </div>
+
+                <AnimatePresence mode="wait">
+                  {productTab === 'specs' ? (
+                    <motion.div
+                      key="specs"
+                      initial={{ opacity: 0, scale: 0.98 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.98 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                      className="bg-surface/30 rounded-[4rem] p-10 lg:p-20 border border-surface mb-32"
+                    >
+                      <div className="flex items-center gap-6 mb-16 justify-center">
+                        <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-primary/20">
+                          <Cpu className="w-8 h-8" />
+                        </div>
+                        <div className="text-center md:text-left">
+                          <h3 className="text-3xl font-black text-primary uppercase tracking-tight">Technical Specifications</h3>
+                          <p className="text-muted text-sm font-bold truncate">Comprehensive data sheet for the {selectedProduct.name}</p>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-x-8 gap-y-10">
+                      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-4">
                     {Object.entries(displayProduct.specs).map(([key, value]: [string, any]) => (
-                      <div key={key} className="group">
-                        <div className="flex items-center gap-2 mb-2">
-                          <div className="w-1 h-1 bg-accent rounded-full" />
-                          <p className="text-[9px] font-black text-muted uppercase tracking-[0.2em] opacity-60 group-hover:opacity-100 transition-opacity">
+                          <div key={key} className="flex justify-between items-center py-5 border-b border-surface group hover:border-accent/30 transition-all">
+                            <span className="text-[10px] font-black text-muted uppercase tracking-[0.2em] opacity-60 group-hover:opacity-100 transition-opacity">
                             {key.replace(/_/g, ' ')}
-                          </p>
-                        </div>
-                        <p className="text-sm font-bold text-primary group-hover:text-accent transition-colors pl-3 border-l border-surface group-hover:border-accent/30 leading-snug">
+                            </span>
+                            <span className="text-sm font-bold text-primary group-hover:text-accent transition-colors text-right pl-8">
                           {value}
-                        </p>
+                            </span>
                       </div>
                     ))}
                   </div>
-                </div>
-
-                {/* Dynamic Product Journey - Apple Style Immersive Experience */}
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="details"
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -30 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
+                    >
                 <ProductJourney product={displayProduct} />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           ) : null
@@ -3343,7 +3386,7 @@ const displayProduct = React.useMemo(() => {
             </div>
             <div className="col-span-1 hidden md:flex items-start gap-12">
               <div>
-              <h4 className="font-bold mb-6 uppercase tracking-tight text-sm">Navigation</h4>
+                <h4 className="font-bold mb-6 uppercase tracking-tight text-sm text-white">Navigation</h4>
                             <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
                   <li><button onClick={() => handleNavClick('featured')} className="hover:text-white transition-colors block text-left w-full p-0">Featured</button></li>
                   <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors block text-left w-full p-0">Products</button></li>
@@ -3352,7 +3395,7 @@ const displayProduct = React.useMemo(() => {
                             </ul>
               </div>
               <div>
-                <h4 className="font-bold mb-6 uppercase tracking-tight text-sm">Solutions</h4>
+                <h4 className="font-bold mb-6 uppercase tracking-tight text-sm text-white">Solutions</h4>
                             <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
                               {CATEGORIES.map(cat => (
                                 <li key={cat.id}>
@@ -3701,7 +3744,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                           </div>
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct1.sku}</p>
-                            <h4 className="text-[10px] font-black text-primary truncate">{compareProduct1.name}</h4>
+                            <h4 className="text-[12px] font-black text-primary truncate">{compareProduct1.name}</h4>
                           </div>
                         </motion.div>
                       ) : (
@@ -3758,7 +3801,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                           </div>
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct2.sku}</p>
-                            <h4 className="text-[10px] font-black text-primary truncate">{compareProduct2.name}</h4>
+                            <h4 className="text-[12px] font-black text-primary truncate">{compareProduct2.name}</h4>
                           </div>
                         </motion.div>
                       ) : (
@@ -3815,7 +3858,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                           </div>
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct3.sku}</p>
-                            <h4 className="text-[10px] font-black text-primary truncate">{compareProduct3.name}</h4>
+                            <h4 className="text-[12px] font-black text-primary truncate">{compareProduct3.name}</h4>
                           </div>
                         </motion.div>
                       ) : (
