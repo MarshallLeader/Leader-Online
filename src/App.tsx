@@ -43,11 +43,56 @@ import {
   Download,
   Facebook,
   Twitter,
+  RotateCcw,
   Instagram,
   Linkedin,
   Youtube
 } from "lucide-react";
 import logo from './assets/LeaderComputersLogo.png';
+
+// Custom Australian flag icon in Lucide line-art style
+const AustralianFlagIcon = ({ className, strokeWidth = 1, ...props }: React.SVGProps<SVGSVGElement> & { strokeWidth?: number }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={strokeWidth}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+    aria-hidden="true"
+    {...props}
+  >
+    {/* Flag rectangle */}
+    <rect x="2" y="5" width="20" height="14" rx="1" />
+    {/* Flagpole */}
+    <line x1="2" y1="5" x2="2" y2="19" />
+    {/* Union Jack — horizontal and vertical bars */}
+    <line x1="2" y1="12" x2="11" y2="12" />
+    <line x1="6.5" y1="5" x2="6.5" y2="19" />
+    {/* Union Jack — diagonals */}
+    <line x1="2" y1="5" x2="11" y2="12" />
+    <line x1="2" y1="19" x2="11" y2="12" />
+    {/* Canton border */}
+    <rect x="2" y="5" width="9" height="14" />
+    {/* Commonwealth Star (7-pointed) below canton */}
+    <polygon points="5.5,14.5 5.9,13.2 6.3,14.5 7.5,14.5 6.5,15.3 6.9,16.5 5.9,15.8 4.9,16.5 5.3,15.3 4.3,14.5" />
+    {/* Southern Cross — 5 stars on right side */}
+    {/* Alpha Crucis (bottom) */}
+    <polygon points="18,16.5 18.25,15.8 18.5,16.5 19.2,16.5 18.6,16.9 18.85,17.6 18.25,17.2 17.65,17.6 17.9,16.9 17.3,16.5" />
+    {/* Beta Crucis (left) */}
+    <polygon points="14.5,13.5 14.75,12.8 15,13.5 15.7,13.5 15.1,13.9 15.35,14.6 14.75,14.2 14.15,14.6 14.4,13.9 13.8,13.5" />
+    {/* Gamma Crucis (top) */}
+    <polygon points="18,8.5 18.25,7.8 18.5,8.5 19.2,8.5 18.6,8.9 18.85,9.6 18.25,9.2 17.65,9.6 17.9,8.9 17.3,8.5" />
+    {/* Delta Crucis (right) */}
+    <polygon points="21.5,11.5 21.75,10.8 22,11.5 22,11.5 21.5,11.8 21.7,12.5 21.25,12.1 20.8,12.5 21,11.8 20.5,11.5" />
+    {/* Epsilon Crucis (small, centre) */}
+    <polygon points="19.5,12 19.65,11.5 19.8,12 20.3,12 19.9,12.3 20.05,12.8 19.65,12.5 19.25,12.8 19.4,12.3 19,12" />
+  </svg>
+);
 import { HashRouter, Routes, Route, useNavigate, useParams, Link, useLocation } from "react-router-dom";
 import { APIProvider, Map, AdvancedMarker, Pin, InfoWindow, useMap } from '@vis.gl/react-google-maps';
 
@@ -210,7 +255,7 @@ const RESELLERS = [
 
 const CATEGORIES = [
   { id: 'notebooks', name: 'Notebooks', icon: Laptop },
-  { id: '2-in-1', name: '2-in-1 / Tablets', icon: Laptop },
+  { id: '2-in-1', name: "2-in-1's", icon: Laptop },
   { id: 'mini-pc', name: 'Mini PCs', icon: Server },
   { id: 'corporate', name: 'Corporate', icon: ShieldCheck },
   { id: 'pc-stick', name: 'PC Stick', icon: Cpu },
@@ -1091,7 +1136,7 @@ const SUB_NAV = [
 ];
 
 const TRUST_ITEMS = [
-  { title: "100% Australian Owned Manufacturer", icon: Globe },
+  { title: "100% Australian Owned Manufacturer", icon: Monitor },
   { title: "1,000+ Available From Authorised Resellers", icon: Users },
   { title: "Peace Of Mind With Australia Wide Onsite Warranty", icon: ShieldCheck },
   { title: "Customise & Configure To Suit Your Needs", icon: Wrench },
@@ -1980,6 +2025,7 @@ function MainApp() {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [pastProducts, setPastProducts] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [lastInteraction, setLastInteraction] = useState(Date.now());
@@ -2143,7 +2189,14 @@ const displayProduct = React.useMemo(() => {
   };
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+      const productsSection = document.getElementById('products');
+      if (productsSection) {
+        const rect = productsSection.getBoundingClientRect();
+        setPastProducts(rect.top <= 0);
+      }
+    };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -2308,7 +2361,7 @@ const displayProduct = React.useMemo(() => {
   return (
     <div className="min-h-screen bg-white selection:bg-accent/30">
       {/* Top Header */}
-      <header className={`sticky top-0 z-[60] transition-all duration-300 ${scrolled ? 'shadow-premium' : ''}`}>
+      <header className={`${pastProducts ? 'relative' : 'sticky top-0'} z-[60] transition-all duration-300 ${scrolled && !pastProducts ? 'shadow-premium' : ''}`}>
         <div className={`bg-white transition-all duration-300 ${scrolled ? 'py-2' : 'py-4'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             <div className="flex items-center gap-12">
@@ -2683,10 +2736,10 @@ const displayProduct = React.useMemo(() => {
                   {TRUST_ITEMS.map((item, idx) => (
                     <div 
                       key={item.title}
-                className="group relative flex flex-col items-center justify-between min-h-[220px] lg:min-h-[300px] border-x border-surface/50 first:border-l-0 last:border-r-0 pt-4 lg:pt-6"
+                className="group relative flex flex-col items-center justify-center gap-4 lg:gap-6 border-x border-surface/50 first:border-l-0 last:border-r-0 py-6 lg:py-8"
                     >
                       {/* Large Connecting Icon */}
-                <div className="relative z-10 mb-4 lg:mb-6 transform group-hover:scale-110 transition-transform duration-500">
+                <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500">
                         <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <item.icon className="w-12 h-12 lg:w-16 lg:h-16 text-accent relative z-10" strokeWidth={1} />
                       </div>
@@ -2700,29 +2753,11 @@ const displayProduct = React.useMemo(() => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-20px" }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="pb-4 lg:pb-6 text-center px-6 max-w-[200px] mx-auto"
+                  className="text-center px-6 max-w-[200px] mx-auto"
                       >
-                        <div className="flex flex-col items-center">
-                          {item.title.includes("100%") ? (
-                            <div className="space-y-0.5">
-                        <span className="text-3xl lg:text-4xl font-display font-normal text-primary block">100%</span>
-                              <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight">
-                                Australian Owned Manufacturer
-                              </p>
-                            </div>
-                          ) : item.title.includes("1,000+") ? (
-                            <div className="space-y-0.5">
-                        <span className="text-3xl lg:text-4xl font-display font-normal text-primary block">1,000+</span>
-                              <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight">
-                                Available From Authorised Resellers
-                              </p>
-                            </div>
-                          ) : (
-                            <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight max-w-[220px]">
-                              {item.title}
-                            </p>
-                          )}
-                        </div>
+                        <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight">
+                          {item.title}
+                        </p>
                       </motion.div>
                     </div>
                   ))}
@@ -2731,7 +2766,7 @@ const displayProduct = React.useMemo(() => {
             </section>
 
       {/* Featured Copilot+ PCs Section */}
-      <section id="featured" className="pt-4 lg:pt-6 pb-24 bg-primary text-white overflow-hidden">
+      <section id="featured" className="py-16 lg:py-24 bg-primary text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div 
@@ -2842,7 +2877,18 @@ const displayProduct = React.useMemo(() => {
             {!globalSearchQuery && (
               <aside className="lg:w-64 flex-shrink-0 hidden lg:block">
                 <div className="sticky top-32 bg-surface p-8 rounded-xl border border-gray-200 shadow-premium">
-                  <h4 className="font-bold text-primary text-sm mb-8">Filters</h4>
+                  <div className="flex items-center justify-between mb-8">
+                    <h4 className="font-bold text-primary text-sm">Filters</h4>
+                    {(priceFilter !== 5000 || ramFilter !== 'All' || cpuFilter !== 'All' || gpuFilter !== 'All') && (
+                      <button
+                        onClick={() => { setPriceFilter(5000); setRamFilter('All'); setCpuFilter('All'); setGpuFilter('All'); }}
+                        title="Reset filters"
+                        className="text-accent hover:text-primary transition-colors"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                   
                   <div className="mb-10">
                     <div className="flex justify-between items-end mb-4">
@@ -2881,7 +2927,7 @@ const displayProduct = React.useMemo(() => {
                       <select 
                         value={ramFilter}
                         onChange={(e) => setRamFilter(e.target.value)}
-                        className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
                       >
                         {uniqueRams.map(ram => (
                           <option key={ram} value={ram}>{ram}</option>
@@ -2894,7 +2940,7 @@ const displayProduct = React.useMemo(() => {
                       <select 
                         value={cpuFilter}
                         onChange={(e) => setCpuFilter(e.target.value)}
-                        className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
                       >
                         {uniqueCpus.map(cpu => (
                           <option key={cpu} value={cpu}>{cpu}</option>
@@ -2907,7 +2953,7 @@ const displayProduct = React.useMemo(() => {
                       <select 
                         value={gpuFilter}
                         onChange={(e) => setGpuFilter(e.target.value)}
-                        className="w-full bg-white border border-surface rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
+                        className="w-full bg-white border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium text-primary focus:ring-2 focus:ring-accent/20 focus:border-accent outline-none transition-all"
                       >
                         {uniqueGpus.map(gpu => (
                           <option key={gpu} value={gpu}>{gpu}</option>
@@ -2964,12 +3010,12 @@ const displayProduct = React.useMemo(() => {
                           <div className="space-y-4">
                             <div>
                               <p className="text-[10px] font-mono font-bold text-accent mb-1">{product.sku}</p>
-                              <h4 className="text-2xl font-display font-black text-primary leading-tight group-hover:text-accent transition-colors uppercase tracking-tight">{product.name}</h4>
+                              <h4 className="text-2xl font-display font-black text-primary leading-tight group-hover:text-accent transition-colors tracking-tight">{product.name}</h4>
                             </div>
                             
                             <div className="flex items-baseline gap-2">
                               <p className="text-2xl font-display font-black text-primary">${product.price.toLocaleString()}</p>
-                              <p className="text-[10px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
+                              <p className="text-[10px] font-mono font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
                             </div>
 
                             {/* Product Highlights List */}
@@ -3185,7 +3231,7 @@ const displayProduct = React.useMemo(() => {
                         <div className="flex flex-col mb-8 pt-6 border-t border-surface">
                           <div className="flex items-baseline gap-2">
                             <p className="text-3xl font-display font-black text-primary">${calculateTotalPrice().toLocaleString()}</p>
-                            <p className="text-[10px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
+                            <p className="text-[10px] font-mono font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
                           </div>
                           <p className="text-[10px] font-bold text-accent mt-1 uppercase tracking-widest">Available via authorised resellers</p>
                         </div>
@@ -3388,14 +3434,14 @@ const displayProduct = React.useMemo(() => {
               <div>
                 <h4 className="font-bold mb-6 uppercase tracking-tight text-sm text-white">Navigation</h4>
                             <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
-                  <li><button onClick={() => handleNavClick('featured')} className="hover:text-white transition-colors block text-left w-full p-0">Featured</button></li>
-                  <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors block text-left w-full p-0">Products</button></li>
-                  <li><button onClick={() => window.open('https://web.leadersystems.com.au/become-a-reseller/', '_blank')} className="hover:text-white transition-colors block text-left w-full p-0">Become a reseller</button></li>
-                  <li><button onClick={() => navigate('/support')} className="hover:text-white transition-colors block text-left w-full p-0">Support</button></li>
+                  <li><button onClick={() => handleNavClick('featured')} className="hover:text-white transition-colors block text-left w-full p-0 whitespace-nowrap">Featured</button></li>
+                  <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors block text-left w-full p-0 whitespace-nowrap">Products</button></li>
+                  <li><button onClick={() => window.open('https://web.leadersystems.com.au/become-a-reseller/', '_blank')} className="hover:text-white transition-colors block text-left w-full p-0 whitespace-nowrap">Become a reseller</button></li>
+                  <li><button onClick={() => navigate('/support')} className="hover:text-white transition-colors block text-left w-full p-0 whitespace-nowrap">Support</button></li>
                             </ul>
               </div>
               <div>
-                <h4 className="font-bold mb-6 uppercase tracking-tight text-sm text-white">Solutions</h4>
+                <h4 className="font-bold mb-6 uppercase tracking-tight text-sm text-white">Products</h4>
                             <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
                               {CATEGORIES.map(cat => (
                                 <li key={cat.id}>
@@ -3407,8 +3453,8 @@ const displayProduct = React.useMemo(() => {
                             </ul>
                           </div>
                               </div>
-            <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl backdrop-blur-sm flex flex-col items-center text-center justify-center">
-              <h4 className="font-black text-2xl text-white uppercase tracking-tight mb-2">Join Our National Reseller Network</h4>
+            <div id="contact" className="col-span-1 md:col-span-2 flex flex-col items-center text-center justify-center max-w-md mx-auto">
+              <h4 className="font-black text-2xl text-white tracking-tight mb-2">Join Our National Reseller Network</h4>
               <p className="text-white/70 text-[13px] mb-8 max-w-lg leading-relaxed">
                                 Partner with Australia's largest locally owned PC manufacturer and gain access to premium solutions, dedicated support, and exclusive partner benefits.
                               </p>
@@ -3524,7 +3570,7 @@ const displayProduct = React.useMemo(() => {
                                     <div className="flex items-center justify-center">
                                       <div className="flex items-baseline gap-2">
                                         <span className="text-2xl font-mono font-bold text-white">Starts from ${product.price}</span>
-                                        <span className="text-[10px] font-semibold text-white/30">RRP/MSRP INC GST</span>
+                                        <span className="text-[10px] font-mono font-semibold text-white/30">RRP/MSRP INC GST</span>
                                       </div>
                                     </div>
                                     <button 
@@ -3951,7 +3997,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                                     <p className="text-[11px] font-black text-primary truncate uppercase">{product.name}</p>
                                     <div className="flex items-baseline gap-1.5">
                                       <p className="text-[11px] font-display font-bold text-accent">${product.price}</p>
-                                      <p className="text-[8px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
+                                      <p className="text-[8px] font-mono font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
                                     </div>
                                   </div>
                                   <button 
@@ -4037,7 +4083,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                             {product ? `$${product.price}` : ""}
                           </p>
                           {product && (
-                            <p className="text-[10px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
+                            <p className="text-[10px] font-mono font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
                           )}
                         </div>
 
