@@ -1496,79 +1496,7 @@ const SupportView = () => {
           <p className="text-xl text-muted max-w-3xl mx-auto font-medium leading-relaxed">
             "Leader is dedicated to providing you with the highest quality of customer care and after sale service."
           </p>
-      </div>
-
-        {/* Contact Form Section - LARGER */}
-        <div className="mb-32">
-          <div className="bg-surface/30 p-10 md:p-16 rounded-[4rem] border border-surface shadow-premium max-w-5xl mx-auto">
-            <div className="flex items-center gap-6 mb-12">
-              <div className="w-16 h-16 bg-accent rounded-[1.5rem] flex items-center justify-center text-white shadow-xl shadow-accent/20">
-                <Users className="w-8 h-8" />
-                </div>
-                <div>
-                <h3 className="text-4xl font-black text-primary uppercase tracking-tight">Contact Support</h3>
-                <p className="text-muted text-sm font-bold uppercase tracking-widest mt-1">Direct assistance from our experts</p>
-                </div>
-              </div>
-
-            {isSubmitted ? (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-green-50 border border-green-100 p-16 rounded-[3rem] text-center"
-              >
-                <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <ShieldCheck className="w-12 h-12" />
-                    </div>
-                <h4 className="text-3xl font-black text-green-800 uppercase mb-4">Message Sent!</h4>
-                <p className="text-green-700 text-lg font-medium">Thank you for contacting us. Our team will get back to you shortly.</p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-12">
-                <div className="space-y-8">
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Department</label>
-                    <select required className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all appearance-none cursor-pointer shadow-sm">
-                      <option value="" disabled selected>Select Department</option>
-                      <option value="sales">Sales</option>
-                      <option value="service">Service Support</option>
-                    </select>
-                        </div>
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Full Name</label>
-                    <input required type="text" placeholder="e.g. John Doe" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
-                      </div>
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Email Address</label>
-                    <input required type="email" placeholder="e.g. john@company.com.au" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Device Model</label>
-                      <input type="text" placeholder="e.g. AIO-24" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Serial Number</label>
-                      <input type="text" placeholder="e.g. LDR-12345" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-8">
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Post Code</label>
-                    <input required type="text" placeholder="e.g. 5000" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
-              </div>
-                  <div className="space-y-2">
-                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Your Message</label>
-                    <textarea required rows={6} placeholder="How can we assist you today?" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all resize-none h-[184px] shadow-sm"></textarea>
-          </div>
-                  <button type="submit" className="w-full bg-accent text-white py-5 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-[0.98] shadow-xl shadow-accent/20">
-                    Send Inquiry
-                  </button>
-        </div>
-              </form>
-            )}
-          </div>                  
+                       
         </div>
 
         {/* Device Drivers Section */}
@@ -1663,6 +1591,79 @@ const SupportView = () => {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Contact Form Section - LARGER */}
+        <div id="contact-support-form" className="mb-32">
+          <div className="bg-surface/30 p-10 md:p-16 rounded-[4rem] border border-surface shadow-premium max-w-5xl mx-auto">
+            <div className="flex items-center gap-6 mb-12">
+              <div className="w-16 h-16 bg-accent rounded-[1.5rem] flex items-center justify-center text-white shadow-xl shadow-accent/20">
+                <Users className="w-8 h-8" />
+              </div>
+              <div>
+                <h3 className="text-4xl font-black text-primary uppercase tracking-tight">Contact Support</h3>
+                <p className="text-muted text-sm font-bold uppercase tracking-widest mt-1">Direct assistance from our experts</p>
+              </div>
+            </div>
+
+            {isSubmitted ? (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-green-50 border border-green-100 p-16 rounded-[3rem] text-center"
+              >
+                <div className="w-24 h-24 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <ShieldCheck className="w-12 h-12" />
+                </div>
+                <h4 className="text-3xl font-black text-green-800 uppercase mb-4">Message Sent!</h4>
+                <p className="text-green-700 text-lg font-medium">Thank you for contacting us. Our team will get back to you shortly.</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="grid md:grid-cols-2 gap-12">
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Department</label>
+                    <select required className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all appearance-none cursor-pointer shadow-sm">
+                      <option value="" disabled selected>Select Department</option>
+                      <option value="sales">Sales</option>
+                      <option value="service">Service Support</option>
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Full Name</label>
+                    <input required type="text" placeholder="e.g. John Doe" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Email Address</label>
+                    <input required type="email" placeholder="e.g. john@company.com.au" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Device Model</label>
+                      <input type="text" placeholder="e.g. AIO-24" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Serial Number</label>
+                      <input type="text" placeholder="e.g. LDR-12345" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-8">
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Post Code</label>
+                    <input required type="text" placeholder="e.g. 5000" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all shadow-sm" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[11px] font-black text-muted uppercase tracking-widest ml-1">Your Message</label>
+                    <textarea required rows={6} placeholder="How can we assist you today?" className="w-full bg-white border-2 border-surface focus:border-accent rounded-2xl px-6 py-5 text-sm font-bold text-primary outline-none transition-all resize-none h-[184px] shadow-sm"></textarea>
+                  </div>
+                  <button type="submit" className="w-full bg-accent text-white py-5 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-[0.98] shadow-xl shadow-accent/20">
+                    Send Inquiry
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       </div>
@@ -2284,7 +2285,7 @@ const displayProduct = React.useMemo(() => {
   };
 
   useEffect(() => {
-    if (!isSpecialPage && location.state?.scrollTo) {
+    if (location.state?.scrollTo) {
       const id = location.state.scrollTo;
       setTimeout(() => {
         if (id === 'top') {
@@ -2299,7 +2300,7 @@ const displayProduct = React.useMemo(() => {
         window.history.replaceState({}, document.title);
       }, 100);
     }
-  }, [isProductPage, location.state]);
+  }, [location.state]);
 
   return (
     <div className="min-h-screen bg-white selection:bg-accent/30">
@@ -2400,11 +2401,7 @@ const displayProduct = React.useMemo(() => {
                                   <span className="text-[9px] font-mono font-black text-accent uppercase tracking-tighter">{product.sku}</span>
                                   <span className="text-[9px] font-bold text-muted uppercase tracking-widest">• {product.category}</span>
                                 </div>
-                              </div>
-                              <div className="flex flex-col items-end">
-                                <p className="text-xs font-display font-black text-primary">${product.price}</p>
-                                <p className="text-[8px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
-                              </div>
+                              </div>                   
                             </button>
                           ))}
                         
@@ -2438,7 +2435,7 @@ const displayProduct = React.useMemo(() => {
               </AnimatePresence>
             </div>
             <button 
-              onClick={() => handleNavClick('contact')}
+              onClick={() => navigate('/support', { state: { scrollTo: 'contact-support-form' } })}
               className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors"
             >
               <Phone className="w-4 h-4" /> Contact Us
@@ -2452,7 +2449,9 @@ const displayProduct = React.useMemo(() => {
                 <div className="relative">
                   <ShoppingCart className="w-4 h-4" />
                   {cartItems.length > 0 && (
-                    <span className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-accent rounded-full border-2 border-white shadow-sm" />
+                    <span className="absolute -top-2 -left-2 min-w-[14px] h-[14px] bg-accent text-white text-[8px] font-black rounded-full border border-white shadow-sm flex items-center justify-center px-0.5">
+                      {cartItems.length}
+                    </span>
                   )}
                 </div>
                 Cart
@@ -2684,7 +2683,7 @@ const displayProduct = React.useMemo(() => {
                       className="group relative flex flex-col items-center min-h-[220px] lg:min-h-[300px] border-x border-surface/50 first:border-l-0 last:border-r-0 pt-4 lg:pt-6"
                     >
                       {/* Large Connecting Icon */}
-                      <div className="relative z-10 mb-6 transform group-hover:scale-110 transition-transform duration-500">
+                <div className="relative z-10 mb-4 lg:mb-6 transform group-hover:scale-110 transition-transform duration-500">
                         <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <item.icon className="w-12 h-12 lg:w-16 lg:h-16 text-accent relative z-10" strokeWidth={1} />
                       </div>
@@ -2698,7 +2697,7 @@ const displayProduct = React.useMemo(() => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: "-20px" }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="mt-auto pb-6 lg:pb-10 text-center px-6"
+                  className="pb-6 lg:pb-10 text-center px-6 max-w-[200px] mx-auto"
                       >
                         <div className="flex flex-col items-center">
                           {item.title.includes("100%") ? (
@@ -3071,7 +3070,8 @@ const displayProduct = React.useMemo(() => {
                             activeImageIndex === idx ? "border-accent shadow-lg scale-105" : "border-transparent hover:border-accent/30"
                           }`}
                         >
-                          <img src={img} alt={`View ${idx + 1}`} className="w-full h-full object-cover p-1.5" referrerPolicy="no-referrer" />
+                          {/* Thumbnails removed but container kept */}
+                          <div className="w-full h-full opacity-0" />
                         </button>
                       ))}
                     </div>
@@ -3341,42 +3341,41 @@ const displayProduct = React.useMemo(() => {
                 </a>
               </div>
             </div>
-            <div className="col-span-1 hidden md:block">
+            <div className="col-span-1 hidden md:flex items-start gap-12">
+              <div>
               <h4 className="font-bold mb-6 uppercase tracking-tight text-sm">Navigation</h4>
                             <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
-                              <li><button onClick={() => handleNavClick('featured')} className="hover:text-white transition-colors">Featured</button></li>
-                              <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors">Products</button></li>
-                              <li><button onClick={() => window.open('https://web.leadersystems.com.au/become-a-reseller/', '_blank')} className="hover:text-white transition-colors">Become a reseller</button></li>
-                              <li><button onClick={() => navigate('/support')} className="hover:text-white transition-colors">Support</button></li>
+                  <li><button onClick={() => handleNavClick('featured')} className="hover:text-white transition-colors block text-left w-full p-0">Featured</button></li>
+                  <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors block text-left w-full p-0">Products</button></li>
+                  <li><button onClick={() => window.open('https://web.leadersystems.com.au/become-a-reseller/', '_blank')} className="hover:text-white transition-colors block text-left w-full p-0">Become a reseller</button></li>
+                  <li><button onClick={() => navigate('/support')} className="hover:text-white transition-colors block text-left w-full p-0">Support</button></li>
                             </ul>
-                            <h4 className="font-bold mt-8 mb-6 uppercase tracking-tight text-sm">Solutions</h4>
+              </div>
+              <div>
+                <h4 className="font-bold mb-6 uppercase tracking-tight text-sm">Solutions</h4>
                             <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
                               {CATEGORIES.map(cat => (
                                 <li key={cat.id}>
-                                  <button onClick={() => handleSubNavClick(cat.id)} className="hover:text-white transition-colors">
+                      <button onClick={() => handleSubNavClick(cat.id)} className="hover:text-white transition-colors block text-left w-full p-0">
                                     {cat.name}
                                   </button>
                                 </li>
                               ))}
                             </ul>
                           </div>
-                          {!isSupportPage && (
-                            <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-10 md:p-16 rounded-xl border border-white/20 shadow-2xl backdrop-blur-sm flex flex-col items-center text-center justify-center">
-                              <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center text-white mb-8">
-                                <Users className="w-8 h-8" />
                               </div>
-                              <h4 className="font-black text-3xl text-white uppercase tracking-tight mb-4">Join Our National Reseller Network</h4>
-                              <p className="text-white/70 text-sm mb-10 max-w-lg leading-relaxed">
+            <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-6 md:p-8 rounded-xl border border-white/20 shadow-2xl backdrop-blur-sm flex flex-col items-center text-center justify-center">
+              <h4 className="font-black text-2xl text-white uppercase tracking-tight mb-2">Join Our National Reseller Network</h4>
+              <p className="text-white/70 text-[13px] mb-8 max-w-lg leading-relaxed">
                                 Partner with Australia's largest locally owned PC manufacturer and gain access to premium solutions, dedicated support, and exclusive partner benefits.
                               </p>
                               <button 
-                                onClick={() => navigate('/resellers')}
-                                className="bg-accent text-white px-12 py-5 rounded-xl font-black uppercase text-sm tracking-widest hover:bg-white hover:text-primary transition-all active:scale-95 shadow-xl shadow-accent/20"
+                onClick={() => window.open('https://web.leadersystems.com.au/become-a-reseller/', '_blank')}
+                className="bg-accent text-white px-10 py-4 rounded-xl font-black uppercase text-xs tracking-widest hover:bg-white hover:text-primary transition-all active:scale-95 shadow-xl shadow-accent/20"
                               >
                                 Become A Reseller
                               </button>
                             </div>
-                          )}
                         </div>
                         <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold text-white/30">
                           <p>© 2026 Leader Computers. All rights reserved.</p>
@@ -3670,10 +3669,24 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                   <motion.div 
                     layout
                     whileHover={compareProduct1 ? { scale: 1.02, y: -2 } : {}}
-                    className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
+                    className={`flex items-center gap-4 p-3 rounded-lg border-2 transition-all min-w-[200px] flex-grow relative ${
                       compareProduct1 ? "bg-surface border-surface shadow-sm" : "border-muted/20 bg-surface/30 border-dashed"
                     }`}
                   >
+                    {compareProduct1 && (
+                      <button 
+                        onClick={() => {
+                          setCompareProduct1(null);
+                          if (!compareProduct2 && !compareProduct3) {
+                            setIsComparing(false);
+                            setIsComparisonExpanded(false);
+                          }
+                        }}
+                        className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white rounded flex items-center justify-center shadow-lg opacity-100 transition-opacity z-20 hover:bg-red-600 active:scale-90"
+                      >
+                        <X className="w-2.5 h-2.5" />
+                      </button>
+                    )}
                     <AnimatePresence mode="wait">
                       {compareProduct1 ? (
                         <motion.div 
@@ -3684,24 +3697,11 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                           className="flex items-center gap-4 w-full"
                         >
                           <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
-                            <img src={compareProduct1.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                            <button 
-                              onClick={() => {
-                                setCompareProduct1(null);
-                                if (!compareProduct2 && !compareProduct3) {
-                                  setIsComparing(false);
-                                  setIsComparisonExpanded(false);
-                                }
-                              }}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
+                            <img src={compareProduct1.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />                          
                           </div>
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct1.sku}</p>
                             <h4 className="text-[10px] font-black text-primary truncate">{compareProduct1.name}</h4>
-                            <p className="text-[10px] font-display font-black text-primary mt-0.5">RRP ${compareProduct1.price}</p>
                           </div>
                         </motion.div>
                       ) : (
@@ -3726,10 +3726,24 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                   <motion.div 
                     layout
                     whileHover={compareProduct2 ? { scale: 1.02, y: -2 } : {}}
-                    className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
+                    className={`flex items-center gap-4 p-3 rounded-lg border-2 transition-all min-w-[200px] flex-grow relative ${
                       compareProduct2 ? "bg-surface border-surface shadow-sm" : "border-muted/20 bg-surface/30 border-dashed"
                     }`}
                   >
+                    {compareProduct2 && (
+                      <button 
+                        onClick={() => {
+                          setCompareProduct2(null);
+                          if (!compareProduct1 && !compareProduct3) {
+                            setIsComparing(false);
+                            setIsComparisonExpanded(false);
+                          }
+                        }}
+                        className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white rounded flex items-center justify-center shadow-lg opacity-100 transition-opacity z-20 hover:bg-red-600 active:scale-90"
+                      >
+                        <X className="w-2.5 h-2.5" />
+                      </button>
+                    )}
                     <AnimatePresence mode="wait">
                       {compareProduct2 ? (
                         <motion.div 
@@ -3741,23 +3755,10 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         >
                           <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
                             <img src={compareProduct2.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                            <button 
-                              onClick={() => {
-                                setCompareProduct2(null);
-                                if (!compareProduct1 && !compareProduct3) {
-                                  setIsComparing(false);
-                                  setIsComparisonExpanded(false);
-                                }
-                              }}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
                           </div>
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct2.sku}</p>
                             <h4 className="text-[10px] font-black text-primary truncate">{compareProduct2.name}</h4>
-                            <p className="text-[10px] font-display font-black text-primary mt-0.5">RRP ${compareProduct2.price}</p>
                           </div>
                         </motion.div>
                       ) : (
@@ -3782,10 +3783,24 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                   <motion.div 
                     layout
                     whileHover={compareProduct3 ? { scale: 1.02, y: -2 } : {}}
-                    className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all min-w-[200px] flex-grow ${
+                    className={`flex items-center gap-4 p-3 rounded-lg border-2 transition-all min-w-[200px] flex-grow relative ${
                       compareProduct3 ? "bg-surface border-surface shadow-sm" : "border-muted/20 bg-surface/30 border-dashed"
                     }`}
                   >
+                    {compareProduct3 && (
+                      <button 
+                        onClick={() => {
+                          setCompareProduct3(null);
+                          if (!compareProduct1 && !compareProduct2) {
+                            setIsComparing(false);
+                            setIsComparisonExpanded(false);
+                          }
+                        }}
+                        className="absolute top-0 right-0 w-5 h-5 bg-red-500 text-white rounded flex items-center justify-center shadow-lg opacity-100 transition-opacity z-20 hover:bg-red-600 active:scale-90"
+                      >
+                        <X className="w-2.5 h-2.5" />
+                      </button>
+                    )}
                     <AnimatePresence mode="wait">
                       {compareProduct3 ? (
                         <motion.div 
@@ -3797,23 +3812,10 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         >
                           <div className="w-14 h-14 bg-white rounded-xl p-2 border border-surface flex-shrink-0 relative group">
                             <img src={compareProduct3.image} alt="" className="w-full h-full object-contain" referrerPolicy="no-referrer" />
-                            <button 
-                              onClick={() => {
-                                setCompareProduct3(null);
-                                if (!compareProduct1 && !compareProduct2) {
-                                  setIsComparing(false);
-                                  setIsComparisonExpanded(false);
-                                }
-                              }}
-                              className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-100 transition-opacity"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
                           </div>
                           <div className="min-w-0 flex-grow">
                             <p className="text-[8px] font-mono font-black text-accent uppercase tracking-tighter truncate">{compareProduct3.sku}</p>
                             <h4 className="text-[10px] font-black text-primary truncate">{compareProduct3.name}</h4>
-                            <p className="text-[10px] font-display font-black text-primary mt-0.5">RRP ${compareProduct3.price}</p>
                           </div>
                         </motion.div>
                       ) : (
@@ -3846,7 +3848,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                   <button 
                     disabled={[compareProduct1, compareProduct2, compareProduct3].filter(Boolean).length < 2}
                     onClick={() => setIsComparisonExpanded(!isComparisonExpanded)}
-                    className={`px-8 py-4 rounded-xl font-bold text-sm transition-all shadow-xl flex items-center gap-3 relative overflow-hidden group/btn ${
+                    className={`px-8 py-4 rounded-lg font-bold text-sm transition-all shadow-xl flex items-center gap-3 relative overflow-hidden group/btn ${
                       [compareProduct1, compareProduct2, compareProduct3].filter(Boolean).length >= 2
                         ? "bg-accent text-white hover:bg-accent/90 shadow-accent/20 active:scale-95" 
                         : "bg-surface text-muted cursor-not-allowed"
@@ -3859,7 +3861,6 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                       exit={{ y: -20, opacity: 0 }}
                       className="flex items-center gap-3"
                     >
-                      {isComparisonExpanded ? <ChevronDown className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
                       {isComparisonExpanded ? "Minimize" : "Compare Now"}
                     </motion.div>
                   </button>
@@ -3878,7 +3879,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                 {/* Close Button for Expanded View */}
                 <button 
                   onClick={() => setIsComparisonExpanded(false)}
-                  className="absolute top-32 right-8 w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center hover:bg-accent transition-all shadow-2xl z-20 group/close active:scale-90 border-4 border-white"
+                  className="absolute top-32 right-8 w-14 h-14 rounded-xl bg-primary text-white flex items-center justify-center hover:bg-accent transition-all shadow-2xl z-20 group/close active:scale-90 border-4 border-white"
                 >
                   <X className="w-7 h-7 group-hover:rotate-90 transition-transform duration-300" />
                 </button>
@@ -3944,7 +3945,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         className="text-center flex flex-col items-center w-full"
                       >
                         {/* Image Area */}
-                        <div className="aspect-square bg-surface rounded-xl p-8 mb-8 border border-gray-200 relative group w-full max-w-[280px] flex items-center justify-center">
+                        <div className="aspect-square bg-surface rounded-lg p-8 mb-8 border border-gray-200 relative group w-full max-w-[280px] flex items-center justify-center">
                         {product ? (
                             <>
                               <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
@@ -3958,7 +3959,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                                     setIsComparisonExpanded(false);
                                   }
                                 }}
-                                className="absolute -top-3 -right-3 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center shadow-xl opacity-100 transition-opacity z-10"
+                                className="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-lg flex items-center justify-center shadow-xl opacity-100 transition-opacity z-10"
                               >
                                 <X className="w-4 h-4" />
                               </button>
@@ -4010,7 +4011,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                                 setIsComparisonExpanded(false);
                                 setIsComparing(false);
                               }}
-                              className="w-full max-w-[180px] bg-accent text-white py-3 rounded-xl font-bold text-sm hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 active:scale-95 flex items-center justify-center"
+                              className="w-full max-w-[180px] bg-accent text-white py-3 rounded-lg font-bold text-sm hover:bg-accent/90 transition-all shadow-xl shadow-accent/20 active:scale-95 flex items-center justify-center"
                             >
                               Add to cart
                             </button>
