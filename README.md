@@ -132,10 +132,6 @@ CTA: “Proceed to Reseller”
 Redirect to nearest reseller based off customer location
 Supports lead generation and conversion tracking
 
-### Dealer Locator
-ISR-enabled with 24h revalidation
-Powered by Google Maps JavaScript API
-
 ### Search
 Categorised product search
 Optional Algolia integration

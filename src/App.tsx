@@ -1092,9 +1092,9 @@ const SUB_NAV = [
 
 const TRUST_ITEMS = [
   { title: "100% Australian Owned Manufacturer", icon: Globe },
-  { title: "Available from 1,000+ Authorised Resellers", icon: Users },
-  { title: "Peace of Mind with Australia Wide Onsite Warranty", icon: ShieldCheck },
-  { title: "Customise & Configure to Suit Your Needs", icon: Wrench },
+  { title: "1,000+ Available From Authorised Resellers", icon: Users },
+  { title: "Peace Of Mind With Australia Wide Onsite Warranty", icon: ShieldCheck },
+  { title: "Customise & Configure To Suit Your Needs", icon: Wrench },
 ];
 
 const getProductFeatures = (product: any) => {
@@ -1739,7 +1739,7 @@ const ResellerOrderView = ({ items, totalPrice, onUpdateQuantity, onRemoveItem }
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Left: Order Details */}
           <div className="space-y-8">
-            <div className="bg-surface/30 p-8 rounded-[2.5rem] border border-surface">
+            <div className="bg-surface/30 p-8 rounded-xl border border-gray-200">
               <h2 className="text-2xl font-black text-primary uppercase tracking-tight mb-8">Your Selection</h2>
               <div className="space-y-6">
                 {items.map((item) => (
@@ -1806,7 +1806,7 @@ const ResellerOrderView = ({ items, totalPrice, onUpdateQuantity, onRemoveItem }
           </div>
 
           {/* Right: Contact Form */}
-          <div className="bg-white p-10 lg:p-16 rounded-[2.5rem] border border-surface shadow-premium">
+          <div className="bg-white p-10 lg:p-16 rounded-xl border border-gray-200 shadow-premium">
             <h2 className="text-3xl font-black text-primary uppercase tracking-tight mb-2">Order Details</h2>
             <p className="text-muted text-sm font-bold mb-10 uppercase tracking-widest">Fill in your information</p>
 
@@ -2312,7 +2312,8 @@ const displayProduct = React.useMemo(() => {
                   <img 
                     src={logo}
                     alt="Leader Computers"
-                    className="h-10 w-auto"
+                    className="h-8 w-auto py-1"
+                    referrerPolicy="no-referrer"
                   />
                 </div>
               <nav className="hidden lg:flex items-center gap-2">
@@ -2333,7 +2334,7 @@ const displayProduct = React.useMemo(() => {
                         handleNavClick(item.id);
                       }
                     }}
-                    className="text-[12px] font-display font-bold text-primary/70 hover:text-primary hover:bg-primary/5 px-4 py-2 rounded-lg transition-all active:scale-95"
+                    className="text-[14px] font-display font-bold text-primary/70 hover:text-primary hover:bg-primary/5 px-4 py-2 rounded-lg transition-all active:scale-95"
                   >
                     {item.name}
                   </button>
@@ -2400,9 +2401,9 @@ const displayProduct = React.useMemo(() => {
                                   <span className="text-[9px] font-bold text-muted uppercase tracking-widest">• {product.category}</span>
                                 </div>
                               </div>
-                              <div className="text-right">
-                                <p className="text-xs font-display font-black text-primary">RRP ${product.price}</p>
-                                <ChevronRight className="w-3 h-3 text-muted ml-auto mt-1 group-hover:text-accent transition-colors" />
+                              <div className="flex flex-col items-end">
+                                <p className="text-xs font-display font-black text-primary">${product.price}</p>
+                                <p className="text-[8px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
                               </div>
                             </button>
                           ))}
@@ -2436,13 +2437,20 @@ const displayProduct = React.useMemo(() => {
                 )}
               </AnimatePresence>
             </div>
+            <button 
+              onClick={() => handleNavClick('contact')}
+              className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors"
+            >
+              <Phone className="w-4 h-4" /> Contact Us
+            </button>
+            
             <div className="relative group">
               <div 
                 className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors cursor-pointer relative py-2"
                 onClick={() => navigate('/resellers')}
               >
                 <div className="relative">
-                  <Monitor className="w-4 h-4" />
+                  <ShoppingCart className="w-4 h-4" />
                   {cartItems.length > 0 && (
                     <span className="absolute -top-1.5 -left-1.5 w-3 h-3 bg-accent rounded-full border-2 border-white shadow-sm" />
                   )}
@@ -2451,7 +2459,7 @@ const displayProduct = React.useMemo(() => {
                           </div>
 
               {/* Cart Dropdown */}
-              <div className="absolute top-full right-0 mt-1 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[70]">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[70]">
                 <div className="bg-white rounded-2xl shadow-2xl border border-surface w-80 overflow-hidden">
                   <div className="p-4 border-b border-surface bg-surface/30">
                     <p className="text-[10px] font-black text-muted uppercase tracking-widest">Your Cart ({cartItems.length})</p>
@@ -2513,7 +2521,7 @@ const displayProduct = React.useMemo(() => {
                       </div>
                     ) : (
                       <div className="p-8 text-center">
-                        <Monitor className="w-8 h-8 text-muted/20 mx-auto mb-3" />
+                        <ShoppingCart className="w-8 h-8 text-muted/20 mx-auto mb-3" />
                         <p className="text-xs font-bold text-muted">Your cart is empty</p>
                       </div>
                     )}
@@ -2536,13 +2544,6 @@ const displayProduct = React.useMemo(() => {
                 </div>
               </div>
             </div>
-
-            <button 
-              onClick={() => handleNavClick('contact')}
-              className="flex items-center gap-2 text-xs font-bold text-primary/80 hover:text-primary transition-colors"
-            >
-              <Users className="w-4 h-4" /> Contact Us
-            </button>
           </div>
         </div>
       </div>
@@ -2578,7 +2579,7 @@ const displayProduct = React.useMemo(() => {
         ) : !isProductPage ? (
           <>
             {/* Hero Section with Background Carousel */}
-            <section className="relative h-[450px] md:h-[600px] lg:h-[700px] overflow-hidden">
+            <section className="relative h-[480px] md:h-[650px] lg:h-[750px] overflow-hidden">
         {CAROUSEL_SLIDES.map((slide, index) => (
           <motion.div
             key={slide.id}
@@ -2673,39 +2674,59 @@ const displayProduct = React.useMemo(() => {
         </div>
       </section>
 
-      {/* Trust Bar */}
-      <section className="py-12 md:py-24 bg-surface/10 border-b border-surface overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-16 lg:gap-0">
-            {TRUST_ITEMS.map((item, idx) => (
-              <motion.div 
-                key={item.title}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="flex flex-col items-center justify-center text-center px-10 group relative"
-              >
-                <p className="text-sm sm:text-base font-black text-primary uppercase leading-tight tracking-[0.2em] max-w-[260px] group-hover:text-accent transition-colors duration-300">
-                                  {item.title.includes("100%") ? (
-                                    <>
-                                      <span className="text-2xl text-accent block mb-1">100%</span>
-                                      {item.title.replace("100%", "")}
-                                    </>
-                                  ) : item.title.includes("1,000+") ? (
-                                    <>
-                                      <span className="text-2xl text-accent block mb-1">1,000+</span>
-                                      {item.title.replace("1,000+", "")}
-                                    </>
-                                  ) : (
-                                    item.title
-                                  )}
-                                </p>
-                              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Trust Bar - Vertical Pillars connecting hero to content */}
+            <section className="bg-white border-b border-surface overflow-hidden">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                  {TRUST_ITEMS.map((item, idx) => (
+                    <div 
+                      key={item.title}
+                      className="group relative flex flex-col items-center min-h-[220px] lg:min-h-[300px] border-x border-surface/50 first:border-l-0 last:border-r-0 pt-4 lg:pt-6"
+                    >
+                      {/* Large Connecting Icon */}
+                      <div className="relative z-10 mb-6 transform group-hover:scale-110 transition-transform duration-500">
+                        <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <item.icon className="w-12 h-12 lg:w-16 lg:h-16 text-accent relative z-10" strokeWidth={1} />
+                      </div>
+      
+                      {/* Vertical Connector Line (Visual only) */}
+                      <div className="absolute top-0 bottom-0 w-[1px] bg-gradient-to-b from-surface via-transparent to-surface left-1/2 -translate-x-1/2 -z-0 opacity-20" />
+      
+                      {/* Revealable Wording */}
+                      <motion.div 
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-20px" }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="mt-auto pb-6 lg:pb-10 text-center px-6"
+                      >
+                        <div className="flex flex-col items-center">
+                          {item.title.includes("100%") ? (
+                            <div className="space-y-0.5">
+                              <span className="text-3xl lg:text-4xl font-display font-bold text-primary block">100%</span>
+                              <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight">
+                                Australian Owned Manufacturer
+                              </p>
+                            </div>
+                          ) : item.title.includes("1,000+") ? (
+                            <div className="space-y-0.5">
+                              <span className="text-3xl lg:text-4xl font-display font-bold text-primary block">1,000+</span>
+                              <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight">
+                                Available From Authorised Resellers
+                              </p>
+                            </div>
+                          ) : (
+                            <p className="text-[12px] lg:text-[14px] font-bold text-primary leading-tight max-w-[220px]">
+                              {item.title}
+                            </p>
+                          )}
+                        </div>
+                      </motion.div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
 
       {/* Featured Copilot+ PCs Section */}
       <section id="featured" className="py-24 bg-primary text-white overflow-hidden">
@@ -2745,57 +2766,16 @@ const displayProduct = React.useMemo(() => {
               </div>
             </motion.div>
 
+            {/* Placeholder for future image */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="relative hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-4"
+              className="relative hidden sm:block"
             >
-              {[
-                {
-                  title: "Work Faster",
-                  icon: Zap,
-                  animation: { scale: [1, 1.1, 1] }
-                },
-                {
-                  title: "Edit smarter",
-                  icon: Battery,
-                  animation: { y: [0, -4, 0] }
-                },
-                {
-                  title: "Play harder",
-                  icon: Sparkles,
-                  animation: { opacity: [0.6, 1, 0.6], scale: [1, 1.1, 1] }
-                },
-                {
-                  title: "Achieve more",
-                  icon: Rocket,
-                  animation: { x: [0, 2, 0], y: [0, -2, 0] }
-                }
-              ].map((feature, idx) => (
-                <div 
-                  key={idx} 
-                  className="bg-[#FFF4E8] p-8 rounded-2xl flex flex-col items-center justify-center gap-4 border border-[#FFE8D1] shadow-premium hover:shadow-premium-hover transition-all aspect-square sm:aspect-auto"
-                >
-                  <motion.div 
-                    animate={feature.animation}
-                    transition={{ 
-                      duration: 2, 
-                      repeat: Infinity, 
-                      ease: "easeInOut",
-                      delay: idx * 0.2
-                    }}
-                    className="w-12 h-12 flex items-center justify-center"
-                  >
-                    <feature.icon className="w-10 h-10 text-[#001A4D] fill-[#001A4D]" />
-                  </motion.div>
-                  <h3 className="text-xl font-bold text-black text-center">
-                    {feature.title}
-                  </h3>
-                </div>
-              ))}
-            </motion.div>
+              {/* Empty space as requested */}
+            </motion.div>                 
           </div>
         </div>
       </section>
@@ -2859,7 +2839,7 @@ const displayProduct = React.useMemo(() => {
             {/* Sidebar Filter */}
             {!globalSearchQuery && (
               <aside className="lg:w-64 flex-shrink-0 hidden lg:block">
-                <div className="sticky top-32 bg-surface p-8 rounded-3xl border border-surface shadow-premium">
+                <div className="sticky top-32 bg-surface p-8 rounded-xl border border-gray-200 shadow-premium">
                   <h4 className="font-bold text-primary text-sm mb-8">Filters</h4>
                   
                   <div className="mb-10">
@@ -2949,9 +2929,8 @@ const displayProduct = React.useMemo(() => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                        whileHover={{ y: -12, scale: 1.02 }}
                         onClick={() => handleProductClick(product)}
-                        className="bg-surface border border-surface/80 rounded-[2.5rem] overflow-hidden shadow-premium hover:shadow-premium-hover hover:border-accent/30 transition-all duration-300 group cursor-pointer relative"
+                        className="bg-surface border border-gray-200 rounded-xl overflow-hidden shadow-premium hover:border-accent/50 transition-all duration-300 group cursor-pointer relative"
                       >
                         <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-white to-surface/30 relative">
                           <img 
@@ -2986,9 +2965,9 @@ const displayProduct = React.useMemo(() => {
                               <h4 className="text-2xl font-display font-black text-primary leading-tight group-hover:text-accent transition-colors uppercase tracking-tight">{product.name}</h4>
                             </div>
                             
-                            <div>
-                              <p className="text-2xl font-display font-black text-primary">RRP ${product.price.toLocaleString()}</p>
-                              <p className="text-[10px] font-bold text-muted uppercase tracking-widest">INC GST</p>
+                            <div className="flex items-baseline gap-2">
+                              <p className="text-2xl font-display font-black text-primary">${product.price.toLocaleString()}</p>
+                              <p className="text-[10px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
                             </div>
 
                             {/* Product Highlights List */}
@@ -3024,7 +3003,7 @@ const displayProduct = React.useMemo(() => {
                               }}
                               className="w-full bg-accent text-white py-4 rounded-2xl font-bold text-sm hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/10"
                             >
-                              <Monitor className="w-4 h-4" /> Add to Cart
+                              <ShoppingCart className="w-4 h-4" /> Add to Cart
                             </button>
                           </div>
                         </div>
@@ -3057,30 +3036,7 @@ const displayProduct = React.useMemo(() => {
       </section>
 
       {/* Product Detail Modal - REMOVED in favor of dedicated page */}
-
-            {/* CTA Section */}
-            <section id="where-to-buy" className="py-24 bg-accent relative overflow-hidden">
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
-              </div>
-              <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-                <h2 className="text-4xl lg:text-6xl font-black text-white mb-8">Join Our National Reseller Network</h2>
-                <p className="text-white/80 text-xl mb-12">
-                  Become a Leader Authorised Reseller and grow your business with Australia's largest PC manufacturer. 
-                  Access exclusive pricing, local support, and our extensive product range.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">              
-                  <a 
-                    href="https://web.leadersystems.com.au/become-a-reseller/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-primary text-white px-10 py-5 rounded-2xl font-black text-xl flex items-center justify-center gap-2 hover:bg-primary/90 transition-all active:scale-95"
-                  >
-                    Reseller Portal <ExternalLink className="w-6 h-6" />
-                  </a>
-                </div>
-              </div>
-            </section>
+           
           </>
         ) : (
           /* Dedicated Product Page View */
@@ -3121,7 +3077,7 @@ const displayProduct = React.useMemo(() => {
                     </div>
 
                     {/* Main Image Container */}
-                    <div className="flex-grow h-full bg-surface rounded-[2.5rem] p-4 lg:p-8 flex items-center justify-center relative overflow-hidden group order-1 md:order-2 shadow-premium">
+                    <div className="flex-grow h-full bg-surface rounded-xl p-4 lg:p-8 flex items-center justify-center relative overflow-hidden group order-1 md:order-2 shadow-premium">
                       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/50 via-transparent to-transparent opacity-50" />
                       <motion.img 
                         key={activeImageIndex}
@@ -3145,7 +3101,7 @@ const displayProduct = React.useMemo(() => {
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                         className="flex-shrink-0 h-[620px] flex flex-col"
                       >
-                        <div className="bg-white rounded-[2.5rem] p-8 border border-surface shadow-premium h-full flex flex-col">
+                        <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-premium h-full flex flex-col">
                           <div className="flex items-center justify-between mb-8">
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center text-accent">
@@ -3208,40 +3164,32 @@ const displayProduct = React.useMemo(() => {
                   <motion.div 
                     layout
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="w-full lg:w-[400px] h-[620px] flex-shrink-0"
+                    className="w-full lg:w-[400px] flex-shrink-0"
                   >
-                    <div className="bg-white rounded-[2.5rem] p-6 lg:p-8 border border-surface shadow-[0_15px_40px_rgba(0,0,0,0.02)] flex flex-col h-full">
-                      <div className="mb-6">
+                    <div className="bg-white rounded-xl p-6 lg:p-8 border border-gray-200 shadow-[0_15px_40px_rgba(0,0,0,0.02)] flex flex-col">
+                      <div className="mb-6 flex-grow">
                         <div className="flex items-center gap-2 mb-3">
                           <span className="bg-accent/10 text-accent text-[9px] font-display font-black px-2.5 py-1 rounded-full uppercase tracking-widest">
                             {selectedProduct.category}
                           </span>
-                          <span className="text-muted font-mono font-bold text-[10px]">{selectedProduct.sku}</span>
                         </div>
-                        <h1 className="text-2xl lg:text-3xl font-display font-bold text-primary leading-tight mb-3">
+                        <h1 className="text-2xl lg:text-3xl font-display font-bold text-primary leading-tight mb-2">
                           {selectedProduct.name}
                         </h1>
+                        <p className="text-accent font-mono font-bold text-[11px] mb-6 tracking-wider uppercase">{selectedProduct.sku}</p>
                         
-                        {/* Brand Badge above price */}
-                        <div className="flex items-center gap-3 py-3 border-t border-surface mb-1">
-                          <div className="flex items-center gap-1 text-accent">
-                            {[1,2,3,4,5].map(i => <Sparkles key={i} className="w-2.5 h-2.5 fill-current" />)}
-                          </div>
-                          <span className="text-[10px] font-semibold text-muted">Premium Australian Brand</span>
-                        </div>
-
-                        {/* Price underneath the name and brand */}
-                        <div className="flex flex-col mb-4">
+                        {/* Price Section */}
+                        <div className="flex flex-col mb-8 pt-6 border-t border-surface">
                           <div className="flex items-baseline gap-2">
-                            <span className="text-3xl font-display font-bold text-primary tracking-tighter">RRP ${calculateTotalPrice()}</span>
-                            <span className="text-[10px] font-semibold text-muted">INC GST</span>
+                            <p className="text-3xl font-display font-black text-primary">${calculateTotalPrice().toLocaleString()}</p>
+                            <p className="text-[10px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
                           </div>
                           <p className="text-[10px] font-bold text-accent mt-1 uppercase tracking-widest">Available via authorised resellers</p>
                         </div>
 
                         {/* Product Highlights */}
                         {displayProduct.highlights && (
-                          <div className="mb-8 space-y-2">
+                          <div className="mb-6 space-y-2">
                             {displayProduct.highlights.map((highlight: string, idx: number) => (
                               <div key={idx} className="flex items-center gap-2 text-xs font-bold text-primary/80">
                                 <div className="w-1 h-1 bg-accent rounded-full" />
@@ -3250,34 +3198,33 @@ const displayProduct = React.useMemo(() => {
                             ))}
                           </div>
                         )}
-                      </div>
 
-                      <div className="space-y-3 flex-grow">
-                        <div className="flex items-center gap-3 mb-4 p-4 bg-surface/50 rounded-xl border border-surface">
-                          <label className="flex items-center gap-3 cursor-pointer group w-full">
-                            <div className="relative flex items-center justify-center">
-                              <input 
-                                type="checkbox" 
-                                checked={compareProduct1?.id === displayProduct.id || compareProduct2?.id === displayProduct.id || compareProduct3?.id === displayProduct.id}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    handleAddToCompare(displayProduct);
-                                  }
-                                }}
-                                className="peer appearance-none w-6 h-6 border-2 border-primary/20 rounded-lg checked:bg-accent checked:border-accent transition-all cursor-pointer"
-                              />
-                              <Sparkles className="absolute w-3.5 h-3.5 text-white opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none" />
-                            </div>
-                            <span className="text-sm font-black text-primary uppercase tracking-tight group-hover:text-accent transition-colors">Compare this product</span>
-                          </label>
+                      {/* Australian Warranty Badge */}
+                                              <div className="flex items-center gap-2 mb-8">
+                                                <ShieldCheck className="w-4 h-4 text-accent" />
+                                                <p className="text-[10px] font-black text-primary uppercase tracking-tight">Australian Warranty</p>
                         </div>
 
+                        {/* Unified Action Buttons */}
+                        <div className="space-y-3">
+                          <button 
+                            onClick={() => handleAddToCompare(displayProduct)}
+                            className={`w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98] ${
+                              [compareProduct1?.id, compareProduct2?.id, compareProduct3?.id].includes(displayProduct.id)
+                                ? "bg-accent text-white shadow-lg shadow-accent/20" 
+                                : "bg-white text-primary border-2 border-primary/10 hover:bg-white/80"
+                            }`}
+                          >
+                            <ArrowLeftRight className="w-4 h-4" />
+                            {[compareProduct1?.id, compareProduct2?.id, compareProduct3?.id].includes(displayProduct.id) ? "Added to Compare" : "Compare this product"}
+                          </button>
+
                         <button 
-                          onClick={() => setIsCustomizing(!isCustomizing)}
-                          className={`w-full py-4 rounded-xl font-black text-sm transition-all shadow-premium flex items-center justify-center gap-2 active:scale-[0.98] ${
-                            isCustomizing 
-                              ? "bg-primary text-white" 
-                              : "bg-white text-primary border-2 border-primary/10 hover:bg-surface"
+                            onClick={() => setIsCustomizing(!isCustomizing)}
+                            className={`w-full py-4 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98] ${
+                              isCustomizing 
+                                ? "bg-primary text-white" 
+                                : "bg-white text-primary border-2 border-primary/10 hover:bg-white/80"
                           }`}
                         >
                           <Wrench className="w-4 h-4" /> {isCustomizing ? "Close Customization" : "Customize"}
@@ -3287,19 +3234,10 @@ const displayProduct = React.useMemo(() => {
                           onClick={() => {
                             addToCart(selectedProduct, {...selectedUpgrades});                    
                           }}
-                          className="w-full bg-accent text-white py-4 rounded-xl font-black text-sm hover:bg-accent/90 transition-all shadow-premium shadow-accent/20 flex items-center justify-center gap-2 active:scale-[0.98]"
-                        >
-                          <Monitor className="w-4 h-4" /> Add to Cart
-                        </button>
-
-                        <div className="mt-6 bg-surface/50 p-4 rounded-xl flex items-start gap-3">
-                          <ShieldCheck className="w-4 h-4 text-accent mt-0.5" />
-                          <div>
-                            <p className="text-[10px] font-black text-primary mb-0.5">Australian Warranty</p>
-                            <p className="text-[9px] text-muted leading-relaxed">
-                              Nationwide onsite service network included.
-                            </p>
-                          </div>
+                          className="w-full bg-accent text-white py-4 rounded-xl font-black text-sm hover:bg-accent/90 transition-all shadow-lg shadow-accent/20 flex items-center justify-center gap-2 active:scale-[0.98]"
+                          >
+                            <ShoppingCart className="w-4 h-4" /> Add to Cart
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -3353,6 +3291,7 @@ const displayProduct = React.useMemo(() => {
                     src={logo}
                     alt="Leader Computers"
                     className="h-10 w-auto"
+                    referrerPolicy="no-referrer"
                   />
               </div>
               <p className="text-white/50 text-sm mb-8">
@@ -3403,325 +3342,305 @@ const displayProduct = React.useMemo(() => {
               </div>
             </div>
             <div className="col-span-1 hidden md:block">
-              <h4 className="font-bold mb-6 uppercase tracking-tight text-sm">Quick Links</h4>
-              <ul className="space-y-4 text-white/50 text-sm text-left">
-                <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors">Product Range</button></li>
-                <li><button onClick={() => handleNavClick('featured')} className="hover:text-white transition-colors">Copilot+ PCs</button></li>
-                <li><a href="#" className="hover:text-white transition-colors">Support Portal</a></li>
-              </ul>
-            </div>
-            {!isSupportPage && (
-            <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-white/20 shadow-2xl backdrop-blur-sm">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-accent rounded-2xl flex items-center justify-center text-white">
-                  <Phone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-black text-xl uppercase tracking-tight">Contact Our Experts</h4>
-                  <p className="text-white/50 text-xs font-bold uppercase tracking-widest">We're here to help you grow</p>
-                </div>
-              </div>
-              <form className="grid md:grid-cols-2 gap-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Department</label>
-                    <select required defaultValue="" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent appearance-none cursor-pointer transition-colors">
-                      <option value="" disabled className="bg-primary">Select Department</option>
-                      <option value="sales" className="bg-primary">Sales</option>
-                      <option value="service" className="bg-primary">Service Support</option>
-                    </select>
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Full Name</label>
-                    <input type="text" placeholder="e.g. John Doe" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent transition-colors" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Email Address</label>
-                    <input type="email" placeholder="e.g. john@company.com.au" required className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent transition-colors" />
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="space-y-1.5">
-                    <label className="text-[10px] font-black text-white/40 uppercase tracking-widest ml-1">Your Message</label>
-                    <textarea placeholder="How can we assist you today?" required rows={4} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-accent resize-none h-[125px] transition-colors"></textarea>
-                  </div>
-                  
-                  <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
-                    <input type="checkbox" id="captcha" required className="w-5 h-5 accent-accent cursor-pointer rounded-md" />
-                    <label htmlFor="captcha" className="text-[10px] font-black text-white/50 uppercase tracking-widest cursor-pointer select-none">I'm not a robot</label>
-                  </div>
-                  
-                  <button type="submit" className="w-full bg-accent text-white py-4 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-accent/90 transition-all active:scale-[0.98] shadow-lg shadow-accent/20">
-                    Send Inquiry
-                  </button>
-                </div>
-              </form>
-            </div>
-            )}
-          </div>
-          <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold text-white/30">
-            <p>© 2026 Leader Computers. All rights reserved.</p>
-            <div className="flex gap-8">
-              <a href="#" className="hover:text-white">Privacy Policy</a>
-              <a href="#" className="hover:text-white">Terms of Sale</a>
-              <a href="#" className="hover:text-white">Reseller Agreement</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Copilot+ PCs Feature Overlay */}
-      {showCopilotOverlay && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] bg-primary/95 backdrop-blur-xl overflow-y-auto"
-        >
-          <div className="max-w-7xl mx-auto px-4 py-20 min-h-screen flex flex-col">
-            <div className="flex justify-between items-center mb-16">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="text-accent text-xs font-black uppercase tracking-widest">The Future of AI</span>
-                </div>
-                <h2 className="text-4xl lg:text-6xl font-black text-white">Copilot+ PC Range</h2>
-              </div>
-              <button 
-                onClick={() => setShowCopilotOverlay(false)}
-                className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent transition-all active:scale-90"
-              >
-                <X className="w-8 h-8" />
-              </button>
-            </div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-              {COPILOT_PRODUCTS.map((product, idx) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="group relative bg-white/5 rounded-[2.5rem] p-8 border border-white/10 hover:border-accent/50 transition-all hover:shadow-2xl hover:shadow-accent/10"
-                >
-                  <div className="relative aspect-square mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-white/5 to-transparent">
-                    <img 
-                      src={product.image} 
-                      alt={product.name}
-                      className="w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-500"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute top-4 right-4 bg-accent text-white text-[10px] font-black px-3 py-1 rounded-full">
-                      COPILOT+
-                    </div>
-                    <button 
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setIsComparing(true);
-                        setCompareProduct1(product);
-                        setShowCopilotOverlay(false);
-                      }}
-                      className="absolute bottom-4 left-4 z-20 bg-white/10 backdrop-blur-sm border border-white/10 px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2 hover:bg-accent hover:text-white transition-all group/compare active:scale-95"
-                    >
-                      <ArrowLeftRight className="w-3.5 h-3.5 text-white" />
-                      <span className="text-[10px] font-black uppercase tracking-widest text-white">Compare</span>
-                    </button>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <p className="text-[10px] font-mono font-bold text-accent mb-1">{product.sku}</p>
-                        <h3 className="text-xl font-display font-bold text-white leading-tight group-hover:text-accent transition-colors">{product.name}</h3>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/5">
-                      <div className="flex items-center gap-2">
-                        <Cpu className="w-4 h-4 text-accent" />
-                        <span className="text-xs text-white/60 font-mono font-medium">{product.cpu}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Monitor className="w-4 h-4 text-accent" />
-                        <span className="text-xs text-white/60 font-mono font-medium">{product.ram} RAM</span>
-                      </div>
-                    </div>
-
-                    {/* Product Highlights in Copilot Grid */}
-                    {product.highlights && (
-                      <div className="space-y-1.5 py-2">
-                        {product.highlights.slice(0, 4).map((highlight: string, i: number) => (
-                          <div key={i} className="flex items-center gap-2 text-[10px] font-bold text-white/50">
-                            <div className="w-1 h-1 bg-accent rounded-full flex-shrink-0" />
-                            <span className="truncate">{highlight}</span>
+              <h4 className="font-bold mb-6 uppercase tracking-tight text-sm">Navigation</h4>
+                            <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
+                              <li><button onClick={() => handleNavClick('featured')} className="hover:text-white transition-colors">Featured</button></li>
+                              <li><button onClick={() => handleNavClick('products')} className="hover:text-white transition-colors">Products</button></li>
+                              <li><button onClick={() => window.open('https://web.leadersystems.com.au/become-a-reseller/', '_blank')} className="hover:text-white transition-colors">Become a reseller</button></li>
+                              <li><button onClick={() => navigate('/support')} className="hover:text-white transition-colors">Support</button></li>
+                            </ul>
+                            <h4 className="font-bold mt-8 mb-6 uppercase tracking-tight text-sm">Solutions</h4>
+                            <ul className="space-y-3 text-white/50 text-xs font-bold text-left uppercase tracking-widest">
+                              {CATEGORIES.map(cat => (
+                                <li key={cat.id}>
+                                  <button onClick={() => handleSubNavClick(cat.id)} className="hover:text-white transition-colors">
+                                    {cat.name}
+                                  </button>
+                                </li>
+                              ))}
+                            </ul>
                           </div>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="flex flex-col gap-3 pt-4">
-                      <div className="flex items-center justify-center">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-2xl font-mono font-bold text-white">Starts from ${product.price}</span>
-                          <span className="text-[10px] font-semibold text-white/30">RRP/MSRP INC GST</span>
+                          {!isSupportPage && (
+                            <div id="contact" className="col-span-1 md:col-span-2 bg-white/10 p-10 md:p-16 rounded-xl border border-white/20 shadow-2xl backdrop-blur-sm flex flex-col items-center text-center justify-center">
+                              <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center text-white mb-8">
+                                <Users className="w-8 h-8" />
+                              </div>
+                              <h4 className="font-black text-3xl text-white uppercase tracking-tight mb-4">Join Our National Reseller Network</h4>
+                              <p className="text-white/70 text-sm mb-10 max-w-lg leading-relaxed">
+                                Partner with Australia's largest locally owned PC manufacturer and gain access to premium solutions, dedicated support, and exclusive partner benefits.
+                              </p>
+                              <button 
+                                onClick={() => navigate('/resellers')}
+                                className="bg-accent text-white px-12 py-5 rounded-xl font-black uppercase text-sm tracking-widest hover:bg-white hover:text-primary transition-all active:scale-95 shadow-xl shadow-accent/20"
+                              >
+                                Become A Reseller
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        <div className="pt-10 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] font-bold text-white/30">
+                          <p>© 2026 Leader Computers. All rights reserved.</p>
+                          <div className="flex gap-8">
+                            <a href="#" className="hover:text-white">Privacy Policy</a>
+                            <a href="#" className="hover:text-white">Terms of Sale</a>
+                            <a href="#" className="hover:text-white">Reseller Agreement</a>
+                          </div>
                         </div>
                       </div>
-                      <button 
-                        onClick={() => {
-                          handleProductClick(product, true);
-                          setShowCopilotOverlay(false);
-                        }}
-                        className="w-full bg-white text-primary border-2 border-primary/10 py-3 rounded-full font-black text-xs hover:bg-surface transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
+                    </footer>
+              
+                    {/* Copilot+ PCs Feature Overlay */}
+                    {showCopilotOverlay && (
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] bg-primary/95 backdrop-blur-xl overflow-y-auto"
                       >
-                        <Wrench className="w-4 h-4" /> Customize
-                      </button>
-                      <button 
-                        onClick={() => {
-                          addToCart(product, {
-                            ram: '16gb',
-                            storage: '512gb',
-                            os: 'win11p'
-                          });
-                          setShowCopilotOverlay(false);
-                        }}
-                        className="w-full bg-accent text-white py-3 rounded-full font-black text-xs hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/20"
+                        <div className="max-w-7xl mx-auto px-4 py-20 min-h-screen flex flex-col">
+                          <div className="flex justify-between items-center mb-16">
+                            <div>
+                              <div className="flex items-center gap-3 mb-4">
+                                <div className="h-px w-8 bg-accent" />
+                                <span className="text-accent text-xs font-black uppercase tracking-widest">The Future of AI</span>
+                              </div>
+                              <h2 className="text-4xl lg:text-6xl font-black text-white">Copilot+ PC Range</h2>
+                            </div>
+                            <button 
+                              onClick={() => setShowCopilotOverlay(false)}
+                              className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent transition-all active:scale-90"
+                            >
+                              <X className="w-8 h-8" />
+                            </button>
+                          </div>
+              
+                          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+                            {COPILOT_PRODUCTS.map((product, idx) => (
+                              <motion.div
+                                key={product.id}
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="group relative bg-white/5 rounded-xl p-8 border border-white/10 hover:border-accent/50 transition-all hover:shadow-2xl hover:shadow-accent/10"
+                              >
+                                <div className="relative aspect-square mb-8 overflow-hidden rounded-2xl bg-gradient-to-br from-white/5 to-transparent">
+                                  <img 
+                                    src={product.image} 
+                                    alt={product.name}
+                                    className="w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-500"
+                                    referrerPolicy="no-referrer"
+                                  />
+                                  <div className="absolute top-4 right-4 bg-accent text-white text-[10px] font-black px-3 py-1 rounded-full">
+                                    COPILOT+
+                                  </div>
+                                  <button 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setIsComparing(true);
+                                      setCompareProduct1(product);
+                                      setShowCopilotOverlay(false);
+                                    }}
+                                    className="absolute bottom-4 left-4 z-20 bg-white/10 backdrop-blur-sm border border-white/10 px-3 py-1.5 rounded-full shadow-lg flex items-center gap-2 hover:bg-accent hover:text-white transition-all group/compare active:scale-95"
+                                  >
+                                    <ArrowLeftRight className="w-3.5 h-3.5 text-white" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-white">Compare</span>
+                                  </button>
+                                </div>
+              
+                                <div className="space-y-4">
+                                  <div className="flex justify-between items-start">
+                                    <div>
+                                      <p className="text-[10px] font-mono font-bold text-accent mb-1">{product.sku}</p>
+                                      <h3 className="text-xl font-display font-bold text-white leading-tight group-hover:text-accent transition-colors">{product.name}</h3>
+                                    </div>
+                                  </div>
+              
+                                  <div className="grid grid-cols-2 gap-4 py-4 border-y border-white/5">
+                                    <div className="flex items-center gap-2">
+                                      <Cpu className="w-4 h-4 text-accent" />
+                                      <span className="text-xs text-white/60 font-mono font-medium">{product.cpu}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <Monitor className="w-4 h-4 text-accent" />
+                                      <span className="text-xs text-white/60 font-mono font-medium">{product.ram} RAM</span>
+                                    </div>
+                                  </div>
+              
+                                  {/* Product Highlights in Copilot Grid */}
+                                  {product.highlights && (
+                                    <div className="space-y-1.5 py-2">
+                                      {product.highlights.slice(0, 4).map((highlight: string, i: number) => (
+                                        <div key={i} className="flex items-center gap-2 text-[10px] font-bold text-white/50">
+                                          <div className="w-1 h-1 bg-accent rounded-full flex-shrink-0" />
+                                          <span className="truncate">{highlight}</span>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+              
+                                  <div className="flex flex-col gap-3 pt-4">
+                                    <div className="flex items-center justify-center">
+                                      <div className="flex items-baseline gap-2">
+                                        <span className="text-2xl font-mono font-bold text-white">Starts from ${product.price}</span>
+                                        <span className="text-[10px] font-semibold text-white/30">RRP/MSRP INC GST</span>
+                                      </div>
+                                    </div>
+                                    <button 
+                                      onClick={() => {
+                                        handleProductClick(product, true);
+                                        setShowCopilotOverlay(false);
+                                      }}
+                                      className="w-full bg-white text-primary border-2 border-primary/10 py-3 rounded-full font-black text-xs hover:bg-surface transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-primary/10"
+                                    >
+                                      <Wrench className="w-4 h-4" /> Customize
+                                    </button>
+                                    <button 
+                                      onClick={() => {
+                                        addToCart(product, {
+                                          ram: '16gb',
+                                          storage: '512gb',
+                                          os: 'win11p'
+                                        });
+                                        setShowCopilotOverlay(false);
+                                      }}
+                                      className="w-full bg-accent text-white py-3 rounded-full font-black text-xs hover:bg-accent/90 transition-all flex items-center justify-center gap-2 active:scale-95 shadow-lg shadow-accent/20"
+                                    >
+                                      <ShoppingCart className="w-4 h-4" /> Add to Cart
+                                    </button>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            ))}
+                          </div>
+              
+                          <div className="mt-auto bg-accent/10 rounded-[3rem] p-12 border border-accent/20 text-center">
+                            <h3 className="text-3xl font-black text-white mb-4">Experience the AI Revolution</h3>
+                            <p className="text-white/60 max-w-2xl mx-auto mb-8">
+                              Every Copilot+ PC in our range features a dedicated NPU capable of over 40 TOPS, 
+                              unlocking next-generation AI features like Recall, Cocreator, and Live Captions.
+                            </p>
+                            <div className="flex justify-center gap-4">
+                              <div className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full border border-white/10">
+                                <ShieldCheck className="w-5 h-5 text-accent" />
+                                <span className="text-xs font-bold text-white">Secured-Core PC</span>
+                              </div>
+                              <div className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full border border-white/10">
+                                <Wrench className="w-5 h-5 text-accent" />
+                                <span className="text-xs font-bold text-white">National Onsite Support</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+              
+                    {showLearnMoreOverlay && (
+                      <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="fixed inset-0 z-[100] bg-primary overflow-y-auto"
                       >
-                        <Monitor className="w-4 h-4" /> Add to Cart
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="mt-auto bg-accent/10 rounded-[3rem] p-12 border border-accent/20 text-center">
-              <h3 className="text-3xl font-black text-white mb-4">Experience the AI Revolution</h3>
-              <p className="text-white/60 max-w-2xl mx-auto mb-8">
-                Every Copilot+ PC in our range features a dedicated NPU capable of over 40 TOPS, 
-                unlocking next-generation AI features like Recall, Cocreator, and Live Captions.
-              </p>
-              <div className="flex justify-center gap-4">
-                <div className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full border border-white/10">
-                  <ShieldCheck className="w-5 h-5 text-accent" />
-                  <span className="text-xs font-bold text-white">Secured-Core PC</span>
-                </div>
-                <div className="flex items-center gap-2 px-6 py-3 bg-white/5 rounded-full border border-white/10">
-                  <Wrench className="w-5 h-5 text-accent" />
-                  <span className="text-xs font-bold text-white">National Onsite Support</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {showLearnMoreOverlay && (
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[100] bg-primary overflow-y-auto"
-        >
-          <div className="max-w-7xl mx-auto px-4 py-20 min-h-screen flex flex-col">
-            <div className="flex justify-between items-center mb-16">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-px w-8 bg-accent" />
-                  <span className="text-accent text-xs font-black uppercase tracking-widest">Deep Dive</span>
-                </div>
-                <h2 className="text-4xl lg:text-6xl font-black text-white">Learn More</h2>
-              </div>
-              <button 
-                onClick={() => setShowLearnMoreOverlay(false)}
-                className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent transition-all active:scale-90"
-              >
-                <X className="w-8 h-8" />
-              </button>
-            </div>
-            
-            <div className="relative max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                {[
-                  {
-                    emoji: "🚀",
-                    title: "Work faster",
-                    text: "Leader Copilot+ PCs are built for speed where it matters most. Open large files instantly, switch between applications without slowdown, and keep workflows moving without interruption—so you can stay focused and in control of your day."
-                  },
-                  {
-                    emoji: "✨",
-                    title: "Edit smarter",
-                    text: "Take advantage of built-in AI tools that streamline the way you create and refine content. From enhancing images to improving documents, Leader Copilot+ PCs help reduce manual work and make complex edits quicker and easier."
-                  },
-                  {
-                    emoji: "🎮",
-                    title: "Play harder",
-                    text: "When it’s time to switch off, enjoy smooth performance across streaming, apps, and everyday gaming. Leader Copilot+ PCs are designed to deliver a consistent, responsive experience—so your downtime feels just as seamless as your workday."
-                  },
-                  {
-                    emoji: "🔥",
-                    title: "Achieve more",
-                    text: "Bring it all together with a system designed for modern productivity. Leader Copilot+ PCs help you manage tasks more effectively, stay organised, and keep up with demanding workloads—so you can focus on results that matter."
-                  }
-                ].map((item, idx) => (
-                  <motion.div 
-                    key={idx}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="bg-white/5 p-10 rounded-[2.5rem] border border-white/10 hover:border-accent/30 transition-all group"
-                  >
-                    <div className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300 inline-block">
-                      {item.emoji}
-                    </div>
-                    <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">{item.title}</h3>
-                    <p className="text-white/60 leading-relaxed text-lg">
-                      {item.text}
-                    </p>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Central Diamond Button */}
-              <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-                <motion.button 
-                  initial={{ scale: 0, rotate: -45 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
-                  onClick={() => {
-                    setShowLearnMoreOverlay(false);
-                    setShowCopilotOverlay(true);
-                  }}
-                  className="relative w-40 h-40 group"
-                >
-                  {/* The Diamond Shape */}
-                  <div className="absolute inset-0 bg-accent rotate-45 rounded-2xl shadow-[0_0_40px_rgba(255,107,0,0.3)] group-hover:scale-110 group-hover:rotate-[50deg] transition-all duration-500" />
-                  
-                  {/* The Content (un-rotated) */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
-                    <span className="text-white font-black uppercase tracking-tighter text-sm leading-tight mb-1">
-                      Explore<br />Copilot+ PCs
-                    </span>
-                    <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-2 transition-transform" />
-                  </div>
-                </motion.button>
-              </div>
-
-              {/* Mobile CTA */}
-              <div className="md:hidden mt-12 flex justify-center">
-                <button 
-                  onClick={() => {
-                    setShowLearnMoreOverlay(false);
-                    setShowCopilotOverlay(true);
-                  }}
-                  className="bg-accent text-white px-10 py-5 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-accent/20 flex items-center gap-3"
-                >
-                  Explore Copilot+ PCs
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      )}
+                        <div className="max-w-7xl mx-auto px-4 py-20 min-h-screen flex flex-col">
+                          <div className="flex justify-between items-center mb-16">
+                            <div>
+                              <div className="flex items-center gap-3 mb-4">
+                                <div className="h-px w-8 bg-accent" />
+                                <span className="text-accent text-xs font-black uppercase tracking-widest">Deep Dive</span>
+                              </div>
+                              <h2 className="text-4xl lg:text-6xl font-black text-white">Learn More</h2>
+                            </div>
+                            <button 
+                              onClick={() => setShowLearnMoreOverlay(false)}
+                              className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-accent transition-all active:scale-90"
+                            >
+                              <X className="w-8 h-8" />
+                            </button>
+                          </div>
+                          
+                          <div className="relative max-w-5xl mx-auto">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                              {[
+                                {
+                                  emoji: "🚀",
+                                  title: "Work faster",
+                                  text: "Leader Copilot+ PCs are built for speed where it matters most. Open large files instantly, switch between applications without slowdown, and keep workflows moving without interruption—so you can stay focused and in control of your day."
+                                },
+                                {
+                                  emoji: "✨",
+                                  title: "Edit smarter",
+                                  text: "Take advantage of built-in AI tools that streamline the way you create and refine content. From enhancing images to improving documents, Leader Copilot+ PCs help reduce manual work and make complex edits quicker and easier."
+                                },
+                                {
+                                  emoji: "🎮",
+                                  title: "Play harder",
+                                  text: "When it’s time to switch off, enjoy smooth performance across streaming, apps, and everyday gaming. Leader Copilot+ PCs are designed to deliver a consistent, responsive experience—so your downtime feels just as seamless as your workday."
+                                },
+                                {
+                                  emoji: "🔥",
+                                  title: "Achieve more",
+                                  text: "Bring it all together with a system designed for modern productivity. Leader Copilot+ PCs help you manage tasks more effectively, stay organised, and keep up with demanding workloads—so you can focus on results that matter."
+                                }
+                              ].map((item, idx) => (
+                                <motion.div 
+                                  key={idx}
+                                  initial={{ opacity: 0, y: 20 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: idx * 0.1 }}
+                                  className="bg-white/5 p-10 rounded-xl border border-white/10 hover:border-accent/30 transition-all group"
+                                >
+                                  <div className="text-4xl mb-6 group-hover:scale-110 transition-transform duration-300 inline-block">
+                                    {item.emoji}
+                                  </div>
+                                  <h3 className="text-2xl font-black text-white mb-4 uppercase tracking-tight">{item.title}</h3>
+                                  <p className="text-white/60 leading-relaxed text-lg">
+                                    {item.text}
+                                  </p>
+                                </motion.div>
+                              ))}
+                            </div>
+              
+                            {/* Central Diamond Button */}
+                            <div className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+                              <motion.button 
+                                initial={{ scale: 0, rotate: -45 }}
+                                animate={{ scale: 1, rotate: 0 }}
+                                transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                                onClick={() => {
+                                  setShowLearnMoreOverlay(false);
+                                  setShowCopilotOverlay(true);
+                                }}
+                                className="relative w-40 h-40 group"
+                              >
+                                {/* The Diamond Shape */}
+                                <div className="absolute inset-0 bg-accent rotate-45 rounded-2xl shadow-[0_0_40px_rgba(255,107,0,0.3)] group-hover:scale-110 group-hover:rotate-[50deg] transition-all duration-500" />
+                                
+                                {/* The Content (un-rotated) */}
+                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+                                  <span className="text-white font-black uppercase tracking-tighter text-sm leading-tight mb-1">
+                                    Explore<br />Copilot+ PCs
+                                  </span>
+                                  <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-2 transition-transform" />
+                                </div>
+                              </motion.button>
+                            </div>
+              
+                            {/* Mobile CTA */}
+                            <div className="md:hidden mt-12 flex justify-center">
+                              <button 
+                                onClick={() => {
+                                  setShowLearnMoreOverlay(false);
+                                  setShowCopilotOverlay(true);
+                                }}
+                                className="bg-accent text-white px-10 py-5 rounded-full font-black uppercase tracking-widest text-sm shadow-xl shadow-accent/20 flex items-center gap-3"
+                              >
+                                Explore Copilot+ PCs
+                                <ArrowRight className="w-5 h-5" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
       {/* Comparison Bar */}
       <AnimatePresence>
         {isComparing && (
@@ -3986,7 +3905,10 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                                   </div>
                                   <div className="flex-grow min-w-0 text-left">
                                     <p className="text-[11px] font-black text-primary truncate uppercase">{product.name}</p>
-                                    <p className="text-[11px] font-display font-bold text-accent">RRP ${product.price}</p>
+                                    <div className="flex items-baseline gap-1.5">
+                                      <p className="text-[11px] font-display font-bold text-accent">${product.price}</p>
+                                      <p className="text-[8px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
+                                    </div>
                                   </div>
                                   <button 
                                     onClick={() => {
@@ -4022,7 +3944,7 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         className="text-center flex flex-col items-center w-full"
                       >
                         {/* Image Area */}
-                        <div className="aspect-square bg-surface rounded-[2.5rem] p-8 mb-8 border border-surface relative group w-full max-w-[280px] flex items-center justify-center">
+                        <div className="aspect-square bg-surface rounded-xl p-8 mb-8 border border-gray-200 relative group w-full max-w-[280px] flex items-center justify-center">
                         {product ? (
                             <>
                               <img src={product.image} alt="" className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
@@ -4066,9 +3988,14 @@ className={`fixed bottom-0 left-0 right-0 bg-white border-t border-surface shado
                         />
 
                         {/* Price */}
-                        <p className="text-2xl font-display font-bold text-primary tracking-tighter h-8">
-                          {product ? `RRP $${product.price}` : ""}
-                        </p>
+                        <div className="flex flex-col items-center h-10 mt-2">
+                          <p className="text-2xl font-display font-bold text-primary tracking-tighter">
+                            {product ? `$${product.price}` : ""}
+                          </p>
+                          {product && (
+                            <p className="text-[10px] font-bold text-muted uppercase tracking-widest leading-none">RRP INC GST</p>
+                          )}
+                        </div>
 
                         {/* Add to Cart Button */}
                         <div className="h-12 mt-6 w-full flex justify-center">
