@@ -1402,10 +1402,10 @@ const BreezeProductDetail = () => {
                 <div className="w-12 h-px bg-sky-400" />
                 <span className="text-sky-400 text-[10px] font-black uppercase tracking-widest">Photography Grade</span>
               </div>
-              <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 italic">
+              <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 italic text-white">
                 The Studio<br /><span className="text-sky-400">In Bezel.</span>
               </h2>
-              <p className="text-slate-400 text-xl leading-relaxed font-light mb-10">
+              <p className="text-white text-xl leading-relaxed font-light mb-10">
                 An array of high-CRI LEDs integrated directly into the display bezel. Soft, professional lighting that follows you from the office to the coffee shop.
               </p>
               <div className="grid grid-cols-2 gap-4">
@@ -1431,8 +1431,8 @@ const BreezeProductDetail = () => {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-4 space-y-12">
               <div>
-                <h2 className="text-5xl font-bold tracking-tighter mb-4 italic">Pure Power.</h2>
-                <p className="text-slate-500 font-medium">Under the hood. A symphony of thermal engineering and raw silicon potential.</p>
+                <h2 className="text-5xl font-bold tracking-tighter mb-4 italic text-white">Pure Power.</h2>
+                <p className="text-white font-medium">Under the hood. A symphony of thermal engineering and raw silicon potential.</p>
               </div>
               <div className="space-y-6">
                 {[
@@ -1498,8 +1498,8 @@ const BreezeProductDetail = () => {
       <section className="py-40 px-6 z-10 relative">
         <div className="max-w-7xl mx-auto flex flex-col items-center">
           <div className="text-center mb-32">
-            <h2 className="text-5xl md:text-9xl font-bold tracking-[-0.05em] mb-4">DNA.</h2>
-            <p className="text-slate-500 font-bold tracking-[0.3em] uppercase text-[10px]">Technical Components Mapping</p>
+            <h2 className="text-5xl md:text-9xl font-bold tracking-[-0.05em] mb-4 text-white">DNA.</h2>
+            <p className="text-white font-bold tracking-[0.3em] uppercase text-[10px]">Technical Components Mapping</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
@@ -1538,8 +1538,8 @@ const BreezeProductDetail = () => {
       <section className="py-40 px-6 z-10 relative border-t border-white/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-24">
-            <h2 className="text-5xl md:text-8xl font-bold tracking-tighter mb-4 italic">Breeze in Life.</h2>
-            <p className="text-slate-500 font-bold tracking-[0.3em] uppercase text-[10px]">Engineered for your daily rhythm</p>
+            <h2 className="text-5xl md:text-8xl font-bold tracking-tighter mb-4 italic text-white">Breeze in Life.</h2>
+            <p className="text-white font-bold tracking-[0.3em] uppercase text-[10px]">Engineered for your daily rhythm</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -1577,7 +1577,7 @@ const BreezeProductDetail = () => {
                   {useCase.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-4 tracking-tight group-hover:text-sky-400 transition-colors">{useCase.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed font-medium group-hover:text-slate-400 transition-colors">{useCase.desc}</p>
+                <p className="text-white text-sm leading-relaxed font-medium">{useCase.desc}</p>
                 <div className="mt-auto pt-8 flex items-center gap-2 text-sky-400/40 text-[10px] font-black uppercase tracking-widest group-hover:text-sky-400 transition-colors">
                   Case Study {i + 1} <ChevronRight size={14} />
                 </div>
@@ -3723,7 +3723,11 @@ const displayProduct = React.useMemo(() => {
                       transition={{ duration: 0.4, ease: "easeOut" }}
                     >
                 {displayProduct.sku === 'SCE4-B1-C4P'
-                  ? <BreezeProductDetail />
+                  ? (
+                    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)' }}>
+                      <BreezeProductDetail />
+                    </div>
+                  )
                   : <ProductJourney product={displayProduct} />
                 }
                     </motion.div>
