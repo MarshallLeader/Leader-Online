@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//h/Leader Computers Website Concept/**)",
+      "Read(//h//**)",
+      "Bash(npm run:*)",
+      "Bash(git:*)",
+      "Bash(awk 'NR>=1700 && NR<=1750' \"H:/Leader Computers Website Concept/Checkpoints/Test/src/App.tsx\")",
+      "Bash(awk NR>=3717 && NR<=3732:*)",
+      "Read(//tmp/**)",
+      "Bash(awk NR>=3550 && NR<=3570:*)",
+      "Bash(awk NR>=3420 && NR<=3450:*)",
+      "Bash(awk NR>=3460 && NR<=3480:*)",
+      "Bash(awk NR>=3450 && NR<=3470:*)",
+      "Bash(awk NR>=3450 && NR<=3455:*)",
+      "Bash(awk '/^const BreezeProductDetail/,/^};/' \"H:/Leader Computers Website Concept/Checkpoints/Test/src/App.tsx\")",
+      "Bash(npm test:*)"
+    ]
+  }
+}
