@@ -200,14 +200,19 @@ const PerformanceGrid = () => (
       </div>
       <div className="flex-1 relative aspect-square glass rounded-[60px] overflow-hidden flex items-center justify-center bg-brand-black">
         <div className="absolute inset-0 bg-gradient-to-t from-brand-black/60 via-transparent to-transparent" />
-        <motion.img
-          src={productImage}
-          alt="Companion SCE5-H1"
+        <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative z-10 w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(14,165,233,0.15)] scale-x-[-1]"
-        />
+          className="relative z-10 w-full h-full"
+          style={{ transform: 'scaleX(-1)' }}
+        >
+          <img
+            src={productImage}
+            alt="Companion SCE5-H1"
+            className="w-full h-full object-contain drop-shadow-[0_30px_60px_rgba(14,165,233,0.15)]"
+          />
+        </motion.div>
       </div>
     </div>
   </section>
