@@ -4,6 +4,8 @@
  */
 
 import React, { useState, useEffect, useRef } from "react";
+import CompanionApp from './Companion/src/App';
+import Companionv2App from './Companionv2/src/App';
 import { motion, AnimatePresence } from "motion/react";
 import {
 
@@ -3726,6 +3728,18 @@ const displayProduct = React.useMemo(() => {
                   ? (
                     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)' }}>
                       <BreezeProductDetail />
+                    </div>
+                  )
+                  : displayProduct.sku === 'SCE5-H1-C4P'
+                  ? (
+                    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', '--font-display': '"Space Grotesk", sans-serif' } as React.CSSProperties}>
+                      <CompanionApp />
+                    </div>
+                  )
+                  : displayProduct.sku === 'SCE5-H1-C8P'
+                  ? (
+                    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', '--font-display': '"Inter", sans-serif', '--color-brand-gray': '#0f172a', '--color-brand-accent': '#0ea5e9' } as React.CSSProperties}>
+                      <Companionv2App />
                     </div>
                   )
                   : <ProductJourney product={displayProduct} />

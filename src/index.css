@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Open Sans", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
-  
+
   --color-primary: #0A1A3B;
   --color-accent: #0070F3;
   --color-surface: #F5F7FA;
@@ -13,6 +13,14 @@
   --color-muted: #6B7280;
   --color-success: #16A34A;
   --color-warning: #D97706;
+
+  /* Companion / Breeze landing page tokens */
+  --color-brand-blue: #2563EB;
+  --color-brand-dark: #050505;
+  --color-brand-gray: #111111;
+  --color-brand-accent: #3b82f6;
+  --color-brand-black: #020617;
+  --color-brand-silver: #94a3b8;
 
   --radius-xl: 1rem;
   --radius-2xl: 1.5rem;
@@ -25,8 +33,90 @@
   body {
     @apply bg-white text-text font-sans antialiased text-[14px] leading-relaxed;
   }
-  
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold tracking-tight text-primary;
   }
+}
+
+/* ── Utility classes shared by Companion / Breeze landing page components ── */
+@layer utilities {
+  .text-huge {
+    font-size: clamp(4rem, 15vw, 20rem);
+    line-height: 0.85;
+    @apply font-black uppercase;
+  }
+
+  .text-vertical {
+    writing-mode: vertical-rl;
+    @apply rotate-180 uppercase tracking-widest text-[10px] font-bold;
+  }
+
+  .glass-card {
+    @apply bg-white/[0.03] backdrop-blur-3xl border border-white/5;
+  }
+
+  .section-container {
+    @apply min-h-screen flex flex-col justify-center relative px-6 md:px-12 lg:px-24 py-32;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-white/80 to-white/40;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .noise-overlay {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    mask-image: radial-gradient(circle at center, black, transparent);
+    @apply pointer-events-none fixed inset-0 opacity-[0.03] z-[100];
+  }
+
+  .reveal-mask {
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ── Companionv2 landing page utilities ── */
+.bg-mesh {
+  background:
+    radial-gradient(at 0% 0%, #1e293b 0, transparent 50%),
+    radial-gradient(at 50% 0%, #0f172a 0, transparent 50%),
+    radial-gradient(at 100% 0%, #1e1b4b 0, transparent 50%),
+    radial-gradient(at 0% 100%, #0f172a 0, transparent 50%),
+    radial-gradient(at 50% 100%, #1e293b 0, transparent 50%),
+    radial-gradient(at 100% 100%, #020617 0, transparent 50%);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.1);
+}
+
+.laptop-shadow {
+  box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5), 0 30px 60px -30px rgba(0,0,0,0.6);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
